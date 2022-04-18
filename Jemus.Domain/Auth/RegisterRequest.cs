@@ -9,6 +9,8 @@ namespace Jemus.Domain.Auth
 
         [Required]
         public string LastName { get; set; }
+        //[Required]
+        //public string Group { get; set; }
 
         [Required]
         [EmailAddress]
@@ -20,6 +22,8 @@ namespace Jemus.Domain.Auth
         [Required]
         [MinLength(6)]
         public string Password { get; set; }
+       
+        
 
         [Required]
         [Compare("Password")]

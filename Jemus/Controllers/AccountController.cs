@@ -2,6 +2,7 @@
 using Jemus.Domain.Auth;
 using Jemus.Service.Contract;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace Jemus.Controllers
 {

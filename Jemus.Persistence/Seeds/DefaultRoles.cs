@@ -13,27 +13,27 @@ namespace Jemus.Persistence.Seeds
             {
                 new IdentityRole
                 {
-                    Id = Constants.SuperAdmin,
-                    Name = Roles.SuperAdmin.ToString(),
-                    NormalizedName = Roles.SuperAdmin.ToString()
+                    Id = Constants.SistemAdmin,
+                    Name = Roles.SistemAdmin.ToString(),
+                    NormalizedName = Roles.SistemAdmin.ToString()
                 },
                 new IdentityRole
                 {
-                    Id = Constants.Admin,
-                    Name = Roles.Admin.ToString(),
-                    NormalizedName = Roles.Admin.ToString()
+                    Id = Constants.IlAdmin,
+                    Name = Roles.IlAdmin.ToString(),
+                    NormalizedName = Roles.IlAdmin.ToString()
                 },
                 new IdentityRole
                 {
-                    Id = Constants.Moderator,
-                    Name = Roles.Moderator.ToString(),
-                    NormalizedName = Roles.Moderator.ToString()
+                    Id = Constants.IlceAdmin,
+                    Name = Roles.IlceAdmin.ToString(),
+                    NormalizedName = Roles.IlceAdmin.ToString()
                 },
                 new IdentityRole
                 {
-                    Id = Constants.Basic,
-                    Name = Roles.Basic.ToString(),
-                    NormalizedName = Roles.Basic.ToString()
+                    Id = Constants.Karakol,
+                    Name = Roles.Karakol.ToString(),
+                    NormalizedName = Roles.Karakol.ToString()
                 }
             };
         }

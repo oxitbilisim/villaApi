@@ -23,9 +23,9 @@ namespace Jemus.Infrastructure.Extension
         public static void AddDbContext(this IServiceCollection serviceCollection,
              IConfiguration configuration, IConfigurationRoot configRoot)
         {
-            serviceCollection.AddDbContext<ApplicationDbContext>(options =>
+            serviceCollection.AddDbContext<appDbContext>(options =>
                    options.UseNpgsql(configuration.GetConnectionString("OnionArchConn") ?? configRoot["ConnectionStrings:OnionArchConn"]
-                , b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                , b => b.MigrationsAssembly(typeof(appDbContext).Assembly.FullName)));
 
 
         }
@@ -42,7 +42,7 @@ namespace Jemus.Infrastructure.Extension
 
         public static void AddScopedServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            serviceCollection.AddScoped<IAppDbContext>(provider => provider.GetService<appDbContext>());
 
 
         }
@@ -127,7 +127,7 @@ namespace Jemus.Infrastructure.Extension
         public static void AddHealthCheck(this IServiceCollection serviceCollection, AppSettings appSettings, IConfiguration configuration)
         {
             serviceCollection.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>(name: "Application DB Context", failureStatus: HealthStatus.Degraded)
+                .AddDbContextCheck<appDbContext>(name: "Application DB Context", failureStatus: HealthStatus.Degraded)
                 .AddUrlGroup(new Uri(appSettings.ApplicationDetail.ContactWebsite), name: "My personal website", failureStatus: HealthStatus.Degraded)
                 .AddSqlServer(configuration.GetConnectionString("OnionArchConn"));
             

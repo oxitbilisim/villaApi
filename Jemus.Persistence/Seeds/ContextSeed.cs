@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Jemus.Domain.Auth;
 using System.Collections.Generic;
+using Jemus.Entities.Models;
 
 namespace Jemus.Persistence.Seeds
 {
@@ -14,6 +15,12 @@ namespace Jemus.Persistence.Seeds
             CreateBasicUsers(modelBuilder);
 
             MapUserRole(modelBuilder);
+            
+            CreateMenu(modelBuilder);
+
+            CreatePermissions(modelBuilder);
+
+            CreateGroup(modelBuilder);
         }
 
         private static void CreateRoles(ModelBuilder modelBuilder)
@@ -24,14 +31,33 @@ namespace Jemus.Persistence.Seeds
 
         private static void CreateBasicUsers(ModelBuilder modelBuilder)
         {
-            List<ApplicationUser> users = DefaultUser.IdentityBasicUserList();
-            modelBuilder.Entity<ApplicationUser>().HasData(users);
+            List<User> users = DefaultUser.IdentityBasicUserList();
+            modelBuilder.Entity<User>().HasData(users);
         }
 
         private static void MapUserRole(ModelBuilder modelBuilder)
         {
-            var identityUserRoles = MappingUserRole.IdentityUserRoleList();
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData(identityUserRoles);
+            //var identityUserRoles = MappingUserRole.IdentityUserRoleList();
+            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(identityUserRoles);
+        }
+
+        private static void CreateMenu(ModelBuilder modelBuilder)
+        {
+
+            var menu = SeedMenu.MenuList();
+            modelBuilder.Entity<Menu>().HasData(menu);
+        }
+
+        private static void CreatePermissions(ModelBuilder modelBuilder)
+        {
+            var permission = SeedPermission.PermissionList();
+            modelBuilder.Entity<Permission>().HasData(permission);
+        }
+
+        private static void CreateGroup(ModelBuilder modelBuilder)
+        {
+            var group = SeedGroup.GroupList();
+            modelBuilder.Entity<Group>().HasData(group);
         }
     }
 }

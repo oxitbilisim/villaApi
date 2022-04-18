@@ -54,7 +54,7 @@ namespace Jemus
 
             services.AddSwaggerOpenAPI();
 
-            services.AddMailSetting(Configuration);
+            //services.AddMailSetting(Configuration);
 
             services.AddServiceLayer();
 

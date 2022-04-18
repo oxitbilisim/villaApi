@@ -17,23 +17,25 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Jemus.Entities.Models;
 
 namespace Jemus.Service.Implementation
 {
     public class AccountService : IAccountService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IEmailService _emailService;
         private readonly JWTSettings _jwtSettings;
         private readonly IDateTimeService _dateTimeService;
         private readonly IFeatureManager _featureManager;
-        public AccountService(UserManager<ApplicationUser> userManager,
+        public AccountService(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             IOptions<JWTSettings> jwtSettings,
             IDateTimeService dateTimeService,
-            SignInManager<ApplicationUser> signInManager,
+            UserGroup _userGrupManager,
+            SignInManager<User> signInManager,
             IEmailService emailService,
             IFeatureManager featureManager)
         {
@@ -58,10 +60,12 @@ namespace Jemus.Service.Implementation
             {
                 throw new ApiException($"Invalid Credentials for '{request.Email}'.");
             }
-            if (!user.EmailConfirmed)
-            {
-                throw new ApiException($"Account Not Confirmed for '{request.Email}'.");
-            }
+            //if (!user.EmailConfirmed)
+            //{
+            //    throw new ApiException($"Account Not Confirmed for '{request.Email}'.");
+            //}
+
+
             JwtSecurityToken jwtSecurityToken = await GenerateJWToken(user);
            
             AuthenticationResponse response = new AuthenticationResponse();
@@ -87,7 +91,7 @@ namespace Jemus.Service.Implementation
             {
                 throw new ApiException($"Username '{request.UserName}' is already taken.");
             }
-            var user = new ApplicationUser
+            var user = new User
             {
                 Email = request.Email,
                 FirstName = request.FirstName,
@@ -100,14 +104,19 @@ namespace Jemus.Service.Implementation
                 var result = await _userManager.CreateAsync(user, request.Password);
                 if (result.Succeeded)
                 {
-                    //await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
-                    var verificationUri = await SendVerificationEmail(user, origin);
 
-                    if (await _featureManager.IsEnabledAsync(nameof(FeatureManagement.EnableEmailService)))
-                    {
-                        await _emailService.SendEmailAsync(new MailRequest() {  From = "hakannyildirim@gmail.com", ToEmail = user.Email, Body = $"Please confirm your account by visiting this URL {verificationUri}", Subject = "Confirm Registration" });
-                    }
-                    return new Response<string>(user.Id, message: $"User Registered. Please confirm your account by visiting this URL {verificationUri}");
+                    var roles =  _roleManager.Roles.FirstOrDefault(x=> x.NormalizedName == "sistemadmin");
+                    
+                    await _userManager.AddToRoleAsync(user, roles.NormalizedName);
+                   
+                    //var verificationUri = await SendVerificationEmail(user, origin);
+
+                    //if (await _featureManager.IsEnabledAsync(nameof(FeatureManagement.EnableEmailService)))
+                    //{
+                    //    await _emailService.SendEmailAsync(new MailRequest() { From = "hakannyildirim@gmail.com", ToEmail = user.Email, Body = $"Please confirm your account by visiting this URL {verificationUri}", Subject = "Confirm Registration" });
+                    //}
+                    //return new Response<string>(user.Id, message: $"User Registered. Please confirm your account by visiting this URL {verificationUri}");
+                    return new Response<string>(user.Id, message: $"User Registered.");
                 }
                 else
                 {
@@ -120,7 +129,7 @@ namespace Jemus.Service.Implementation
             }
         }
 
-        private async Task<JwtSecurityToken> GenerateJWToken(ApplicationUser user)
+        private async Task<JwtSecurityToken> GenerateJWToken(User user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
@@ -166,7 +175,7 @@ namespace Jemus.Service.Implementation
             return BitConverter.ToString(randomBytes).Replace("-", "");
         }
 
-        private async Task<string> SendVerificationEmail(ApplicationUser user, string origin)
+        private async Task<string> SendVerificationEmail(User user, string origin)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

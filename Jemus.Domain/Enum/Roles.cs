@@ -4,22 +4,23 @@ namespace Jemus.Domain.Enum
 {
     public enum Roles
     {
-        SuperAdmin,
-        Admin,
-        Moderator,
-        Basic
+        SistemAdmin,
+        IlAdmin,
+        IlceAdmin,
+        Karakol
     }
 
     public static class Constants
     {
-        public static readonly string SuperAdmin = Guid.NewGuid().ToString();
-        public static readonly string Admin = Guid.NewGuid().ToString();
-        public static readonly string Moderator = Guid.NewGuid().ToString();
-        public static readonly string Basic = Guid.NewGuid().ToString();
+        public static readonly string SistemAdmin = Guid.NewGuid().ToString();
+        public static readonly string IlAdmin = Guid.NewGuid().ToString();
+        public static readonly string IlceAdmin = Guid.NewGuid().ToString();
+        public static readonly string Karakol = Guid.NewGuid().ToString();
 
-        public static readonly string SuperAdminUser = Guid.NewGuid().ToString();
-        public static readonly string BasicUser = Guid.NewGuid().ToString();
+        public static readonly string SistemAdminUser = Guid.NewGuid().ToString();
+        public static readonly string jemus = Guid.NewGuid().ToString();
+        public static readonly string IlUser = Guid.NewGuid().ToString();
+        public static readonly string IlceUser = Guid.NewGuid().ToString();
+        public static readonly string KarakolUser = Guid.NewGuid().ToString();
     }
-
-
 }

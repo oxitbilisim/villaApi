@@ -32,21 +32,23 @@ namespace Jemus.Service
         {
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
-                services.AddDbContext<IdentityContext>(options =>
+                services.AddDbContext<appDbContext>(options =>
                     options.UseInMemoryDatabase("IdentityDb"));
             }
             else
             {
-                services.AddDbContext<IdentityContext>(options =>
+                services.AddDbContext<appDbContext>(options =>
                 options.UseNpgsql(
                     configuration.GetConnectionString("IdentityConnection"),
-                    b => b.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
+                    b => b.MigrationsAssembly(typeof(appDbContext).Assembly.FullName)));
             }
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>()
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<appDbContext>()
                 .AddDefaultTokenProviders();
+       
             #region Services
             services.AddTransient<IAccountService, AccountService>();
             #endregion
+         
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
             services.AddAuthentication(options =>
             {

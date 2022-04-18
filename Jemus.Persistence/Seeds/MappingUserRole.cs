@@ -12,29 +12,24 @@ namespace Jemus.Persistence.Seeds
             {
                 new IdentityUserRole<string>
                 {
-                    RoleId = Constants.Basic,
-                    UserId = Constants.BasicUser
+                    RoleId = Constants.SistemAdmin,
+                    UserId = Constants.SistemAdminUser
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = Constants.SuperAdmin,
-                    UserId = Constants.SuperAdminUser
+                    RoleId = Constants.IlAdmin,
+                    UserId = Constants.IlUser
                 },
-                new IdentityUserRole<string>
-                {
-                    RoleId = Constants.Admin,
-                    UserId = Constants.SuperAdminUser
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = Constants.Moderator,
-                    UserId = Constants.SuperAdminUser
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = Constants.Basic,
-                    UserId = Constants.SuperAdminUser
-                }
+                //new IdentityUserRole<string>
+                //{
+                //    RoleId = Constants.IlceAdmin,
+                //    UserId = Constants.IlceUser
+                //},
+                //new IdentityUserRole<string>
+                //{
+                //    RoleId = Constants.Karakol,
+                //    UserId = Constants.KarakolUser
+                //}
             };
         }
     }
