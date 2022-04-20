@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Jemus.Persistence.Migrations
 {
-    public partial class mig1 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,20 +69,6 @@ namespace Jemus.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityRole",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    NormalizedName = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityRole", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Il",
                 columns: table => new
                 {
@@ -129,6 +115,20 @@ namespace Jemus.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permission", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    NormalizedName = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -363,21 +363,10 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "Ad", "CreateDate", "Tanim" },
                 values: new object[,]
                 {
-                    { new Guid("35e98f79-dedd-4e2d-af65-1c8a66c7d100"), "IlceAdmin", null, "IlceAdmin" },
-                    { new Guid("5e047018-8ccb-4cba-bc96-9be05ed71b40"), "IlAdmin", null, "IlAdmin" },
-                    { new Guid("71e3f96f-b9dc-4f7f-a07a-827906b3b8e7"), "SistemAdmin", null, "SistemAdmin" },
-                    { new Guid("976538d3-482b-41b6-ad88-eef23593087c"), "Karakol", null, "Karakol" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "IdentityRole",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "31fc1aef-ea2b-4a92-98bd-b06c9a519edf", "c82f17ac-6aff-4267-95df-89384b769ba9", "IlceAdmin", "IlceAdmin" },
-                    { "3744e480-c058-4f6a-92cc-fc2c489f8fd7", "43e26fea-c621-477c-a4db-42cdc1b4bb29", "SistemAdmin", "SistemAdmin" },
-                    { "60951c67-f784-4f85-ad52-b26389adfd14", "8f0d62b4-8967-4af9-8f0e-b490853eab59", "IlAdmin", "IlAdmin" },
-                    { "94076f29-f3c6-4a19-ac7c-234b214a2a7e", "2614fcd6-9322-41f0-b6d2-3a4c2ed5367a", "Karakol", "Karakol" }
+                    { new Guid("41057b45-4437-4ef8-8e1c-d79b4f33b822"), "Karakol", null, "Karakol" },
+                    { new Guid("69b0c7f1-a457-4404-ba32-c9304b1fe44e"), "SistemAdmin", null, "SistemAdmin" },
+                    { new Guid("b65a6e1e-5df1-4000-8e8f-19ca5b2f1cce"), "IlAdmin", null, "IlAdmin" },
+                    { new Guid("c54a120c-a3ca-4fee-b333-4ad17f44fd9c"), "IlceAdmin", null, "IlceAdmin" }
                 });
 
             migrationBuilder.InsertData(
@@ -385,9 +374,9 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "CreateDate", "Icon", "Label", "ParentMenuId", "RouteLink" },
                 values: new object[,]
                 {
-                    { new Guid("8c8642fe-d1d8-4c10-a72e-27bdfd499fe3"), null, "pi pi-fw pi-globe", "Panel", null, "/" },
-                    { new Guid("e1a943d6-8be9-412c-85ae-fb711ab0d519"), null, "fa fa-balance-scale", "Kullanıcı Grup", null, "/kullanicigrup" },
-                    { new Guid("fd96c197-76b7-42dc-a6b5-13228f60397f"), null, "fa fa-gavel", "Kullanıcı", null, "/kullanıcı" }
+                    { new Guid("0aa947e4-d4af-4bcf-9b41-8df29182fbe1"), null, "fa fa-gavel", "Kullanıcı", null, "/kullanıcı" },
+                    { new Guid("2a8dc175-cc48-451e-b316-7befcf98dd7b"), null, "fa fa-balance-scale", "Kullanıcı Grup", null, "/kullanicigrup" },
+                    { new Guid("85ee0c38-11a5-4642-87f1-ed8e378ab1a6"), null, "pi pi-fw pi-globe", "Panel", null, "/" }
                 });
 
             migrationBuilder.InsertData(
@@ -395,15 +384,26 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "CreateDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("098ab422-ba9e-4ae7-84f6-256e05616dbb"), null, "Permissions.Grup.All" },
-                    { new Guid("16969182-0104-4dfc-9958-e53d77a92ac1"), null, "Permissions.Credential.All" },
-                    { new Guid("1a8f5ba6-ff9f-4f82-b230-9b27300119b8"), null, "Permissions.Ilce.All" },
-                    { new Guid("2b14272d-4e4a-4f9f-94f2-fdcf0b5359a6"), null, "Permissions.Kullanici.All" },
-                    { new Guid("367a2dcc-389f-4a7b-9dca-05e5ddb05224"), null, "Permissions.Ayarlar.All" },
-                    { new Guid("6d768d43-3054-4daf-b2c1-cd65b0409959"), null, "Permissions.Genel.All" },
-                    { new Guid("6f4530de-c164-408c-93d6-0477fd4bf978"), null, "Permissions.Il.All" },
-                    { new Guid("a72c9ab2-ee19-4452-b82e-4c94428f37f3"), null, "Permissions.Log.All" },
-                    { new Guid("bd70510c-42fc-48b1-ae7b-e8606fef4d3c"), null, "Permissions.KullaniciGrup.All" }
+                    { new Guid("780a3b3a-47a2-4135-ad3b-48ee50388c5f"), null, "Permissions.Grup.All" },
+                    { new Guid("83dcc63b-e8cd-4115-ad81-a65c29084c72"), null, "Permissions.Genel.All" },
+                    { new Guid("8d8a8942-1597-4b6a-bf18-3c81e10febeb"), null, "Permissions.Il.All" },
+                    { new Guid("8f680ce8-d47e-4c52-a84e-5b9515a76f1e"), null, "Permissions.Ayarlar.All" },
+                    { new Guid("a85801c7-d02b-4f50-b117-6de8a5724678"), null, "Permissions.Ilce.All" },
+                    { new Guid("bd664ece-1cad-46b7-8ee0-fba7157758e5"), null, "Permissions.Kullanici.All" },
+                    { new Guid("e3b7310e-8d9f-4a76-80ee-60bfb10130d0"), null, "Permissions.KullaniciGrup.All" },
+                    { new Guid("f5ec7e6b-0361-4c84-95b7-f18698e6fe3c"), null, "Permissions.Log.All" },
+                    { new Guid("f5fc1295-03d6-4497-af44-6da5bf4e24ac"), null, "Permissions.Credential.All" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "1e7c6cb8-b840-4b75-9964-35eb82dd5861", "96cd6a3d-7351-40d6-bdfc-64c30230be35", "karakol", "KARAKOL" },
+                    { "3db197d1-3baf-42ca-a3e0-084663d3ea2e", "2765501f-afdc-4425-9b97-28d3d8c1a57d", "ılceadmın", "ILCEADMIN" },
+                    { "6c50f24a-5151-4d5d-ba5c-73cf6536f2a9", "aa951862-31ff-4f05-b1b9-08becd36dee6", "ıladmın", "ILADMIN" },
+                    { "d59a1830-4ea6-4948-8d4d-cbe602802bec", "8f498514-1cb5-4729-a0ad-fc814ed6a890", "sıstemadmın", "SISTEMADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -411,8 +411,8 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Ad", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "Eposta", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SicilNo", "Soyad", "TCKN", "TelefonGSM", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1e7d01b0-86ca-4d2c-9631-0fa122f43099", 0, null, "ee3279a0-a8f2-433e-89b5-6f890173861a", "User", "sistemAdmin@gmail.com", false, null, "sistemAdmin", "sistemAdmin", false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "02b7f890-d62d-4697-933b-eaa7d554853f", null, null, null, null, false, "sistemAdmin" },
-                    { "709b9e47-5b51-447e-ac19-8aa4a9a6c2c6", 0, null, "52ed4329-c937-4930-9ed4-b19797eba665", "User", "iladmin@gmail.com", false, null, "iladmin", "User", false, null, "BASICUSER@GMAIL.COM", "BASICUSER", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "7e793617-282d-485c-8517-5ffb03320568", null, null, null, null, false, "iladmin" }
+                    { "722323ab-3633-4622-8843-b35dd42271c5", 0, null, "7424b7e0-7f6b-4ce1-a03f-d8cb03287d9d", "User", "sistemAdmin@gmail.com", false, null, "sistemAdmin", "sistemAdmin", false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "0d08900d-1dc2-4afb-9a30-f64ffe2b26f2", null, null, null, null, false, "sistemAdmin" },
+                    { "a59744e2-2fcb-496c-8192-b62aa65d5131", 0, null, "a70ed1bc-045f-4c7f-b395-4d296cfe0389", "User", "iladmin@gmail.com", false, null, "iladmin", "User", false, null, "BASICUSER@GMAIL.COM", "BASICUSER", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "585bf34f-a3bb-4529-acee-938cf4879d7b", null, null, null, null, false, "iladmin" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -470,9 +470,6 @@ namespace Jemus.Persistence.Migrations
                 name: "GroupClaims");
 
             migrationBuilder.DropTable(
-                name: "IdentityRole");
-
-            migrationBuilder.DropTable(
                 name: "Ilce");
 
             migrationBuilder.DropTable(
@@ -480,6 +477,9 @@ namespace Jemus.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "RefreshToken");
+
+            migrationBuilder.DropTable(
+                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "RoleClaim");

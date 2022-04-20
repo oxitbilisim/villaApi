@@ -39,16 +39,18 @@ namespace Jemus.Service
             {
                 services.AddDbContext<appDbContext>(options =>
                 options.UseNpgsql(
-                    configuration.GetConnectionString("IdentityConnection"),
+                    configuration.GetConnectionString("OnionArchConn"),
                     b => b.MigrationsAssembly(typeof(appDbContext).Assembly.FullName)));
             }
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<appDbContext>()
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<appDbContext>()
                 .AddDefaultTokenProviders();
        
             #region Services
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IRoleService, RoleService>();
             #endregion
-         
+
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
             services.AddAuthentication(options =>
             {

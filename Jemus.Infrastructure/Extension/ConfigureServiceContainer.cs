@@ -34,7 +34,7 @@ namespace Jemus.Infrastructure.Extension
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new CustomerProfile());
+                mc.AddProfile(new MappingProfile());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             serviceCollection.AddSingleton(mapper);
@@ -50,6 +50,7 @@ namespace Jemus.Infrastructure.Extension
         {
             serviceCollection.AddTransient<IDateTimeService, DateTimeService>();
             serviceCollection.AddTransient<IAccountService, AccountService>();
+            serviceCollection.AddTransient<IRoleService, RoleService>();
         }
 
 
@@ -68,15 +69,10 @@ namespace Jemus.Infrastructure.Extension
                         Description = "Through this API you can access customer details",
                         Contact = new OpenApiContact()
                         {
-                            Email = "amit.naik8103@gmail.com",
-                            Name = "Amit Naik",
-                            Url = new Uri("https://amitpnk.github.io/")
+                            Email = "jemus@jemus.com",
+                            Name = "Jemus PTS",
+                            Url = new Uri("https://jemus.com.tr/")
                         },
-                        License = new OpenApiLicense()
-                        {
-                            Name = "MIT License",
-                            Url = new Uri("https://opensource.org/licenses/MIT")
-                        }
                     });
 
                 setupAction.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

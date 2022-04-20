@@ -4,10 +4,10 @@ namespace Jemus.Domain.Enum
 {
     public enum Roles
     {
-        SistemAdmin,
-        IlAdmin,
-        IlceAdmin,
-        Karakol
+        SISTEMADMIN,
+        ILADMIN,
+        ILCEADMIN,
+        KARAKOL
     }
 
     public static class Constants

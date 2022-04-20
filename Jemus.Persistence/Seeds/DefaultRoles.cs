@@ -14,26 +14,26 @@ namespace Jemus.Persistence.Seeds
                 new IdentityRole
                 {
                     Id = Constants.SistemAdmin,
-                    Name = Roles.SistemAdmin.ToString(),
-                    NormalizedName = Roles.SistemAdmin.ToString()
+                    Name = Roles.SISTEMADMIN.ToString().ToLower(),
+                    NormalizedName = Roles.SISTEMADMIN.ToString().ToUpper()
                 },
                 new IdentityRole
                 {
                     Id = Constants.IlAdmin,
-                    Name = Roles.IlAdmin.ToString(),
-                    NormalizedName = Roles.IlAdmin.ToString()
+                    Name = Roles.ILADMIN.ToString().ToLower(),
+                    NormalizedName = Roles.ILADMIN.ToString().ToUpper()
                 },
                 new IdentityRole
                 {
                     Id = Constants.IlceAdmin,
-                    Name = Roles.IlceAdmin.ToString(),
-                    NormalizedName = Roles.IlceAdmin.ToString()
+                    Name = Roles.ILCEADMIN.ToString().ToLower(),
+                    NormalizedName = Roles.ILCEADMIN.ToString().ToUpper()
                 },
                 new IdentityRole
                 {
                     Id = Constants.Karakol,
-                    Name = Roles.Karakol.ToString(),
-                    NormalizedName = Roles.Karakol.ToString()
+                    Name = Roles.KARAKOL.ToString().ToLower(),
+                    NormalizedName = Roles.KARAKOL.ToString().ToUpper()
                 }
             };
         }

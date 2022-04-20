@@ -1,15 +1,17 @@
 ﻿using Jemus.Domain.Auth;
 using Jemus.Domain.Enum;
 using Jemus.Entities.Models;
+using Jemus.Persistence.Mapper;
 using Jemus.Persistence.Seeds;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Threading.Tasks;
 
 namespace Jemus.Persistence
 {
-    public class appDbContext : DbContext, IAppDbContext
+    public class appDbContext :  IdentityDbContext<IdentityUser, IdentityRole, string> , IAppDbContext
     {
         // This constructor is used of runit testing
         public appDbContext()
@@ -29,6 +31,8 @@ namespace Jemus.Persistence
         public DbSet<UserGroup> UserGrup { get; set; }
         public DbSet<GroupClaims> GroupClaims { get; set; }
         public DbSet<files_merkez> files_merkez { get; set; }
+        public DbSet<IdentityUserClaim<string>> UserClaim { get; set; }
+        public DbSet<IdentityRoleClaim<string>> RoleClaim { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -62,7 +66,15 @@ namespace Jemus.Persistence
             {
                 x.ToTable("RoleClaim");
             });
+            modelBuilder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Role");
+            });
             #endregion
+
+            MenuMapper.Initialize(modelBuilder);
+            PermissionMapper.Initialize(modelBuilder);
+            MenuPermissionMapper.Initialize(modelBuilder);
 
             //modelBuilder.Entity<User>(entity =>
             //{

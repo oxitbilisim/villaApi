@@ -9,8 +9,9 @@ namespace Jemus.Domain.Auth
 
         [Required]
         public string LastName { get; set; }
-        //[Required]
-        //public string Group { get; set; }
+        
+        [Required]
+        public string RoleName { get; set; }
 
         [Required]
         [EmailAddress]

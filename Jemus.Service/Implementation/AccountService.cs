@@ -18,6 +18,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Jemus.Entities.Models;
+using Jemus.Persistence;
 
 namespace Jemus.Service.Implementation
 {
@@ -30,12 +31,13 @@ namespace Jemus.Service.Implementation
         private readonly JWTSettings _jwtSettings;
         private readonly IDateTimeService _dateTimeService;
         private readonly IFeatureManager _featureManager;
+        private IAppDbContext appDbContext;
         public AccountService(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             IOptions<JWTSettings> jwtSettings,
             IDateTimeService dateTimeService,
-            UserGroup _userGrupManager,
             SignInManager<User> signInManager,
+            IAppDbContext appDbContext,
             IEmailService emailService,
             IFeatureManager featureManager)
         {
@@ -44,6 +46,7 @@ namespace Jemus.Service.Implementation
             _jwtSettings = jwtSettings.Value;
             _dateTimeService = dateTimeService;
             _signInManager = signInManager;
+            this.appDbContext = appDbContext;
             _emailService = emailService;
             _featureManager = featureManager;
         }
@@ -67,20 +70,20 @@ namespace Jemus.Service.Implementation
 
 
             JwtSecurityToken jwtSecurityToken = await GenerateJWToken(user);
-           
+
             AuthenticationResponse response = new AuthenticationResponse();
             response.Id = user.Id;
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             response.Email = user.Email;
             response.UserName = user.UserName;
-            
+
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             response.Roles = rolesList.ToList();
             response.IsVerified = user.EmailConfirmed;
-            
+
             var refreshToken = GenerateRefreshToken(ipAddress);
             response.RefreshToken = refreshToken.Token;
-            
+
             return new Response<AuthenticationResponse>(response, $"Authenticated {user.UserName}");
         }
 
@@ -104,18 +107,23 @@ namespace Jemus.Service.Implementation
                 var result = await _userManager.CreateAsync(user, request.Password);
                 if (result.Succeeded)
                 {
+                    if (!await _userManager.IsInRoleAsync(user, request.RoleName.ToUpper()))
+                    {
+                        var userResult = await _userManager.AddToRoleAsync(user, request.RoleName.ToUpper());
 
-                    var roles =  _roleManager.Roles.FirstOrDefault(x=> x.NormalizedName == "sistemadmin");
-                    
-                    await _userManager.AddToRoleAsync(user, roles.NormalizedName);
-                   
-                    //var verificationUri = await SendVerificationEmail(user, origin);
-
-                    //if (await _featureManager.IsEnabledAsync(nameof(FeatureManagement.EnableEmailService)))
-                    //{
-                    //    await _emailService.SendEmailAsync(new MailRequest() { From = "hakannyildirim@gmail.com", ToEmail = user.Email, Body = $"Please confirm your account by visiting this URL {verificationUri}", Subject = "Confirm Registration" });
-                    //}
-                    //return new Response<string>(user.Id, message: $"User Registered. Please confirm your account by visiting this URL {verificationUri}");
+                        var role = await _roleManager.FindByNameAsync(request.RoleName);
+                        var permissionroles = appDbContext.RoleClaims.ToList().FindAll(x => x.RoleId == role.Id);
+                        foreach (IdentityRoleClaim<string> uvm in permissionroles)
+                        {
+                            appDbContext.UserClaims.Add(new IdentityUserClaim<string>
+                            {
+                                UserId = user.Id,
+                                ClaimValue = uvm.ClaimValue,
+                                ClaimType = "permission"
+                            });
+                        }
+                        appDbContext.SaveChangesAsync();
+                    }
                     return new Response<string>(user.Id, message: $"User Registered.");
                 }
                 else
