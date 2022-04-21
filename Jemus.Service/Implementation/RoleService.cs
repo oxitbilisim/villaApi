@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.Extensions.Logging;
 using Jemus.Persistence;
+using Jemus.Entities.Models;
 
 namespace Jemus.Service.Implementation
 {
@@ -57,8 +58,20 @@ namespace Jemus.Service.Implementation
                         ClaimType = "permission"
                     });
                 }
-                appDbContext.SaveChangesAsync();
 
+                 var permissionGuid = appDbContext.Permission.FirstOrDefault(x => x.Name == "Permissions.Genel.All").Id;
+                    var menus = appDbContext.Menu.ToList();
+                    foreach (var item in menus)
+                    {
+                        appDbContext.MenuPermission.Add(new MenuPermission
+                        {
+                            RoleId = role.Id,
+                            MenuId = item.Id,
+                            PermissionId = permissionGuid
+                        });
+                    }
+                    await appDbContext.SaveChangesAsync();
+              
                 return new Response<string>(role.Id, message: $"Role Registered.");
             }
             else

@@ -13,8 +13,6 @@ namespace Jemus.Persistence
         public DbSet<Menu> Menu { get; set; }
         public DbSet<MenuPermission> MenuPermission { get; set; }
         public DbSet<Permission> Permission { get; set; }
-        public DbSet<Group> Group { get; set; }
-        public DbSet<UserGroup> UserGrup { get; set; }
         public DbSet<files_merkez> files_merkez { get; set; }
 
         public DbSet<IdentityUserClaim<string>> UserClaims { get; set; }

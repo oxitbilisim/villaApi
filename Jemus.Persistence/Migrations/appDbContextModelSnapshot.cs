@@ -171,78 +171,6 @@ namespace Jemus.Persistence.Migrations
                     b.ToTable("files_merkez");
                 });
 
-            modelBuilder.Entity("Jemus.Entities.Models.Group", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<string>("Ad")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Tanim")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Group");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d2e0025d-4fd6-4409-bf94-33f5e1eb1ed3"),
-                            Ad = "SistemAdmin",
-                            Tanim = "SistemAdmin"
-                        },
-                        new
-                        {
-                            Id = new Guid("1b915007-4932-4958-8bd3-06b987409f38"),
-                            Ad = "IlAdmin",
-                            Tanim = "IlAdmin"
-                        },
-                        new
-                        {
-                            Id = new Guid("279f96c8-cf9b-48f1-819b-d570fc805dda"),
-                            Ad = "IlceAdmin",
-                            Tanim = "IlceAdmin"
-                        },
-                        new
-                        {
-                            Id = new Guid("728bf5ab-533a-45ff-a120-6fd11f5ec013"),
-                            Ad = "Karakol",
-                            Tanim = "Karakol"
-                        });
-                });
-
-            modelBuilder.Entity("Jemus.Entities.Models.GroupClaims", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PermissionId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("PermissionId");
-
-                    b.ToTable("GroupClaims");
-                });
-
             modelBuilder.Entity("Jemus.Entities.Models.Il", b =>
                 {
                     b.Property<Guid>("Id")
@@ -324,21 +252,21 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fe7ccf46-4abc-465b-84c5-8f1bccb63d46"),
+                            Id = new Guid("f72e57a4-1589-43b1-b213-5ab47f6b050c"),
                             Icon = "pi pi-fw pi-globe",
                             Label = "Panel",
                             RouteLink = "/"
                         },
                         new
                         {
-                            Id = new Guid("83600a37-fd80-47b2-ad97-4e8b536ca952"),
+                            Id = new Guid("499e5a95-e987-444e-b3cf-41eb3a3bd8c6"),
                             Icon = "fa fa-gavel",
                             Label = "Kullanıcı",
                             RouteLink = "/kullanıcı"
                         },
                         new
                         {
-                            Id = new Guid("dde8638e-0658-4185-aab9-9606bd509ea4"),
+                            Id = new Guid("4606d447-8b74-41d6-a839-8b58102b5fcf"),
                             Icon = "fa fa-balance-scale",
                             Label = "Kullanıcı Grup",
                             RouteLink = "/kullanicigrup"
@@ -393,77 +321,49 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f0cb3e7c-3870-4ecf-a871-54946fca527b"),
+                            Id = new Guid("a416d105-e24a-443f-83b5-f8f2d252045c"),
                             Name = "Permissions.Genel.All"
                         },
                         new
                         {
-                            Id = new Guid("1c118d9e-a59e-44ac-8eba-2a1c40ad8d01"),
+                            Id = new Guid("76831448-3a35-4783-bcba-e0ae46562689"),
                             Name = "Permissions.Ayarlar.All"
                         },
                         new
                         {
-                            Id = new Guid("b757d139-1179-4775-9102-c1a3904d0b84"),
+                            Id = new Guid("8e56e66c-a1f3-4688-b7ea-e40f53406039"),
                             Name = "Permissions.Credential.All"
                         },
                         new
                         {
-                            Id = new Guid("6fa9a7e8-eb94-449f-916d-c957113191a1"),
+                            Id = new Guid("d96b1039-5395-4280-85f5-b213cbd26e0a"),
                             Name = "Permissions.Grup.All"
                         },
                         new
                         {
-                            Id = new Guid("689fa0bf-116e-4b0f-b702-361148e71c11"),
+                            Id = new Guid("84c6827c-0e25-41a6-8b8c-9a4d196e716c"),
                             Name = "Permissions.Il.All"
                         },
                         new
                         {
-                            Id = new Guid("9f1da2ac-f072-4c85-8254-03c2d044ad43"),
+                            Id = new Guid("587db756-cd76-458d-a74f-d7c7e458da79"),
                             Name = "Permissions.Ilce.All"
                         },
                         new
                         {
-                            Id = new Guid("ef6979c5-df45-4c50-adcb-b83d0e747c85"),
+                            Id = new Guid("b86c6dea-9246-4183-81fa-b4b5c6542a1f"),
                             Name = "Permissions.Kullanici.All"
                         },
                         new
                         {
-                            Id = new Guid("efc11940-0c72-47bd-b050-94e132dc9ad7"),
+                            Id = new Guid("08d2ec2c-9508-4903-8a25-6c83feb47d38"),
                             Name = "Permissions.KullaniciGrup.All"
                         },
                         new
                         {
-                            Id = new Guid("e162209c-b860-4f25-b43d-d6922a09a620"),
+                            Id = new Guid("8756baa3-7b95-4998-a53f-a30828bec4e4"),
                             Name = "Permissions.Log.All"
                         });
-                });
-
-            modelBuilder.Entity("Jemus.Entities.Models.UserGroup", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("UserGrup");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -487,29 +387,29 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a4835668-8079-4721-8908-c4ec6a1f1d54",
-                            ConcurrencyStamp = "26171606-4d13-44ac-b32b-599a5d34d120",
+                            Id = "a73979d1-8ba9-4d32-ae64-45d08082465f",
+                            ConcurrencyStamp = "81e6259a-b280-4c18-a844-523917e77bb5",
                             Name = "sıstemadmın",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "2400078e-b522-44a4-96fe-2282f84b3c60",
-                            ConcurrencyStamp = "fe8aa6e4-28f8-4d5b-b605-3b44dc52d68f",
+                            Id = "9061b75b-f772-42be-a468-996fb832291b",
+                            ConcurrencyStamp = "a09dcf68-98dc-494b-b720-9fbaf1525416",
                             Name = "ıladmın",
                             NormalizedName = "ILADMIN"
                         },
                         new
                         {
-                            Id = "d12dceb3-2572-4d27-a3d4-ccbd4eca71c8",
-                            ConcurrencyStamp = "ddfc0f82-e50d-472e-851c-f466b944d891",
+                            Id = "a169ce3a-ea2e-46bb-b71c-f8eab14b5101",
+                            ConcurrencyStamp = "be4827c2-869d-4166-aafe-a5834300114b",
                             Name = "ılceadmın",
                             NormalizedName = "ILCEADMIN"
                         },
                         new
                         {
-                            Id = "1ad4fcc2-8f77-46c5-b423-f33d6529a77c",
-                            ConcurrencyStamp = "40dd71ee-59a0-4c31-8313-7f051df13ec9",
+                            Id = "c2ab994a-ec83-43d7-b1ef-f1889d80d168",
+                            ConcurrencyStamp = "923f83c8-3d3c-4ede-8fb0-973f61a94eca",
                             Name = "karakol",
                             NormalizedName = "KARAKOL"
                         });
@@ -678,12 +578,6 @@ namespace Jemus.Persistence.Migrations
                     b.Property<string>("Eposta")
                         .HasColumnType("text");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
                     b.Property<string>("SicilNo")
                         .HasColumnType("text");
 
@@ -701,9 +595,9 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "411deddf-cd09-4491-90f1-643cece43596",
+                            Id = "58aa247e-e72e-4538-8ebd-4e79c2b0d6af",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5e27c48f-2ccd-46d4-87a2-9b5f11248b97",
+                            ConcurrencyStamp = "671e344d-a9c5-4a65-9112-1c453a10fe0c",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -711,17 +605,17 @@ namespace Jemus.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "044b6c69-4eac-46f4-b55e-d72f66611a0b",
+                            SecurityStamp = "4a04844a-7a4a-4b24-9f21-6d98c77d8bc2",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin",
-                            FirstName = "sistemAdmin",
-                            LastName = "sistemAdmin"
+                            Ad = "Mehmet",
+                            Soyad = "YILMAZ"
                         },
                         new
                         {
-                            Id = "1695af24-60ba-464f-a7af-4befdf9df3d9",
+                            Id = "706ed115-609f-4c1d-8184-3f8f1a9094b2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "88049f55-2cce-44cb-bc74-9cad81b43688",
+                            ConcurrencyStamp = "42298876-c677-4c29-993d-687c1b88b5e0",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -729,11 +623,11 @@ namespace Jemus.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ef8659e7-7d20-4b7a-bae0-709c267c0171",
+                            SecurityStamp = "52b061bf-c58f-4900-816e-f3379f776254",
                             TwoFactorEnabled = false,
                             UserName = "iladmin",
-                            FirstName = "iladmin",
-                            LastName = "User"
+                            Ad = "Ali",
+                            Soyad = "DERİN"
                         });
                 });
 
@@ -742,25 +636,6 @@ namespace Jemus.Persistence.Migrations
                     b.HasOne("Jemus.Domain.Auth.User", null)
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Jemus.Entities.Models.GroupClaims", b =>
-                {
-                    b.HasOne("Jemus.Entities.Models.Group", "Group")
-                        .WithMany("GroupClaims")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Jemus.Entities.Models.Permission", "Permission")
-                        .WithMany()
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Permission");
                 });
 
             modelBuilder.Entity("Jemus.Entities.Models.Ilce", b =>
@@ -803,30 +678,6 @@ namespace Jemus.Persistence.Migrations
                     b.Navigation("Menu");
 
                     b.Navigation("Permission");
-                });
-
-            modelBuilder.Entity("Jemus.Entities.Models.UserGroup", b =>
-                {
-                    b.HasOne("Jemus.Entities.Models.Group", "Grup")
-                        .WithMany("KullaniciGroup")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Jemus.Domain.Auth.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("Grup");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Jemus.Entities.Models.Group", b =>
-                {
-                    b.Navigation("GroupClaims");
-
-                    b.Navigation("KullaniciGroup");
                 });
 
             modelBuilder.Entity("Jemus.Entities.Models.Il", b =>

@@ -1,7 +1,8 @@
 ﻿namespace Jemus.Domain.Auth
 {
-    public class RoleRequest
+    public class AuthenticationRequest
     {
-        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

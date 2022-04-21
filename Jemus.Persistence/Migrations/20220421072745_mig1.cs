@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Jemus.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,20 +55,6 @@ namespace Jemus.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Group",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Ad = table.Column<string>(type: "text", nullable: true),
-                    Tanim = table.Column<string>(type: "text", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Group", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Il",
                 columns: table => new
                 {
@@ -101,7 +87,8 @@ namespace Jemus.Persistence.Migrations
                         name: "FK_Menu_Menu_ParentMenuId",
                         column: x => x.ParentMenuId,
                         principalTable: "Menu",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,8 +139,6 @@ namespace Jemus.Persistence.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Discriminator = table.Column<string>(type: "text", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
                     Ad = table.Column<string>(type: "text", nullable: true),
                     Soyad = table.Column<string>(type: "text", nullable: true),
                     SicilNo = table.Column<string>(type: "text", nullable: true),
@@ -256,51 +241,26 @@ namespace Jemus.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupClaims",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PermissionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GroupClaims_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GroupClaims_Permission_PermissionId",
-                        column: x => x.PermissionId,
-                        principalTable: "Permission",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MenuPermission",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     MenuId = table.Column<Guid>(type: "uuid", nullable: false),
                     PermissionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MenuPermission", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MenuPermission_Menu_MenuId",
+                        name: "FK_Menu",
                         column: x => x.MenuId,
                         principalTable: "Menu",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MenuPermission_Permission_PermissionId",
+                        name: "FK_MenuPermission",
                         column: x => x.PermissionId,
                         principalTable: "Permission",
                         principalColumn: "Id",
@@ -332,51 +292,14 @@ namespace Jemus.Persistence.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "UserGrup",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId1 = table.Column<string>(type: "text", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserGrup", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserGrup_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserGrup_User_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.InsertData(
-                table: "Group",
-                columns: new[] { "Id", "Ad", "CreateDate", "Tanim" },
-                values: new object[,]
-                {
-                    { new Guid("41057b45-4437-4ef8-8e1c-d79b4f33b822"), "Karakol", null, "Karakol" },
-                    { new Guid("69b0c7f1-a457-4404-ba32-c9304b1fe44e"), "SistemAdmin", null, "SistemAdmin" },
-                    { new Guid("b65a6e1e-5df1-4000-8e8f-19ca5b2f1cce"), "IlAdmin", null, "IlAdmin" },
-                    { new Guid("c54a120c-a3ca-4fee-b333-4ad17f44fd9c"), "IlceAdmin", null, "IlceAdmin" }
-                });
-
             migrationBuilder.InsertData(
                 table: "Menu",
                 columns: new[] { "Id", "CreateDate", "Icon", "Label", "ParentMenuId", "RouteLink" },
                 values: new object[,]
                 {
-                    { new Guid("0aa947e4-d4af-4bcf-9b41-8df29182fbe1"), null, "fa fa-gavel", "Kullanıcı", null, "/kullanıcı" },
-                    { new Guid("2a8dc175-cc48-451e-b316-7befcf98dd7b"), null, "fa fa-balance-scale", "Kullanıcı Grup", null, "/kullanicigrup" },
-                    { new Guid("85ee0c38-11a5-4642-87f1-ed8e378ab1a6"), null, "pi pi-fw pi-globe", "Panel", null, "/" }
+                    { new Guid("4606d447-8b74-41d6-a839-8b58102b5fcf"), null, "fa fa-balance-scale", "Kullanıcı Grup", null, "/kullanicigrup" },
+                    { new Guid("499e5a95-e987-444e-b3cf-41eb3a3bd8c6"), null, "fa fa-gavel", "Kullanıcı", null, "/kullanıcı" },
+                    { new Guid("f72e57a4-1589-43b1-b213-5ab47f6b050c"), null, "pi pi-fw pi-globe", "Panel", null, "/" }
                 });
 
             migrationBuilder.InsertData(
@@ -384,15 +307,15 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "CreateDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("780a3b3a-47a2-4135-ad3b-48ee50388c5f"), null, "Permissions.Grup.All" },
-                    { new Guid("83dcc63b-e8cd-4115-ad81-a65c29084c72"), null, "Permissions.Genel.All" },
-                    { new Guid("8d8a8942-1597-4b6a-bf18-3c81e10febeb"), null, "Permissions.Il.All" },
-                    { new Guid("8f680ce8-d47e-4c52-a84e-5b9515a76f1e"), null, "Permissions.Ayarlar.All" },
-                    { new Guid("a85801c7-d02b-4f50-b117-6de8a5724678"), null, "Permissions.Ilce.All" },
-                    { new Guid("bd664ece-1cad-46b7-8ee0-fba7157758e5"), null, "Permissions.Kullanici.All" },
-                    { new Guid("e3b7310e-8d9f-4a76-80ee-60bfb10130d0"), null, "Permissions.KullaniciGrup.All" },
-                    { new Guid("f5ec7e6b-0361-4c84-95b7-f18698e6fe3c"), null, "Permissions.Log.All" },
-                    { new Guid("f5fc1295-03d6-4497-af44-6da5bf4e24ac"), null, "Permissions.Credential.All" }
+                    { new Guid("08d2ec2c-9508-4903-8a25-6c83feb47d38"), null, "Permissions.KullaniciGrup.All" },
+                    { new Guid("587db756-cd76-458d-a74f-d7c7e458da79"), null, "Permissions.Ilce.All" },
+                    { new Guid("76831448-3a35-4783-bcba-e0ae46562689"), null, "Permissions.Ayarlar.All" },
+                    { new Guid("84c6827c-0e25-41a6-8b8c-9a4d196e716c"), null, "Permissions.Il.All" },
+                    { new Guid("8756baa3-7b95-4998-a53f-a30828bec4e4"), null, "Permissions.Log.All" },
+                    { new Guid("8e56e66c-a1f3-4688-b7ea-e40f53406039"), null, "Permissions.Credential.All" },
+                    { new Guid("a416d105-e24a-443f-83b5-f8f2d252045c"), null, "Permissions.Genel.All" },
+                    { new Guid("b86c6dea-9246-4183-81fa-b4b5c6542a1f"), null, "Permissions.Kullanici.All" },
+                    { new Guid("d96b1039-5395-4280-85f5-b213cbd26e0a"), null, "Permissions.Grup.All" }
                 });
 
             migrationBuilder.InsertData(
@@ -400,30 +323,20 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1e7c6cb8-b840-4b75-9964-35eb82dd5861", "96cd6a3d-7351-40d6-bdfc-64c30230be35", "karakol", "KARAKOL" },
-                    { "3db197d1-3baf-42ca-a3e0-084663d3ea2e", "2765501f-afdc-4425-9b97-28d3d8c1a57d", "ılceadmın", "ILCEADMIN" },
-                    { "6c50f24a-5151-4d5d-ba5c-73cf6536f2a9", "aa951862-31ff-4f05-b1b9-08becd36dee6", "ıladmın", "ILADMIN" },
-                    { "d59a1830-4ea6-4948-8d4d-cbe602802bec", "8f498514-1cb5-4729-a0ad-fc814ed6a890", "sıstemadmın", "SISTEMADMIN" }
+                    { "9061b75b-f772-42be-a468-996fb832291b", "a09dcf68-98dc-494b-b720-9fbaf1525416", "ıladmın", "ILADMIN" },
+                    { "a169ce3a-ea2e-46bb-b71c-f8eab14b5101", "be4827c2-869d-4166-aafe-a5834300114b", "ılceadmın", "ILCEADMIN" },
+                    { "a73979d1-8ba9-4d32-ae64-45d08082465f", "81e6259a-b280-4c18-a844-523917e77bb5", "sıstemadmın", "SISTEMADMIN" },
+                    { "c2ab994a-ec83-43d7-b1ef-f1889d80d168", "923f83c8-3d3c-4ede-8fb0-973f61a94eca", "karakol", "KARAKOL" }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "AccessFailedCount", "Ad", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "Eposta", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SicilNo", "Soyad", "TCKN", "TelefonGSM", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Ad", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "Eposta", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SicilNo", "Soyad", "TCKN", "TelefonGSM", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "722323ab-3633-4622-8843-b35dd42271c5", 0, null, "7424b7e0-7f6b-4ce1-a03f-d8cb03287d9d", "User", "sistemAdmin@gmail.com", false, null, "sistemAdmin", "sistemAdmin", false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "0d08900d-1dc2-4afb-9a30-f64ffe2b26f2", null, null, null, null, false, "sistemAdmin" },
-                    { "a59744e2-2fcb-496c-8192-b62aa65d5131", 0, null, "a70ed1bc-045f-4c7f-b395-4d296cfe0389", "User", "iladmin@gmail.com", false, null, "iladmin", "User", false, null, "BASICUSER@GMAIL.COM", "BASICUSER", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "585bf34f-a3bb-4529-acee-938cf4879d7b", null, null, null, null, false, "iladmin" }
+                    { "58aa247e-e72e-4538-8ebd-4e79c2b0d6af", 0, "Mehmet", "671e344d-a9c5-4a65-9112-1c453a10fe0c", "User", "sistemAdmin@gmail.com", false, null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "4a04844a-7a4a-4b24-9f21-6d98c77d8bc2", null, "YILMAZ", null, null, false, "sistemAdmin" },
+                    { "706ed115-609f-4c1d-8184-3f8f1a9094b2", 0, "Ali", "42298876-c677-4c29-993d-687c1b88b5e0", "User", "iladmin@gmail.com", false, null, false, null, "BASICUSER@GMAIL.COM", "BASICUSER", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "52b061bf-c58f-4900-816e-f3379f776254", null, "DERİN", null, null, false, "iladmin" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GroupClaims_GroupId",
-                table: "GroupClaims",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GroupClaims_PermissionId",
-                table: "GroupClaims",
-                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ilce_IlId",
@@ -449,25 +362,12 @@ namespace Jemus.Persistence.Migrations
                 name: "IX_RefreshToken_UserId",
                 table: "RefreshToken",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserGrup_GroupId",
-                table: "UserGrup",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserGrup_UserId1",
-                table: "UserGrup",
-                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "files_merkez");
-
-            migrationBuilder.DropTable(
-                name: "GroupClaims");
 
             migrationBuilder.DropTable(
                 name: "Ilce");
@@ -488,9 +388,6 @@ namespace Jemus.Persistence.Migrations
                 name: "UserClaim");
 
             migrationBuilder.DropTable(
-                name: "UserGrup");
-
-            migrationBuilder.DropTable(
                 name: "UserLogin");
 
             migrationBuilder.DropTable(
@@ -507,9 +404,6 @@ namespace Jemus.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Permission");
-
-            migrationBuilder.DropTable(
-                name: "Group");
 
             migrationBuilder.DropTable(
                 name: "User");

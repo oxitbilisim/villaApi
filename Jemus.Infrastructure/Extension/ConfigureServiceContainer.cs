@@ -23,11 +23,12 @@ namespace Jemus.Infrastructure.Extension
         public static void AddDbContext(this IServiceCollection serviceCollection,
              IConfiguration configuration, IConfigurationRoot configRoot)
         {
-            serviceCollection.AddDbContext<appDbContext>(options =>
-                   options.UseNpgsql(configuration.GetConnectionString("OnionArchConn") ?? configRoot["ConnectionStrings:OnionArchConn"]
-                , b => b.MigrationsAssembly(typeof(appDbContext).Assembly.FullName)));
+            serviceCollection.AddDbContext<appDbContext>(options => {
+                //options.EnableSensitiveDataLogging();
+                options.UseNpgsql(configuration.GetConnectionString("OnionArchConn") ?? configRoot["ConnectionStrings:OnionArchConn"]
+             , b => b.MigrationsAssembly(typeof(appDbContext).Assembly.FullName));
 
-
+                 });
         }
 
         public static void AddAutoMapper(this IServiceCollection serviceCollection)
@@ -50,11 +51,8 @@ namespace Jemus.Infrastructure.Extension
         {
             serviceCollection.AddTransient<IDateTimeService, DateTimeService>();
             serviceCollection.AddTransient<IAccountService, AccountService>();
-            serviceCollection.AddTransient<IRoleService, RoleService>();
+           // serviceCollection.AddTransient<IRoleService, RoleService>();
         }
-
-
-
         public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSwaggerGen(setupAction =>

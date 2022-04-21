@@ -97,9 +97,9 @@ namespace Jemus.Service.Implementation
             var user = new User
             {
                 Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                UserName = request.UserName
+                UserName = request.UserName,
+                Ad = request.Ad,
+                Soyad = request.Soyad
             };
             var userWithSameEmail = await _userManager.FindByEmailAsync(request.Email);
             if (userWithSameEmail == null)

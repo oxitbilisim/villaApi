@@ -10,7 +10,6 @@ namespace Jemus.Persistence.Seeds
     {
         public static List<Permission> PermissionList()
         {
-
             List<Permission> pL = new List<Permission>();
 
             for (int i = 1; i <= Permissions.getPermissions().Count; i++)
@@ -20,7 +19,6 @@ namespace Jemus.Persistence.Seeds
                     Id = Guid.NewGuid(),
                     Name = Permissions.getPermissions()[i - 1]
                 });
-
             }
             return pL;
         }

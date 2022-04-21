@@ -4,9 +4,7 @@ using System.Collections.Generic;
 namespace Jemus.Domain.Auth
 {
     public class User : IdentityUser
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+    {    
         public string Ad { get; set; }
 
         public string Soyad { get; set; }

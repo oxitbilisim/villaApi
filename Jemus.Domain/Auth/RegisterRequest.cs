@@ -4,12 +4,7 @@ namespace Jemus.Domain.Auth
 {
     public class RegisterRequest
     {
-        [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-        
+      
         [Required]
         public string RoleName { get; set; }
 
@@ -18,11 +13,20 @@ namespace Jemus.Domain.Auth
         public string Email { get; set; }
         [Required]
         [MinLength(6)]
+        public string Ad { get; set; }
+
+        [Required]
+        [MinLength(6)]
+        public string Soyad { get; set; }
+
+        [Required]
+        [MinLength(6)]
         public string UserName { get; set; }
 
         [Required]
         [MinLength(6)]
         public string Password { get; set; }
+
        
         
 

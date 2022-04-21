@@ -19,8 +19,6 @@ namespace Jemus.Persistence.Seeds
             CreateMenu(modelBuilder);
 
             CreatePermissions(modelBuilder);
-
-            CreateGroup(modelBuilder);
         }
 
         private static void CreateRoles(ModelBuilder modelBuilder)
@@ -52,12 +50,6 @@ namespace Jemus.Persistence.Seeds
         {
             var permission = SeedPermission.PermissionList();
             modelBuilder.Entity<Permission>().HasData(permission);
-        }
-
-        private static void CreateGroup(ModelBuilder modelBuilder)
-        {
-            var group = SeedGroup.GroupList();
-            modelBuilder.Entity<Group>().HasData(group);
         }
     }
 }

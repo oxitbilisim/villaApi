@@ -16,8 +16,8 @@ namespace Jemus.Persistence.Seeds
                     Id = Constants.SistemAdminUser,
                     UserName = "sistemAdmin",
                     Email = "sistemAdmin@gmail.com",
-                    FirstName = "sistemAdmin",
-                    LastName = "sistemAdmin",
+                    Ad = "Mehmet",
+                    Soyad = "YILMAZ",
                     EmailConfirmed = false,
                     PhoneNumberConfirmed = false,
                     // Password@123
@@ -30,8 +30,8 @@ namespace Jemus.Persistence.Seeds
                     Id = Constants.IlUser,
                     UserName = "iladmin",
                     Email = "iladmin@gmail.com",
-                    FirstName = "iladmin",
-                    LastName = "User",
+                     Ad = "Ali",
+                    Soyad = "DERİN",
                     EmailConfirmed = false,
                     PhoneNumberConfirmed = false,
                     // Password@123

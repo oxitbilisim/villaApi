@@ -8,10 +8,10 @@ namespace Jemus.Infrastructure.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<CustomerModel, Menu>()
-                .ForMember(dest => dest.Id,
-                        opt => opt.MapFrom(src => src.CustomerId))
-                .ReverseMap();
+            //CreateMap<CustomerModel, Menu>()
+            //    .ForMember(dest => dest.Id,
+            //            opt => opt.MapFrom(src => src.CustomerId))
+            //    .ReverseMap();
         }
     }
 }
