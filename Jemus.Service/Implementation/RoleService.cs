@@ -9,6 +9,9 @@ using System;
 using Microsoft.Extensions.Logging;
 using Jemus.Persistence;
 using Jemus.Entities.Models;
+using System.Collections.Generic;
+using Jemus.Domain.Dtos;
+using Jemus.Domain.Entities;
 
 namespace Jemus.Service.Implementation
 {
@@ -16,8 +19,7 @@ namespace Jemus.Service.Implementation
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
-        private IAppDbContext appDbContext;
-
+        private IAppDbContext _appDbContext;
         private readonly ILogger<RoleService> _logger;
 
         public RoleService(UserManager<User> userManager, 
@@ -28,7 +30,7 @@ namespace Jemus.Service.Implementation
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            this.appDbContext = appDbContext;
+            this._appDbContext = appDbContext;
             _logger = logger;
         }
 
@@ -48,10 +50,10 @@ namespace Jemus.Service.Implementation
             var result = await _roleManager.CreateAsync(role);
             if (result.Succeeded)
             {
-                var permissionroles = appDbContext.Permission.ToList();
+                var permissionroles = _appDbContext.Permission.ToList();
                 foreach (var item in permissionroles)
                 {
-                    appDbContext.RoleClaims.Add(new IdentityRoleClaim<string>
+                    _appDbContext.RoleClaims.Add(new IdentityRoleClaim<string>
                     {
                         RoleId = role.Id,
                         ClaimValue = item.Name,
@@ -59,18 +61,18 @@ namespace Jemus.Service.Implementation
                     });
                 }
 
-                 var permissionGuid = appDbContext.Permission.FirstOrDefault(x => x.Name == "Permissions.Genel.All").Id;
-                    var menus = appDbContext.Menu.ToList();
+                 var permissionGuid = _appDbContext.Permission.FirstOrDefault(x => x.Name == "Permissions.Genel.All").Id;
+                    var menus = _appDbContext.Menu.ToList();
                     foreach (var item in menus)
                     {
-                        appDbContext.MenuPermission.Add(new MenuPermission
+                        _appDbContext.MenuPermission.Add(new MenuPermission
                         {
                             RoleId = role.Id,
                             MenuId = item.Id,
                             PermissionId = permissionGuid
                         });
                     }
-                    await appDbContext.SaveChangesAsync();
+                    await _appDbContext.SaveChangesAsync();
               
                 return new Response<string>(role.Id, message: $"Role Registered.");
             }
@@ -79,7 +81,26 @@ namespace Jemus.Service.Implementation
                 throw new ApiException($"{result.Errors.ToList()[0].Description}");
             }
         }
-        
+
+        public async Task<Response<List<RoleDto>>> GetRol()
+        {
+            var dtoList = new List<RoleDto>();
+           
+            var roles = _roleManager.Roles.ToList();
+
+            foreach (var item in roles)
+            {
+                var rolesUserList  = await _userManager.GetUsersInRoleAsync(item.NormalizedName);
+                var userList = new List<UserDto>();
+                foreach (var itemuser in rolesUserList)
+                {  
+                    userList.Add(new UserDto() { size = "sm", title =  $"{itemuser.Ad.ToUpper()} {itemuser.Soyad.ToUpper()}" .ToUpper() , img = itemuser.Image });
+                }
+                dtoList.Add( new RoleDto { title = item.NormalizedName.ToUpper() ,totalUsers = rolesUserList.Count, users = userList } );
+            }
+            return new Response<List<RoleDto>>(dtoList , message: $"User && Role Assiged.");
+        }
+
         public async Task<Response<string>> RoleAssign(string id)
         {
             User user = await _userManager.FindByIdAsync(id);

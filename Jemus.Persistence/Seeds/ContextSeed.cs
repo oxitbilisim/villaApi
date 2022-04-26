@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Jemus.Domain.Auth;
 using System.Collections.Generic;
 using Jemus.Entities.Models;
+using Jemus.Domain.Entities;
 
 namespace Jemus.Persistence.Seeds
 {

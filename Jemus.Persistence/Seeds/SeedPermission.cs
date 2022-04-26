@@ -1,6 +1,6 @@
 ﻿
+using Jemus.Domain.Entities;
 using Jemus.Domain.Utilities;
-using Jemus.Entities.Models;
 using System;
 using System.Collections.Generic;
 

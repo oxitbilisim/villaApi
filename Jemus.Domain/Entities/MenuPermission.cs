@@ -1,7 +1,7 @@
 ﻿using Jemus.Domain;
 using System;
 
-namespace Jemus.Entities.Models
+namespace Jemus.Domain.Entities
 {
     public class MenuPermission :  BaseSimpleModel
     {

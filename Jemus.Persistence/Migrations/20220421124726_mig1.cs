@@ -138,7 +138,6 @@ namespace Jemus.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Discriminator = table.Column<string>(type: "text", nullable: false),
                     Ad = table.Column<string>(type: "text", nullable: true),
                     Soyad = table.Column<string>(type: "text", nullable: true),
                     SicilNo = table.Column<string>(type: "text", nullable: true),
@@ -297,9 +296,9 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "CreateDate", "Icon", "Label", "ParentMenuId", "RouteLink" },
                 values: new object[,]
                 {
-                    { new Guid("4606d447-8b74-41d6-a839-8b58102b5fcf"), null, "fa fa-balance-scale", "Kullanıcı Grup", null, "/kullanicigrup" },
-                    { new Guid("499e5a95-e987-444e-b3cf-41eb3a3bd8c6"), null, "fa fa-gavel", "Kullanıcı", null, "/kullanıcı" },
-                    { new Guid("f72e57a4-1589-43b1-b213-5ab47f6b050c"), null, "pi pi-fw pi-globe", "Panel", null, "/" }
+                    { new Guid("703d0bbb-ecdf-4402-9bc1-cf60384fb8ef"), null, "fa fa-gavel", "Kullanıcı", null, "/kullanıcı" },
+                    { new Guid("a553ddbd-219c-457b-a37a-41cf5ec8d7ab"), null, "fa fa-balance-scale", "Kullanıcı Grup", null, "/kullanicigrup" },
+                    { new Guid("e1c1dc1c-e346-471e-8141-dc5f9c3c5328"), null, "pi pi-fw pi-globe", "Panel", null, "/" }
                 });
 
             migrationBuilder.InsertData(
@@ -307,15 +306,15 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "CreateDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("08d2ec2c-9508-4903-8a25-6c83feb47d38"), null, "Permissions.KullaniciGrup.All" },
-                    { new Guid("587db756-cd76-458d-a74f-d7c7e458da79"), null, "Permissions.Ilce.All" },
-                    { new Guid("76831448-3a35-4783-bcba-e0ae46562689"), null, "Permissions.Ayarlar.All" },
-                    { new Guid("84c6827c-0e25-41a6-8b8c-9a4d196e716c"), null, "Permissions.Il.All" },
-                    { new Guid("8756baa3-7b95-4998-a53f-a30828bec4e4"), null, "Permissions.Log.All" },
-                    { new Guid("8e56e66c-a1f3-4688-b7ea-e40f53406039"), null, "Permissions.Credential.All" },
-                    { new Guid("a416d105-e24a-443f-83b5-f8f2d252045c"), null, "Permissions.Genel.All" },
-                    { new Guid("b86c6dea-9246-4183-81fa-b4b5c6542a1f"), null, "Permissions.Kullanici.All" },
-                    { new Guid("d96b1039-5395-4280-85f5-b213cbd26e0a"), null, "Permissions.Grup.All" }
+                    { new Guid("2e1ada02-ce74-4d99-8fef-31a3798097d7"), null, "Permissions.Grup.All" },
+                    { new Guid("2fbcb26e-7164-46c9-a9e5-6042893cce46"), null, "Permissions.Log.All" },
+                    { new Guid("5042520a-919e-4c1a-8243-3f67690bb9ed"), null, "Permissions.Genel.All" },
+                    { new Guid("78734159-b68c-4fd6-832a-ec18a6879137"), null, "Permissions.Ayarlar.All" },
+                    { new Guid("84936a2d-f89d-4789-ab36-c80ca7a7a26e"), null, "Permissions.Ilce.All" },
+                    { new Guid("b676d942-f3f7-450d-8e7d-a00b32747256"), null, "Permissions.KullaniciGrup.All" },
+                    { new Guid("c957e04c-3d3f-4e4b-a7ae-2e3aeee34d29"), null, "Permissions.Credential.All" },
+                    { new Guid("cffb1f69-709d-471c-9311-610a9c95e819"), null, "Permissions.Il.All" },
+                    { new Guid("fce2c2b6-ffcd-4e72-ba3e-74997a21779b"), null, "Permissions.Kullanici.All" }
                 });
 
             migrationBuilder.InsertData(
@@ -323,19 +322,19 @@ namespace Jemus.Persistence.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9061b75b-f772-42be-a468-996fb832291b", "a09dcf68-98dc-494b-b720-9fbaf1525416", "ıladmın", "ILADMIN" },
-                    { "a169ce3a-ea2e-46bb-b71c-f8eab14b5101", "be4827c2-869d-4166-aafe-a5834300114b", "ılceadmın", "ILCEADMIN" },
-                    { "a73979d1-8ba9-4d32-ae64-45d08082465f", "81e6259a-b280-4c18-a844-523917e77bb5", "sıstemadmın", "SISTEMADMIN" },
-                    { "c2ab994a-ec83-43d7-b1ef-f1889d80d168", "923f83c8-3d3c-4ede-8fb0-973f61a94eca", "karakol", "KARAKOL" }
+                    { "0eec2cdd-0f20-4017-a657-5e007e0d813b", "3e4042a8-bd97-47fe-9cba-deb16d2c69d8", "ılceadmın", "ILCEADMIN" },
+                    { "9eca2436-a0b8-49d9-bd5f-617bfd1efbce", "1e2206ed-baaa-4f4a-99d3-8f3d988f47a5", "karakol", "KARAKOL" },
+                    { "d6ee5854-7b1a-4b6c-9012-2d6bb615e249", "ace32bf5-ed4c-446a-a80c-e128b357227e", "ıladmın", "ILADMIN" },
+                    { "f363aabf-4825-4581-9215-add6ecfdd666", "114e328c-dc28-4e77-9df3-bd6fea157a59", "sıstemadmın", "SISTEMADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "AccessFailedCount", "Ad", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "Eposta", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SicilNo", "Soyad", "TCKN", "TelefonGSM", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Ad", "ConcurrencyStamp", "Email", "EmailConfirmed", "Eposta", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SicilNo", "Soyad", "TCKN", "TelefonGSM", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "58aa247e-e72e-4538-8ebd-4e79c2b0d6af", 0, "Mehmet", "671e344d-a9c5-4a65-9112-1c453a10fe0c", "User", "sistemAdmin@gmail.com", false, null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "4a04844a-7a4a-4b24-9f21-6d98c77d8bc2", null, "YILMAZ", null, null, false, "sistemAdmin" },
-                    { "706ed115-609f-4c1d-8184-3f8f1a9094b2", 0, "Ali", "42298876-c677-4c29-993d-687c1b88b5e0", "User", "iladmin@gmail.com", false, null, false, null, "BASICUSER@GMAIL.COM", "BASICUSER", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "52b061bf-c58f-4900-816e-f3379f776254", null, "DERİN", null, null, false, "iladmin" }
+                    { "6c937a62-8596-4c83-b0f4-c897ebaf8fd3", 0, "Mehmet", "2ee8b2f9-dae1-4448-9f33-854719af19b6", "sistemAdmin@gmail.com", false, null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "b7a2918d-5352-48e2-b886-8ad65494011e", null, "YILMAZ", null, null, false, "sistemAdmin" },
+                    { "754484b4-b2d3-43c5-8ec3-d587a6935621", 0, "Ali", "37d3760c-12dd-4603-8192-8e8b055f9a19", "iladmin@gmail.com", false, null, false, null, "BASICUSER@GMAIL.COM", "BASICUSER", "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==", null, false, "f909284a-fd0b-4288-813a-5c9ca3448415", null, "DERİN", null, null, false, "iladmin" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Jemus.Domain;
 
-namespace Jemus.Entities.Models
+namespace Jemus.Domain.Entities
 {
     public class Permission : BaseSimpleModel
     {

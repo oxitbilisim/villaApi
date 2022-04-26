@@ -1,5 +1,5 @@
 ﻿
-using Jemus.Entities.Models;
+using Jemus.Domain.Entities;
 using System;
 using System.Collections.Generic;
 

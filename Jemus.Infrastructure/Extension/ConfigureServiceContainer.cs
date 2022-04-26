@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
+using Jemus.Domain.Interfaces;
+using Jemus.Persistence.Repositories;
+using Newtonsoft.Json;
 
 namespace Jemus.Infrastructure.Extension
 {
@@ -44,14 +47,14 @@ namespace Jemus.Infrastructure.Extension
         public static void AddScopedServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IAppDbContext>(provider => provider.GetService<appDbContext>());
-
-
+            serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            serviceCollection.AddScoped<ISorumlulukAlaniService, SorumlulukAlaniService>();
         }
         public static void AddTransientServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IDateTimeService, DateTimeService>();
             serviceCollection.AddTransient<IAccountService, AccountService>();
-           // serviceCollection.AddTransient<IRoleService, RoleService>();
+            serviceCollection.AddTransient<IRoleService, RoleService>();
         }
         public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection)
         {
@@ -105,7 +108,8 @@ namespace Jemus.Infrastructure.Extension
 
         public static void AddController(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddControllers().AddNewtonsoftJson();
+            serviceCollection.AddControllers().AddNewtonsoftJson(options =>
+              options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         public static void AddVersion(this IServiceCollection serviceCollection)

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Jemus.Domain;
 
-namespace Jemus.Entities.Models
+namespace Jemus.Domain.Entities
 {
-    public class Menu  : BaseSimpleModel
+    public class Menu : BaseSimpleModel
     {
         [MaxLength(200)]
         public string Label { get; set; }

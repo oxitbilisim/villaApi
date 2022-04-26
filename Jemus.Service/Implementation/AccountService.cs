@@ -19,6 +19,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Jemus.Entities.Models;
 using Jemus.Persistence;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Jemus.Service.Implementation
 {
@@ -53,15 +55,15 @@ namespace Jemus.Service.Implementation
 
         public async Task<Response<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request, string ipAddress)
         {
-            var user = await _userManager.FindByEmailAsync(request.Email);
+            var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
-                throw new ApiException($"No Accounts Registered with {request.Email}.");
+                throw new ApiException($"No Accounts Registered with {request.UserName}.");
             }
             var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
             if (!result.Succeeded)
             {
-                throw new ApiException($"Invalid Credentials for '{request.Email}'.");
+                throw new ApiException($"Invalid Credentials for '{request.UserName}'.");
             }
             //if (!user.EmailConfirmed)
             //{
@@ -74,13 +76,12 @@ namespace Jemus.Service.Implementation
             AuthenticationResponse response = new AuthenticationResponse();
             response.Id = user.Id;
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            response.Email = user.Email;
+            response.PbikId = user.PbikId;
             response.UserName = user.UserName;
 
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             response.Roles = rolesList.ToList();
-            response.IsVerified = user.EmailConfirmed;
-
+           
             var refreshToken = GenerateRefreshToken(ipAddress);
             response.RefreshToken = refreshToken.Token;
 

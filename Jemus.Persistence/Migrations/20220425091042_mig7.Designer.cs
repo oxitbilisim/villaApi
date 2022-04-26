@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jemus.Persistence.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    [Migration("20220421072745_mig1")]
-    partial class mig1
+    [Migration("20220425091042_mig7")]
+    partial class mig7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,6 +61,114 @@ namespace Jemus.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshToken");
+                });
+
+            modelBuilder.Entity("Jemus.Domain.Auth.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Ou")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PbikId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Soyad")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TelefonGSM")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "11cb33c0-07a2-4d61-a11b-475d8ee7b232",
+                            AccessFailedCount = 0,
+                            Ad = "Mehmet",
+                            ConcurrencyStamp = "faf432d3-647e-4a10-86a7-5707c5940ce1",
+                            Email = "sistemAdmin@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SUPERADMIN@GMAIL.COM",
+                            NormalizedUserName = "SUPERADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "422e92a2-9a91-4c10-83ba-8f5e43ee9770",
+                            Soyad = "YILMAZ",
+                            TwoFactorEnabled = false,
+                            UserName = "sistemAdmin"
+                        },
+                        new
+                        {
+                            Id = "06343529-c613-440f-9228-13bb0ad6f374",
+                            AccessFailedCount = 0,
+                            Ad = "Ali",
+                            ConcurrencyStamp = "94544f16-4a58-4d42-9ff3-73ba0c301350",
+                            Email = "iladmin@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "BASICUSER@GMAIL.COM",
+                            NormalizedUserName = "BASICUSER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ade44c07-89f1-4e4e-9759-7a9dcfea6031",
+                            Soyad = "DERİN",
+                            TwoFactorEnabled = false,
+                            UserName = "iladmin"
+                        });
                 });
 
             modelBuilder.Entity("Jemus.Entities.Models.files_merkez", b =>
@@ -254,21 +362,21 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f72e57a4-1589-43b1-b213-5ab47f6b050c"),
+                            Id = new Guid("51e54d59-15b6-4d9f-b201-08a4f1659995"),
                             Icon = "pi pi-fw pi-globe",
                             Label = "Panel",
                             RouteLink = "/"
                         },
                         new
                         {
-                            Id = new Guid("499e5a95-e987-444e-b3cf-41eb3a3bd8c6"),
+                            Id = new Guid("57e0895a-8d97-4ce3-9fa5-985268878524"),
                             Icon = "fa fa-gavel",
                             Label = "Kullanıcı",
                             RouteLink = "/kullanıcı"
                         },
                         new
                         {
-                            Id = new Guid("4606d447-8b74-41d6-a839-8b58102b5fcf"),
+                            Id = new Guid("512f807e-e11b-4867-9337-033f0c9d2b68"),
                             Icon = "fa fa-balance-scale",
                             Label = "Kullanıcı Grup",
                             RouteLink = "/kullanicigrup"
@@ -323,49 +431,72 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a416d105-e24a-443f-83b5-f8f2d252045c"),
+                            Id = new Guid("cc48d718-5548-4ebe-8301-1624a1abd3ba"),
                             Name = "Permissions.Genel.All"
                         },
                         new
                         {
-                            Id = new Guid("76831448-3a35-4783-bcba-e0ae46562689"),
+                            Id = new Guid("40027706-7eef-4657-89e8-51911c2754b9"),
                             Name = "Permissions.Ayarlar.All"
                         },
                         new
                         {
-                            Id = new Guid("8e56e66c-a1f3-4688-b7ea-e40f53406039"),
+                            Id = new Guid("c6ce6ba8-df8d-458e-b3f7-d983139bce6f"),
                             Name = "Permissions.Credential.All"
                         },
                         new
                         {
-                            Id = new Guid("d96b1039-5395-4280-85f5-b213cbd26e0a"),
+                            Id = new Guid("ce7422cb-58ed-43a0-8bd3-522b14ef0704"),
                             Name = "Permissions.Grup.All"
                         },
                         new
                         {
-                            Id = new Guid("84c6827c-0e25-41a6-8b8c-9a4d196e716c"),
+                            Id = new Guid("0f1304ce-588b-4a2d-8e65-1932065f7da6"),
                             Name = "Permissions.Il.All"
                         },
                         new
                         {
-                            Id = new Guid("587db756-cd76-458d-a74f-d7c7e458da79"),
+                            Id = new Guid("8ac8853b-5b4f-4d24-ab44-e450b00777de"),
                             Name = "Permissions.Ilce.All"
                         },
                         new
                         {
-                            Id = new Guid("b86c6dea-9246-4183-81fa-b4b5c6542a1f"),
+                            Id = new Guid("b8574c31-d243-4921-8a81-94acce219365"),
                             Name = "Permissions.Kullanici.All"
                         },
                         new
                         {
-                            Id = new Guid("08d2ec2c-9508-4903-8a25-6c83feb47d38"),
+                            Id = new Guid("9c604913-98fc-463d-884e-a85db6765d9d"),
                             Name = "Permissions.KullaniciGrup.All"
                         },
                         new
                         {
-                            Id = new Guid("8756baa3-7b95-4998-a53f-a30828bec4e4"),
+                            Id = new Guid("f0699f26-df86-4b62-a530-396d740af37c"),
                             Name = "Permissions.Log.All"
                         });
+                });
+
+            modelBuilder.Entity("Jemus.Entities.Models.SorumlulukAlani", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ParentSorumlulukAlaniId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Tanim")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentSorumlulukAlaniId");
+
+                    b.ToTable("SorumlulukAlani");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -389,29 +520,29 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a73979d1-8ba9-4d32-ae64-45d08082465f",
-                            ConcurrencyStamp = "81e6259a-b280-4c18-a844-523917e77bb5",
+                            Id = "4ad814a3-29ab-4c69-8d08-12ee06e4941f",
+                            ConcurrencyStamp = "1d1f770c-abda-4df1-a785-3d23f9079943",
                             Name = "sıstemadmın",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "9061b75b-f772-42be-a468-996fb832291b",
-                            ConcurrencyStamp = "a09dcf68-98dc-494b-b720-9fbaf1525416",
+                            Id = "2a3edd81-c768-4e2c-9ecc-1c28c0512b7e",
+                            ConcurrencyStamp = "0f7c00c5-9be9-4f7c-9833-674c9091b3e2",
                             Name = "ıladmın",
                             NormalizedName = "ILADMIN"
                         },
                         new
                         {
-                            Id = "a169ce3a-ea2e-46bb-b71c-f8eab14b5101",
-                            ConcurrencyStamp = "be4827c2-869d-4166-aafe-a5834300114b",
+                            Id = "a0694adf-7bf0-4375-b61b-8946828184e2",
+                            ConcurrencyStamp = "76625d50-83c9-46c0-bed0-012c0d373a64",
                             Name = "ılceadmın",
                             NormalizedName = "ILCEADMIN"
                         },
                         new
                         {
-                            Id = "c2ab994a-ec83-43d7-b1ef-f1889d80d168",
-                            ConcurrencyStamp = "923f83c8-3d3c-4ede-8fb0-973f61a94eca",
+                            Id = "dac3f465-c377-4b74-872f-7b49996f0e10",
+                            ConcurrencyStamp = "c062d254-a862-4f6d-8ae2-ad70aad52887",
                             Name = "karakol",
                             NormalizedName = "KARAKOL"
                         });
@@ -437,64 +568,6 @@ namespace Jemus.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RoleClaim", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -570,69 +643,6 @@ namespace Jemus.Persistence.Migrations
                     b.ToTable("UserToken", (string)null);
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Auth.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Ad")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Eposta")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SicilNo")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Soyad")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TCKN")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TelefonGSM")
-                        .HasColumnType("text");
-
-                    b.HasDiscriminator().HasValue("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "58aa247e-e72e-4538-8ebd-4e79c2b0d6af",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "671e344d-a9c5-4a65-9112-1c453a10fe0c",
-                            Email = "sistemAdmin@gmail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "SUPERADMIN@GMAIL.COM",
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "4a04844a-7a4a-4b24-9f21-6d98c77d8bc2",
-                            TwoFactorEnabled = false,
-                            UserName = "sistemAdmin",
-                            Ad = "Mehmet",
-                            Soyad = "YILMAZ"
-                        },
-                        new
-                        {
-                            Id = "706ed115-609f-4c1d-8184-3f8f1a9094b2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "42298876-c677-4c29-993d-687c1b88b5e0",
-                            Email = "iladmin@gmail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "BASICUSER@GMAIL.COM",
-                            NormalizedUserName = "BASICUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "52b061bf-c58f-4900-816e-f3379f776254",
-                            TwoFactorEnabled = false,
-                            UserName = "iladmin",
-                            Ad = "Ali",
-                            Soyad = "DERİN"
-                        });
-                });
-
             modelBuilder.Entity("Jemus.Domain.Auth.RefreshToken", b =>
                 {
                     b.HasOne("Jemus.Domain.Auth.User", null)
@@ -682,6 +692,20 @@ namespace Jemus.Persistence.Migrations
                     b.Navigation("Permission");
                 });
 
+            modelBuilder.Entity("Jemus.Entities.Models.SorumlulukAlani", b =>
+                {
+                    b.HasOne("Jemus.Entities.Models.SorumlulukAlani", "ParentSorumlulukAlani")
+                        .WithMany("items")
+                        .HasForeignKey("ParentSorumlulukAlaniId");
+
+                    b.Navigation("ParentSorumlulukAlani");
+                });
+
+            modelBuilder.Entity("Jemus.Domain.Auth.User", b =>
+                {
+                    b.Navigation("RefreshTokens");
+                });
+
             modelBuilder.Entity("Jemus.Entities.Models.Il", b =>
                 {
                     b.Navigation("Ilce");
@@ -699,9 +723,9 @@ namespace Jemus.Persistence.Migrations
                     b.Navigation("MenuPermission");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Auth.User", b =>
+            modelBuilder.Entity("Jemus.Entities.Models.SorumlulukAlani", b =>
                 {
-                    b.Navigation("RefreshTokens");
+                    b.Navigation("items");
                 });
 #pragma warning restore 612, 618
         }

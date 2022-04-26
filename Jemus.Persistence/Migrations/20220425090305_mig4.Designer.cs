@@ -3,6 +3,7 @@ using System;
 using Jemus.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jemus.Persistence.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    partial class appDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220425090305_mig4")]
+    partial class mig4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,10 +135,10 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5d7065cc-096a-4d56-9d83-f9f34d3e1c26",
+                            Id = "7feb693c-864f-46c7-8ce7-4c5558905b3f",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "a4ffef89-0f24-4f9f-9162-c37ee554cbc6",
+                            ConcurrencyStamp = "34dd346f-a885-4e10-b7c6-21b43e69a9b7",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -144,17 +146,17 @@ namespace Jemus.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "81013cf3-f776-40bf-940f-d020d7148ef2",
+                            SecurityStamp = "22731e42-02cd-471a-9617-ed8107a8c24e",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "b151c507-68c7-4613-a29a-68fdb4b5050a",
+                            Id = "0e57293c-e168-4a1e-9e6b-e21f704bd4b3",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "7ea8d9bf-ce56-44a7-984f-d58f01f5f8d3",
+                            ConcurrencyStamp = "98a1c844-87e2-44f6-aa91-a0606508359b",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -162,229 +164,11 @@ namespace Jemus.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9f54be63-dfeb-405b-9040-af1d7c644337",
+                            SecurityStamp = "3e950752-13ac-4dda-a727-89404592aa7d",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
                         });
-                });
-
-            modelBuilder.Entity("Jemus.Domain.Entities.Il", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<string>("Ad")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Kod")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Sira")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Il");
-                });
-
-            modelBuilder.Entity("Jemus.Domain.Entities.Ilce", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<string>("Ad")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("IlId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IlId");
-
-                    b.ToTable("Ilce");
-                });
-
-            modelBuilder.Entity("Jemus.Domain.Entities.Menu", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Icon")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<Guid?>("ParentMenuId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("RouteLink")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentMenuId");
-
-                    b.ToTable("Menu");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("97aab1ca-95cb-44a3-a558-fa8311f078e9"),
-                            Icon = "pi pi-fw pi-globe",
-                            Label = "Panel",
-                            RouteLink = "/"
-                        },
-                        new
-                        {
-                            Id = new Guid("008120af-98a1-4044-9d3e-4922ccfad7e1"),
-                            Icon = "fa fa-gavel",
-                            Label = "Kullanıcı",
-                            RouteLink = "/kullanıcı"
-                        },
-                        new
-                        {
-                            Id = new Guid("c39242e8-3609-4634-a970-0b7bd5f7bef3"),
-                            Icon = "fa fa-balance-scale",
-                            Label = "Kullanıcı Grup",
-                            RouteLink = "/kullanicigrup"
-                        });
-                });
-
-            modelBuilder.Entity("Jemus.Domain.Entities.MenuPermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("MenuId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PermissionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuId");
-
-                    b.HasIndex("PermissionId");
-
-                    b.ToTable("MenuPermission");
-                });
-
-            modelBuilder.Entity("Jemus.Domain.Entities.Permission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Permission");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("08eac205-cd77-44a4-a7d6-e0bd1a9f82eb"),
-                            Name = "Permissions.Genel.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("44f6eb7e-15b1-4aaa-b756-4cff42634eb9"),
-                            Name = "Permissions.Ayarlar.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("5c0bb5c5-48ce-4ab3-9243-32b0b7bd03e7"),
-                            Name = "Permissions.Credential.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("ad993b0d-8991-43c3-8d93-7ab2772633ca"),
-                            Name = "Permissions.Grup.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("b5499afc-c7df-4be9-903a-e77602a891ae"),
-                            Name = "Permissions.Il.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("29be8319-f882-41f9-93b0-eb01c82af9dc"),
-                            Name = "Permissions.Ilce.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("0cb88082-90ce-4b1c-be3e-1b8bfe5a5673"),
-                            Name = "Permissions.Kullanici.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("a4cea78d-ea67-4785-99df-4cc39d9ddb1f"),
-                            Name = "Permissions.KullaniciGrup.All"
-                        },
-                        new
-                        {
-                            Id = new Guid("f675c29b-977d-4bc1-91ee-1da0d12e922d"),
-                            Name = "Permissions.Log.All"
-                        });
-                });
-
-            modelBuilder.Entity("Jemus.Domain.Entities.SorumlulukAlani", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("ParentSorumlulukAlaniId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Tanim")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentSorumlulukAlaniId");
-
-                    b.ToTable("SorumlulukAlani");
                 });
 
             modelBuilder.Entity("Jemus.Entities.Models.files_merkez", b =>
@@ -497,6 +281,201 @@ namespace Jemus.Persistence.Migrations
                     b.ToTable("files_merkez");
                 });
 
+            modelBuilder.Entity("Jemus.Entities.Models.Il", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Kod")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Sira")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Il");
+                });
+
+            modelBuilder.Entity("Jemus.Entities.Models.Ilce", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("IlId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IlId");
+
+                    b.ToTable("Ilce");
+                });
+
+            modelBuilder.Entity("Jemus.Entities.Models.Menu", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Icon")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid?>("ParentMenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RouteLink")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentMenuId");
+
+                    b.ToTable("Menu");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1574b190-af14-45c0-a9ce-44995a9acf4b"),
+                            Icon = "pi pi-fw pi-globe",
+                            Label = "Panel",
+                            RouteLink = "/"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1605cb9-b74c-4749-820c-d6511a7bae10"),
+                            Icon = "fa fa-gavel",
+                            Label = "Kullanıcı",
+                            RouteLink = "/kullanıcı"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f702cb1-115c-4360-a033-c3f262d11108"),
+                            Icon = "fa fa-balance-scale",
+                            Label = "Kullanıcı Grup",
+                            RouteLink = "/kullanicigrup"
+                        });
+                });
+
+            modelBuilder.Entity("Jemus.Entities.Models.MenuPermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("MenuPermission");
+                });
+
+            modelBuilder.Entity("Jemus.Entities.Models.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permission");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("88861925-bb56-48ca-920c-18bf5422bf5f"),
+                            Name = "Permissions.Genel.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("691f17b5-96af-4fd4-ab8c-1e6794e45756"),
+                            Name = "Permissions.Ayarlar.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("124a8bd5-3fd7-45c8-be8a-c61cbe113a34"),
+                            Name = "Permissions.Credential.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("cbb8c920-8570-4890-bdcf-d67bac38f829"),
+                            Name = "Permissions.Grup.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cb0987e-8c33-4385-97ff-da7a1937143a"),
+                            Name = "Permissions.Il.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("12fc4fad-21c0-4f07-984b-2e0b2984a0d1"),
+                            Name = "Permissions.Ilce.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("9178b8c4-7065-440a-bd19-f0e1dbeeaad9"),
+                            Name = "Permissions.Kullanici.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("38c8920f-0fc7-45f0-9314-1c5cccefd240"),
+                            Name = "Permissions.KullaniciGrup.All"
+                        },
+                        new
+                        {
+                            Id = new Guid("5287b272-90b8-441c-9473-0c4a50a9722b"),
+                            Name = "Permissions.Log.All"
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -518,29 +497,29 @@ namespace Jemus.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "97df95eb-f8a0-4a67-8bf6-4ffdf592c9b2",
-                            ConcurrencyStamp = "03127205-e7d6-4ae9-8135-707058899ec8",
+                            Id = "8421bc72-dfe3-4645-8949-b61fbe23d3b8",
+                            ConcurrencyStamp = "60a303b8-a2bb-4f59-a925-a367b9d59a21",
                             Name = "sıstemadmın",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "edba3ed5-08be-4636-ab9d-49de1264111d",
-                            ConcurrencyStamp = "eb78a842-b19a-4e46-8760-e93252be13f6",
+                            Id = "a53fb92d-884f-4fb4-8aa7-47bd958cbeeb",
+                            ConcurrencyStamp = "4d165c25-1240-45b5-a0f7-ebd1dc98fd9f",
                             Name = "ıladmın",
                             NormalizedName = "ILADMIN"
                         },
                         new
                         {
-                            Id = "3f61a1a1-21c1-4575-860a-e42cc7ad9233",
-                            ConcurrencyStamp = "93e2d50e-ac61-4283-923d-315f9fd1f08f",
+                            Id = "0f294b1d-05a5-4f50-980b-034747df35ea",
+                            ConcurrencyStamp = "e65a9fed-c56f-4c11-bd4d-c0dcf892669a",
                             Name = "ılceadmın",
                             NormalizedName = "ILCEADMIN"
                         },
                         new
                         {
-                            Id = "3459ba06-a400-4695-b819-7f91899d825b",
-                            ConcurrencyStamp = "c4c3a2c8-5344-4330-ac1d-f39f7d66df8d",
+                            Id = "4de7677d-05d8-454b-aa6c-005abea3605a",
+                            ConcurrencyStamp = "685df13f-bad0-4c46-b630-a08ed4f01c43",
                             Name = "karakol",
                             NormalizedName = "KARAKOL"
                         });
@@ -648,9 +627,9 @@ namespace Jemus.Persistence.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Entities.Ilce", b =>
+            modelBuilder.Entity("Jemus.Entities.Models.Ilce", b =>
                 {
-                    b.HasOne("Jemus.Domain.Entities.Il", "Il")
+                    b.HasOne("Jemus.Entities.Models.Il", "Il")
                         .WithMany("Ilce")
                         .HasForeignKey("IlId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -659,9 +638,9 @@ namespace Jemus.Persistence.Migrations
                     b.Navigation("Il");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Entities.Menu", b =>
+            modelBuilder.Entity("Jemus.Entities.Models.Menu", b =>
                 {
-                    b.HasOne("Jemus.Domain.Entities.Menu", "ParentMenu")
+                    b.HasOne("Jemus.Entities.Models.Menu", "ParentMenu")
                         .WithMany("items")
                         .HasForeignKey("ParentMenuId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -669,16 +648,16 @@ namespace Jemus.Persistence.Migrations
                     b.Navigation("ParentMenu");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Entities.MenuPermission", b =>
+            modelBuilder.Entity("Jemus.Entities.Models.MenuPermission", b =>
                 {
-                    b.HasOne("Jemus.Domain.Entities.Menu", "Menu")
+                    b.HasOne("Jemus.Entities.Models.Menu", "Menu")
                         .WithMany("MenuPermission")
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Menu");
 
-                    b.HasOne("Jemus.Domain.Entities.Permission", "Permission")
+                    b.HasOne("Jemus.Entities.Models.Permission", "Permission")
                         .WithMany("MenuPermission")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -690,41 +669,26 @@ namespace Jemus.Persistence.Migrations
                     b.Navigation("Permission");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Entities.SorumlulukAlani", b =>
-                {
-                    b.HasOne("Jemus.Domain.Entities.SorumlulukAlani", "ParentSorumlulukAlani")
-                        .WithMany("items")
-                        .HasForeignKey("ParentSorumlulukAlaniId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("ParentSorumlulukAlani");
-                });
-
             modelBuilder.Entity("Jemus.Domain.Auth.User", b =>
                 {
                     b.Navigation("RefreshTokens");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Entities.Il", b =>
+            modelBuilder.Entity("Jemus.Entities.Models.Il", b =>
                 {
                     b.Navigation("Ilce");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Entities.Menu", b =>
+            modelBuilder.Entity("Jemus.Entities.Models.Menu", b =>
                 {
                     b.Navigation("MenuPermission");
 
                     b.Navigation("items");
                 });
 
-            modelBuilder.Entity("Jemus.Domain.Entities.Permission", b =>
+            modelBuilder.Entity("Jemus.Entities.Models.Permission", b =>
                 {
                     b.Navigation("MenuPermission");
-                });
-
-            modelBuilder.Entity("Jemus.Domain.Entities.SorumlulukAlani", b =>
-                {
-                    b.Navigation("items");
                 });
 #pragma warning restore 612, 618
         }

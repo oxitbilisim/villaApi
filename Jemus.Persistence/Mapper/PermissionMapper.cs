@@ -1,4 +1,4 @@
-﻿using Jemus.Entities.Models;
+﻿using Jemus.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jemus.Persistence.Mapper

@@ -1,4 +1,5 @@
 ﻿using Jemus.Domain.Auth;
+using Jemus.Domain.Entities;
 using Jemus.Domain.Enum;
 using Jemus.Entities.Models;
 using Jemus.Persistence.Mapper;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Jemus.Persistence
 {
-    public class appDbContext :  IdentityDbContext<IdentityUser, IdentityRole, string> , IAppDbContext
+    public class appDbContext :  IdentityDbContext<User, IdentityRole, string> , IAppDbContext
     {
         // This constructor is used of runit testing
         public appDbContext()
@@ -25,12 +26,14 @@ namespace Jemus.Persistence
         public DbSet<Il> Il { get; set; }
         public DbSet<Ilce> Ilce { get; set; }
         public DbSet<Menu> Menu { get; set; }
+        public DbSet<SorumlulukAlani> SorumlulukAlani { get; set; }
         public DbSet<MenuPermission> MenuPermission { get; set; }
         public DbSet<Permission> Permission { get; set; }
         public DbSet<files_merkez> files_merkez { get; set; }
+    
         public DbSet<IdentityUserClaim<string>> UserClaim { get; set; }
         public DbSet<IdentityRoleClaim<string>> RoleClaim { get; set; }
-
+        public DbSet<IdentityUserRole<string>> UserRole { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -45,7 +48,7 @@ namespace Jemus.Persistence
                 x.ToTable("UserRole");
                 x.HasKey(c => new { c.UserId, c.RoleId });
             });
-            modelBuilder.Entity<IdentityUser>(x =>
+            modelBuilder.Entity<User>(x =>
             {
                 x.ToTable("User");
                 x.HasKey(c => c.Id);
@@ -70,6 +73,7 @@ namespace Jemus.Persistence
             #endregion
 
             MenuMapper.Initialize(modelBuilder);
+            SorumlulukAlaniMapper.Initialize(modelBuilder);
             PermissionMapper.Initialize(modelBuilder);
             MenuPermissionMapper.Initialize(modelBuilder);
 
@@ -110,10 +114,8 @@ namespace Jemus.Persistence
             //modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
             //modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
 
+            modelBuilder.Entity<files_merkez>().HasNoKey();   
 
-            modelBuilder.Entity<files_merkez>().HasNoKey();      
-
-            
             modelBuilder
                 .Entity<files_merkez>()
                 .Property(d => d.sakincadurumu)

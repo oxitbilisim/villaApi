@@ -14,8 +14,7 @@ namespace Jemus.Controllers
         public RoleController(IRoleService roleService)
         {
             _roleService = roleService;
-        }
-       
+        }      
      
 
         [HttpPost("rolregister")]
@@ -31,5 +30,10 @@ namespace Jemus.Controllers
             return Ok(await _roleService.RoleAssign(id));
         }
 
+        [HttpGet("rolewithuser")]
+        public async Task<IActionResult> GetRolUser()
+        {
+            return Ok(await _roleService.GetRol());
+        }
     }
 }
