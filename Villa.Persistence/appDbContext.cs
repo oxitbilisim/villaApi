@@ -1,7 +1,6 @@
 ﻿using Villa.Domain.Auth;
 using Villa.Domain.Entities;
 using Villa.Domain.Enum;
-using Villa.Entities.Models;
 using Villa.Persistence.Mapper;
 using Villa.Persistence.Seeds;
 using Microsoft.AspNetCore.Identity;
@@ -26,11 +25,8 @@ namespace Villa.Persistence
         public DbSet<Il> Il { get; set; }
         public DbSet<Ilce> Ilce { get; set; }
         public DbSet<Menu> Menu { get; set; }
-        public DbSet<SorumlulukAlani> SorumlulukAlani { get; set; }
-        public DbSet<UserSorumlulukAlani> UserSorumlulukAlani { get; set; }
         public DbSet<MenuPermission> MenuPermission { get; set; }
         public DbSet<Permission> Permission { get; set; }
-        public DbSet<files_merkez> files_merkez { get; set; }    
         public DbSet<IdentityUserClaim<string>> UserClaim { get; set; }
         public DbSet<IdentityRoleClaim<string>> RoleClaim { get; set; }
         public DbSet<IdentityUserRole<string>> UserRole { get; set; }
@@ -73,61 +69,9 @@ namespace Villa.Persistence
             #endregion
 
             MenuMapper.Initialize(modelBuilder);
-            SorumlulukAlaniMapper.Initialize(modelBuilder);
             PermissionMapper.Initialize(modelBuilder);
             MenuPermissionMapper.Initialize(modelBuilder);
             PermissionMapper.Initialize(modelBuilder);
-            UserSorumlulukAlaniMapper.Initialize(modelBuilder);
-
-            //modelBuilder.Entity<User>(entity =>
-            //{
-            //    entity.ToTable(name: "User");
-            //});
-
-            //modelBuilder.Entity<IdentityRole>(entity =>
-            //{
-            //    entity.ToTable(name: "Role");
-            //});
-            //modelBuilder.Entity<IdentityUserRole<string>>(entity =>
-            //{
-            //    entity.ToTable("UserRoles");
-            //});
-
-            //modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
-            //{
-            //    entity.ToTable("UserClaims");
-            //});
-
-            ////modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
-            ////{
-            ////    entity.ToTable("UserLogins");
-            ////});
-
-            //modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
-            //{
-            //    entity.ToTable("RoleClaims");
-            //});
-
-            //modelBuilder.Entity<IdentityUserToken<string>>(entity =>
-            //{
-            //    entity.ToTable("UserTokens");
-            // });
-            //modelBuilder.Entity<IdentityUserLogin<string>>().HasNoKey();
-            //modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
-            //modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
-
-            modelBuilder.Entity<files_merkez>().HasNoKey();   
-
-            modelBuilder
-                .Entity<files_merkez>()
-                .Property(d => d.sakincadurumu)
-                .HasConversion(new EnumToStringConverter<SakincaDurumu>());
-
-            modelBuilder
-               .Entity<files_merkez>()
-               .Property(d => d.islemtipi)
-               .HasConversion(new EnumToStringConverter<IslemTipi>());
-
             modelBuilder.Seed();
         }
 
@@ -136,7 +80,7 @@ namespace Villa.Persistence
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                .UseNpgsql("DataSource=app.db");
+                .UseNpgsql("Host=185.122.203.197;Database=oxitvilla;Username=postgres;Password=oxit2016");
             }
         }
 

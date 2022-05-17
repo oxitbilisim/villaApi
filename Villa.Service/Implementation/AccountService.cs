@@ -17,7 +17,6 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Villa.Entities.Models;
 using Villa.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,8 +32,6 @@ namespace Villa.Service.Implementation
         private readonly JWTSettings _jwtSettings;
         private readonly IDateTimeService _dateTimeService;
         private readonly IFeatureManager _featureManager;
-        private readonly ISorumlulukAlaniService _sorumlulukAlaniService;
-
         private IAppDbContext appDbContext;
         public AccountService(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -43,8 +40,7 @@ namespace Villa.Service.Implementation
             SignInManager<User> signInManager,
             IAppDbContext appDbContext,
             IEmailService emailService,
-            IFeatureManager featureManager,
-            ISorumlulukAlaniService sorumlulukAlaniService
+            IFeatureManager featureManager
             )
         {
             _userManager = userManager;
@@ -55,7 +51,6 @@ namespace Villa.Service.Implementation
             this.appDbContext = appDbContext;
             _emailService = emailService;
             _featureManager = featureManager;
-            this._sorumlulukAlaniService = sorumlulukAlaniService;
         }
 
         public async Task<Response<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request, string ipAddress)
@@ -143,12 +138,6 @@ namespace Villa.Service.Implementation
                         }
                         appDbContext.SaveChangesAsync();
                     }
-
-                    List<Domain.Entities.SorumlulukAlani> results = appDbContext.SorumlulukAlani.SelectMany(x => x.items).ToList();
-
-
-
-
 
 
                     //var sorumlulukAlanis = await appDbContext.SorumlulukAlani.Where(X=> X.ParentSorumlulukAlani.Id == itemSorumlulukAlani).Include(account => account.ParentSorumlulukAlani)

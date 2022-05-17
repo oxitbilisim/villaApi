@@ -1,5 +1,4 @@
 ﻿using Villa.Domain.Entities;
-using Villa.Entities.Models;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 

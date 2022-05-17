@@ -7,16 +7,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Villa.Domain.Entities
 {
-    public class Ilce : BaseSimpleModel
+
+    public class Ozellik : BaseSimpleModel
     {
-        public Ilce()
+        public Ozellik()
         {
+            VillaOzellik = new();
         }
-      
+
         public string Ad { get; set; }
-        public Guid IlId { get; set; }
-        [ForeignKey("IlId")]
-        public virtual Il Il { get; set; }
-        public virtual HashSet<Villa> Villa { get; set; } 
+        public virtual HashSet<VillaOzellik> VillaOzellik { get; set; }
+
     }
 }

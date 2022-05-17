@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Auth;
 using System.Collections.Generic;
-using Villa.Entities.Models;
 using Villa.Domain.Entities;
 
 namespace Villa.Persistence.Seeds

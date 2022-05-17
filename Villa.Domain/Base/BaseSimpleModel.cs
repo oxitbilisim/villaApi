@@ -8,7 +8,10 @@ namespace Villa.Domain
     {
         [Column(Order = 0), Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public DateTime? CreateDate { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+        public bool Active { get; set; } = true;
+        public DateTime? CreateDate { get; set; }
+        public DateTime? EditDate { get; set; }
     }
 }

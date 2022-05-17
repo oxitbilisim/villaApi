@@ -7,16 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Villa.Domain.Entities
 {
-    public class Ilce : BaseSimpleModel
+
+    public class ParaBirimi : BaseSimpleModel
     {
-        public Ilce()
+        public ParaBirimi()
         {
         }
-      
         public string Ad { get; set; }
-        public Guid IlId { get; set; }
-        [ForeignKey("IlId")]
-        public virtual Il Il { get; set; }
-        public virtual HashSet<Villa> Villa { get; set; } 
+        public virtual HashSet<PeriyodikFiyatAyarlari> PeriyodikFiyatAyarlari { get; set; } 
     }
 }

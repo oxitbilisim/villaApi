@@ -6,11 +6,7 @@ namespace Villa.Domain.Auth
 {
     public class User : IdentityUser
     {
-        public User()
-        {
-            UserSorumlulukAlani = new();
-        }
-
+      
         public string Ad { get; set; }
 
         public string Soyad { get; set; }
@@ -28,6 +24,5 @@ namespace Villa.Domain.Auth
         {
             return this.RefreshTokens?.Find(x => x.Token == token) != null;
         }
-        public virtual HashSet<UserSorumlulukAlani> UserSorumlulukAlani { get; set; }
     }
 }

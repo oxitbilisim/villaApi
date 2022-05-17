@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Villa.Entities.Models;
 using Villa.Infrastructure.ViewModel;
 
 namespace Villa.Infrastructure.Mapping

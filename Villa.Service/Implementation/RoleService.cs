@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.Extensions.Logging;
 using Villa.Persistence;
-using Villa.Entities.Models;
 using System.Collections.Generic;
 using Villa.Domain.Dtos;
 using Villa.Domain.Entities;

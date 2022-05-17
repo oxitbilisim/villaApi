@@ -48,7 +48,6 @@ namespace Villa.Infrastructure.Extension
         {
             serviceCollection.AddScoped<IAppDbContext>(provider => provider.GetService<appDbContext>());
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            serviceCollection.AddScoped<ISorumlulukAlaniService, SorumlulukAlaniService>();
         }
         public static void AddTransientServices(this IServiceCollection serviceCollection)
         {
@@ -124,10 +123,10 @@ namespace Villa.Infrastructure.Extension
 
         public static void AddHealthCheck(this IServiceCollection serviceCollection, AppSettings appSettings, IConfiguration configuration)
         {
-            serviceCollection.AddHealthChecks()
-                .AddDbContextCheck<appDbContext>(name: "Application DB Context", failureStatus: HealthStatus.Degraded)
-                .AddUrlGroup(new Uri(appSettings.ApplicationDetail.ContactWebsite), name: "My personal website", failureStatus: HealthStatus.Degraded)
-                .AddSqlServer(configuration.GetConnectionString("OnionArchConn"));
+            // serviceCollection.AddHealthChecks()
+            //     .AddDbContextCheck<appDbContext>(name: "Application DB Context", failureStatus: HealthStatus.Degraded)
+            //     .AddUrlGroup(new Uri(appSettings.ApplicationDetail.ContactWebsite), name: "My personal website", failureStatus: HealthStatus.Degraded)
+            //     .AddSqlServer(configuration.GetConnectionString("OnionArchConn"));
             
             serviceCollection.AddHealthChecksUI(setupSettings: setup =>
             {

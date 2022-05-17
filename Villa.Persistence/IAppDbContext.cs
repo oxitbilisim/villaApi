@@ -1,5 +1,4 @@
 ﻿using Villa.Domain.Entities;
-using Villa.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +13,6 @@ namespace Villa.Persistence
         public DbSet<Menu> Menu { get; set; }
         public DbSet<MenuPermission> MenuPermission { get; set; }
         public DbSet<Permission> Permission { get; set; }
-        public DbSet<SorumlulukAlani> SorumlulukAlani { get; set; }
-        public DbSet<UserSorumlulukAlani> UserSorumlulukAlani { get; set; }
-        public DbSet<files_merkez> files_merkez { get; set; }
         public DbSet<IdentityUserClaim<string>> UserClaims { get; set; }
         public DbSet<IdentityRoleClaim<string>> RoleClaims { get; set; }
 

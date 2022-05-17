@@ -13,6 +13,7 @@ namespace Villa.Domain.Entities
         public Il()
         {
             Ilce = new();
+            Bolge = new();
         }
 
         public string Ad { get; set; }
@@ -21,6 +22,7 @@ namespace Villa.Domain.Entities
         public int Sira { get; set; }
 
         public virtual HashSet<Ilce> Ilce { get; set; }
+        public virtual HashSet<Bolge> Bolge { get; set; }
 
     }
 }
