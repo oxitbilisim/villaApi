@@ -6,16 +6,8 @@ namespace Villa.Domain.Auth
 {
     public class RegisterRequest
     {
-      
         [Required]
         public string RoleName{ get; set; }
-
-        [Required]
-        public string PbikId { get; set; }
-
-        [Required]
-        public string Ou { get; set; }
-
 
         [Required]
         [MinLength(3)]
@@ -24,7 +16,14 @@ namespace Villa.Domain.Auth
         [Required]
         [MinLength(3)]
         public string Soyad { get; set; }
+        
+        [Required]
+        public string Email { get; set; }
+        
+        [Required]
+        public string TelefonGSM { get; set; }
 
+        [Required]
         public string UserName { get; set; }
 
         [Required]
@@ -34,8 +33,5 @@ namespace Villa.Domain.Auth
         [Required]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        public List<Guid> SorumlulukAlani { get; set; }
     }
 }

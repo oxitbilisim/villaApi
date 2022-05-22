@@ -17,19 +17,9 @@ namespace Villa.Persistence.Seeds
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = Constants.IlAdmin,
-                    UserId = Constants.IlUser
-                },
-                //new IdentityUserRole<string>
-                //{
-                //    RoleId = Constants.IlceAdmin,
-                //    UserId = Constants.IlceUser
-                //},
-                //new IdentityUserRole<string>
-                //{
-                //    RoleId = Constants.Karakol,
-                //    UserId = Constants.KarakolUser
-                //}
+                    RoleId = Constants.Admin,
+                    UserId = Constants.VillaUser
+                }
             };
         }
     }

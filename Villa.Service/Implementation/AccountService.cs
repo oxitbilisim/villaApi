@@ -55,38 +55,27 @@ namespace Villa.Service.Implementation
 
         public async Task<Response<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request, string ipAddress)
         {
-            var user = await _userManager.FindByEmailAsync(request.Email);
+            var user = await _userManager.FindByEmailAsync(request.UserName);
             if (user == null)
             {
-                throw new ApiException($"No Accounts Registered with {request.Email}.");
+                throw new ApiException($"No Accounts Registered with {request.UserName}.");
             }
+           
             var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
             if (!result.Succeeded)
             {
-                throw new ApiException($"Invalid Credentials for '{request.Email}'.");
+                throw new ApiException($"Invalid Credentials for '{request.UserName}'.");
             }
-            //var user = await _userManager.FindByNameAsync(request.UserName);
-            //if (user == null)
-            //{
-            //    throw new ApiException($"No Accounts Registered with {request.UserName}.");
-            //}
-            //var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
-            //if (!result.Succeeded)
-            //{
-            //    throw new ApiException($"Invalid Credentials for '{request.UserName}'.");
-            //}
-            //if (!user.EmailConfirmed)
-            //{
-            //    throw new ApiException($"Account Not Confirmed for '{request.Email}'.");
-            //}
-
+            // if (!user.EmailConfirmed)
+            // {
+            //     throw new ApiException($"Account Not Confirmed for '{request.Email}'.");
+            // }
 
             JwtSecurityToken jwtSecurityToken = await GenerateJWToken(user);
 
             AuthenticationResponse response = new AuthenticationResponse();
             response.Id = user.Id;
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            response.PbikId = user.PbikId;
             response.UserName = user.UserName;
 
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
@@ -100,7 +89,7 @@ namespace Villa.Service.Implementation
 
         public async Task<Response<string>> RegisterAsync(RegisterRequest request, string origin)
         {
-            var userWithSameUserName = await _userManager.FindByNameAsync(request.PbikId);
+            var userWithSameUserName = await _userManager.FindByNameAsync(request.UserName);
             if (userWithSameUserName != null)
             {
                 throw new ApiException($"Username '{request.UserName}' is already taken.");
@@ -108,20 +97,20 @@ namespace Villa.Service.Implementation
 
             var user = new User
             {
-                Ou = request.Ou,
-                PbikId = request.PbikId,
-                UserName = request.PbikId,
+                UserName = request.UserName,
                 Ad = request.Ad,
-                Soyad = request.Soyad
+                Soyad = request.Soyad,
+                Email = request.Email,
+                TelefonGSM = request.TelefonGSM
             };
 
-            var userWithSameEmail = await _userManager.FindByNameAsync(request.PbikId);
+            var userWithSameEmail = await _userManager.FindByNameAsync(request.UserName);
             if (userWithSameEmail == null)
             {
                 var result = await _userManager.CreateAsync(user, request.Password);
                 if (result.Succeeded)
                 {
-                    if (!await _userManager.IsInRoleAsync(user, request.RoleName.ToUpper()))
+                    if (!await _userManager.IsInRoleAsync(user, request.RoleName))
                     {
                         var userResult = await _userManager.AddToRoleAsync(user, request.RoleName.ToUpper());
 
@@ -139,48 +128,10 @@ namespace Villa.Service.Implementation
                         appDbContext.SaveChangesAsync();
                     }
 
-
-                    //var sorumlulukAlanis = await appDbContext.SorumlulukAlani.Where(X=> X.ParentSorumlulukAlani.Id == itemSorumlulukAlani).Include(account => account.ParentSorumlulukAlani)
-                    //  .Include(account => account.items)
-                    //  .ToListAsync();
-
-
-
-                    //List<Domain.Entities.SorumlulukAlani> results =  appDbContext.SorumlulukAlani.Where(y => y.Id == itemSorumlulukAlani)
-                    //               .SelectMany(x => x.items).ToList();
-
-                    //var sorumlulukAlanisD = await _sorumlulukAlaniService.GetAllChildren();
-
-
-                    //foreach (var item in sorumlulukAlanis)
-                    //{
-                    //    appDbContext.UserSorumlulukAlani.Add(new Domain.Entities.UserSorumlulukAlani
-                    //    {
-                    //        UserId = user.Id,
-                    //        SorumlulukAlaniId = item.key
-                    //    });
-                    //    appDbContext.SaveChangesAsync();
-                    //}
                 }
             }
             return new Response<string>(user.Id, message: $"User Registered.");
         }
-
-    //        //    var sorumlulukAlani = request.SorumlulukAlani;
-
-    //        //}
-    //        //        return new Response<string>(user.Id, message: $"User Registered.");
-    //        //    }
-    //        else
-    //        {
-    //            //throw new ApiException($"{result.Errors.ToList()[0].Description}");
-    //        }
-    //    }
-    //    //else
-    //    //{
-    //    //    throw new ApiException($"Email {request.PbikId } is already registered.");
-    //    //}
-    //}
 
 
         private async Task<JwtSecurityToken> GenerateJWToken(User user)

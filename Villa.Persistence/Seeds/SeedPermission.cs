@@ -16,7 +16,7 @@ namespace Villa.Persistence.Seeds
             {
                 pL.Add(new Permission()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = i,
                     Name = Permissions.getPermissions()[i - 1]
                 });
             }

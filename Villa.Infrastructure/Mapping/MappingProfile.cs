@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Villa.Domain.Dtos;
+using Villa.Domain.Entities;
 using Villa.Infrastructure.ViewModel;
 
 namespace Villa.Infrastructure.Mapping
@@ -7,10 +9,12 @@ namespace Villa.Infrastructure.Mapping
     {
         public MappingProfile()
         {
-            //CreateMap<CustomerModel, Menu>()
-            //    .ForMember(dest => dest.Id,
-            //            opt => opt.MapFrom(src => src.CustomerId))
-            //    .ReverseMap();
+            CreateMap<Bolge, BolgeDto>()
+                .ForMember(dest => dest.IlId, opt=> opt.MapFrom(src=> src.Il.Id))
+                .ReverseMap();
+            CreateMap<BolgeDto, Bolge>()
+                 .ReverseMap();
+
         }
     }
 }

@@ -14,10 +14,10 @@ namespace Villa.Domain.Entities
         public PeriyodikFiyatAyarlari()
         {
         }
-        public Guid VillaId { get; set; }
+        public int VillaId { get; set; }
         [ForeignKey("VillaId")]
         public virtual Villa Villa { get; set; }
-        public Guid ParaBirimiId { get; set; }
+        public int ParaBirimiId { get; set; }
         [ForeignKey("ParaBirimiId")]
         public virtual ParaBirimi ParaBirimi { get; set; }
         

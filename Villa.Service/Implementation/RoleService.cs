@@ -93,7 +93,7 @@ namespace Villa.Service.Implementation
                 var userList = new List<UserDto>();
                 foreach (var itemuser in rolesUserList)
                 {  
-                    userList.Add(new UserDto() { size = "sm", title =  $"{itemuser.Ad.ToUpper()} {itemuser.Soyad.ToUpper()}" .ToUpper() , img = itemuser.Image });
+                    userList.Add(new UserDto() { size = "sm", title =  $"{itemuser.Ad.ToUpper()} {itemuser.Soyad.ToUpper()}" .ToUpper() });
                 }
                 dtoList.Add( new RoleUsersDto { title = item.NormalizedName.ToUpper() ,totalUsers = rolesUserList.Count, users = userList } );
             }
@@ -107,7 +107,7 @@ namespace Villa.Service.Implementation
 
             foreach (var item in roles)
             {
-                dtoList.Add(new RoleDto() { Id = Guid.Parse(item.Id), NormalizedName = item.NormalizedName });
+                dtoList.Add(new RoleDto() { Id = item.Id, NormalizedName = item.NormalizedName });
             }
 
             return new Response<List<RoleDto>>(dtoList, message: $" Get Roles");

@@ -11,10 +11,11 @@ namespace Villa.Domain.Entities
     {
         public Ilce()
         {
+            Villa = new();
         }
       
         public string Ad { get; set; }
-        public Guid IlId { get; set; }
+        public int IlId { get; set; }
         [ForeignKey("IlId")]
         public virtual Il Il { get; set; }
         public virtual HashSet<Villa> Villa { get; set; } 

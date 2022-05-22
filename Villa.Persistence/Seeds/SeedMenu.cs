@@ -13,50 +13,51 @@ namespace Villa.Persistence.Seeds
             {
                  new Menu
                   {
-                      Id = Guid.NewGuid(),
+                      Id = 1,
                       Label ="Panel",
                       Icon="pi pi-fw pi-globe",
                       RouteLink="/"
                   },
                   new Menu
                   {
-                      Id = Guid.NewGuid(),
+                      Id = 2,
                       Label="Kullanıcı",
                       Icon="fa fa-gavel",
                       RouteLink="/kullanıcı"
                   },
                    new Menu
                   {
-                      Id = Guid.NewGuid(),
+                      Id = 3,
                       Label="Kullanıcı Grup",
                       Icon="fa fa-balance-scale",
                       RouteLink="/kullanicigrup"
                              },
-                   //new Menu
-                   //   {
-                   //          Id = "60ab32b2-d884-4ebf-b537-86c6c3459c01".ToString(),
-                   //          Label="Tanımlar",
-                   //          Icon="pi pi-fw pi-id-card",
-                   //          RouteLink="/tanimlar",
-                   //            items = new List<Menu>
-                   //            {
-                   //                new Menu
-                   //                {
-                   //                    Id = Guid.NewGuid(),
-                   //                    Label="Kullanıcı",
-                   //                    Icon="pi pi-fw pi-money-bill",
-                   //                    RouteLink="/tanimlar/kullanici",
-                              
-                   //                },
-                   //                new Menu
-                   //                {
-                   //                    Id = Guid.NewGuid(),
-                   //                    Label="Bolge Tanımları",
-                   //                    Icon= "pi pi-fw pi-ticket",
-                   //                    RouteLink="/tanimlar/bolge",
-                   //                }
-                   //            }
-                   //    },
+                   new Menu
+                      {
+                             Id = 5,
+                             Label="Tanımlar",
+                             Icon="pi pi-fw pi-id-card",
+                             RouteLink="/tanimlar",
+                               // items = new List<Menu>
+                               // {
+                               //     new Menu
+                               //     {
+                               //         Id = 6,
+                               //         Label="Bolge",
+                               //         Icon= "pi pi-fw pi-ticket",
+                               //         RouteLink="/tanimlar/bolge",
+                               //         ParentMenuId = 5,
+                               //     },
+                               //     new Menu
+                               //     {
+                               //         Id = 7,
+                               //         Label="Kategori",
+                               //         Icon= "pi pi-fw pi-ticket",
+                               //         RouteLink="/tanimlar/bolge",
+                               //         ParentMenuId = 5,
+                               //     }
+                               // }
+                       },
             };
      
 

@@ -15,11 +15,11 @@ namespace Villa.Domain.Entities
         {
         }
         
-        public Guid EtiketId { get; set; }
+        public int EtiketId { get; set; }
         [ForeignKey("EtiketId")]
         public virtual Etiket Etiket { get; set; }
         
         public EtiketAdres EtiketTipi { get; set; }
-        public Guid AdresId { get; set; }
+        public int AdresId { get; set; }
     }
 }

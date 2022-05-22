@@ -13,7 +13,6 @@ namespace Villa.Persistence.Seeds
             {
                 new User
                 {
-                    Id = Constants.SistemAdminUser,
                     UserName = "sistemAdmin",
                     Email = "sistemAdmin@gmail.com",
                     Ad = "Mehmet",
@@ -27,7 +26,6 @@ namespace Villa.Persistence.Seeds
                 },
                 new User
                 {
-                    Id = Constants.IlUser,
                     UserName = "iladmin",
                     Email = "iladmin@gmail.com",
                      Ad = "Ali",

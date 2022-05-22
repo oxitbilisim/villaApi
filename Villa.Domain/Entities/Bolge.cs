@@ -21,14 +21,14 @@ namespace Villa.Domain.Entities
       
         public string Url { get; set; }
 
-        public Guid IlId { get; set; }
-        [ForeignKey("IlId")]
+        public int IlId { get; set; }
         public virtual Il Il { get; set; }
         
         public byte[] Image { get; set; }  
         
         public string Map { get; set; }
         
+        [NotMapped]
         public virtual HashSet<Villa> Villa { get; set; } 
         
     }

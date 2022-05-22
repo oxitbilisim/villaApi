@@ -4,22 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Villa.Domain.Enum;
 
 namespace Villa.Domain.Entities
 {
 
-    public class VillaImage : BaseSimpleModel
+    public class VillaSeo  : BaseSimpleModel
     {
-        public VillaImage()
+        public VillaSeo()
         {
         }
         public int VillaId { get; set; }
         [ForeignKey("VillaId")]
         public virtual Villa Villa { get; set; }
         
-        public string VideoUrl { get; set; }
-        public int SiraNo { get; set; }
-        public bool Url { get; set; }
-        
+        public string Baslik { get; set; }
+        public string Aciklama { get; set; }
+        public string AnahtarKelime { get; set; }
+        public string HtmlMetaEtiket { get; set; }
     }
 }

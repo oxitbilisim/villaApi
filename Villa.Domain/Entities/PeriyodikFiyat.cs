@@ -14,7 +14,7 @@ namespace Villa.Domain.Entities
         public PeriyodikFiyat()
         {
         }
-        public Guid VillaId { get; set; }
+        public int VillaId { get; set; }
         [ForeignKey("VillaId")]
         public virtual Villa Villa { get; set; }
         

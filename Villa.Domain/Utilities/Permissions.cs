@@ -13,6 +13,25 @@ namespace Villa.Domain.Utilities
         {
             public const string All = "Permissions.Ayarlar.All";
         }
+        // public static class Villas
+        // {
+        //     public const string All = "Permissions.Villa.All";
+        //     public const string Ekle = "Permissions.Villa.Ekle";
+        //     public const string Guncelle = "Permissions.Villa.Guncelle";
+        //     public const string Sil = "Permissions.Villa.Sil";
+        // }
+        public static class Kategori
+        {
+            public const string All = "Permissions.Kategori.All";
+        }
+        public static class Bolge
+        {
+            public const string All = "Permissions.Bolge.All";
+        }
+        public static class Rezarvasyon
+        {
+            public const string All = "Permissions.Rezarvasyon.All";
+        }
 
         public static class Credential
         {

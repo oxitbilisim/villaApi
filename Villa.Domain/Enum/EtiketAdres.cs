@@ -8,5 +8,7 @@ namespace Villa.Domain.Enum
         Bolge = 1,
         [Display(Name = "Kategori")]
         Kategori = 2,
+        [Display(Name = "VillaGorunum")]
+        VillaGorunum = 3
     }
 }

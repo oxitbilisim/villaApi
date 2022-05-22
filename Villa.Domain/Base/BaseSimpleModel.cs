@@ -7,7 +7,7 @@ namespace Villa.Domain
     public class BaseSimpleModel : IBaseSimpleModel
     {
         [Column(Order = 0), Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public bool IsDeleted { get; set; } = false;
         public bool Active { get; set; } = true;

@@ -13,28 +13,15 @@ namespace Villa.Persistence.Seeds
             {
                 new IdentityRole
                 {
-                    Id = Constants.SistemAdmin,
-                    Name = Roles.SISTEMADMIN.ToString().ToLower(),
-                    NormalizedName = Roles.SISTEMADMIN.ToString().ToUpper()
+                    Name = Roles.SistemAdmin.ToString().ToLower(),
+                    NormalizedName = Roles.SistemAdmin.ToString().ToUpper()
                 },
                 new IdentityRole
                 {
-                    Id = Constants.IlAdmin,
-                    Name = Roles.ILADMIN.ToString().ToLower(),
-                    NormalizedName = Roles.ILADMIN.ToString().ToUpper()
+                    Name = Roles.Admin.ToString().ToLower(),
+                    NormalizedName = Roles.Admin.ToString().ToUpper()
                 },
-                new IdentityRole
-                {
-                    Id = Constants.IlceAdmin,
-                    Name = Roles.ILCEADMIN.ToString().ToLower(),
-                    NormalizedName = Roles.ILCEADMIN.ToString().ToUpper()
-                },
-                new IdentityRole
-                {
-                    Id = Constants.Karakol,
-                    Name = Roles.KARAKOL.ToString().ToLower(),
-                    NormalizedName = Roles.KARAKOL.ToString().ToUpper()
-                }
+            
             };
         }
     }

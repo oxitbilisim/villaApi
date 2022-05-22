@@ -21,7 +21,7 @@ namespace Villa.Persistence.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public async Task CreateAsync(T entity)
+        public async Task AddAsync(T entity)
         {
             _dbSet.Add(entity);
 
@@ -38,7 +38,7 @@ namespace Villa.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(int id)
         {
             var entity = await GetAsync(id);
             await DeleteAsync(entity);
@@ -54,7 +54,7 @@ namespace Villa.Persistence.Repositories
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
-        public async Task<T> GetAsync(Guid id)
+        public async Task<T> GetAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
 

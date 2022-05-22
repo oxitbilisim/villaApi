@@ -1,12 +1,10 @@
 ﻿using Villa.Domain.Auth;
 using Villa.Domain.Entities;
-using Villa.Domain.Enum;
 using Villa.Persistence.Mapper;
 using Villa.Persistence.Seeds;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Threading.Tasks;
 
 namespace Villa.Persistence
@@ -30,6 +28,23 @@ namespace Villa.Persistence
         public DbSet<IdentityUserClaim<string>> UserClaim { get; set; }
         public DbSet<IdentityRoleClaim<string>> RoleClaim { get; set; }
         public DbSet<IdentityUserRole<string>> UserRole { get; set; }
+        public DbSet<Bolge> Bolge { get; set; }
+        public DbSet<Etiket> Etiket { get; set; }
+        public DbSet<EtiketDetay> EtiketDetay { get; set; }
+        public DbSet<Kategori> Kategori { get; set; }
+        public DbSet<Mulk> Mulk { get; set; }
+        public DbSet<Ozellik> Ozellik { get; set; }
+        public DbSet<ParaBirimi> ParaBirimi { get; set; }
+        public DbSet<PeriyodikFiyat> PeriyodikFiyat { get; set; }
+        
+        public DbSet<PeriyodikFiyatAyarlari> PeriyodikFiyatAyarlari { get; set; }
+        public DbSet<Villa.Domain.Entities.Villa> Villa { get; set; }
+        public DbSet<VillaGorunum> VillaGorunum { get; set; }
+        public DbSet<VillaGosterim> VillaGosterim { get; set; }
+        public DbSet<VillaImage> VillaImage { get; set; }
+        public DbSet<VillaKategori> VillaKategori { get; set; }
+        public DbSet<VillaOzellik> VillaOzellik { get; set; }
+        public DbSet<VillaSeo> VillaSeo { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -72,6 +87,8 @@ namespace Villa.Persistence
             PermissionMapper.Initialize(modelBuilder);
             MenuPermissionMapper.Initialize(modelBuilder);
             PermissionMapper.Initialize(modelBuilder);
+            BolgeMapper.Initialize(modelBuilder);
+            IlMapper.Initialize(modelBuilder);
             modelBuilder.Seed();
         }
 
