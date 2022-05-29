@@ -2,6 +2,7 @@ namespace Villa.Domain.Dtos
 {
     public class BolgeDtoQ
     {
+        public int? Id { get; set; }
         public string Ad { get; set; }
 
         public string Baslik { get; set; }
