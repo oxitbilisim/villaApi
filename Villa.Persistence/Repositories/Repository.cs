@@ -7,6 +7,7 @@ using Villa.Domain;
 using Villa.Domain.Entities;
 using Villa.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Villa.Domain.Common;
 
 namespace Villa.Persistence.Repositories
 {
@@ -20,12 +21,25 @@ namespace Villa.Persistence.Repositories
             _context = context;
             _dbSet = context.Set<T>();
         }
-
-        public async Task AddAsync(T entity)
+        
+        public async Task<ResponseModel> AddAsync(T entity)
         {
-            _dbSet.Add(entity);
+            if (entity == null)
+            {
+                throw new ArgumentNullException($"{nameof(AddAsync)} entity must not be null");
+            }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.AddAsync(entity);
+                var result = await _context.SaveChangesAsync();
+                return new ResponseModel(){ Success = true, Message = "Succeded",Data = entity.Id};
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel(){ Success = false, Message = "Error",Data = ex.InnerException};
+                //throw new Exception($"{nameof(entity)} could not be saved: {ex.Message}");
+            }
         }
 
         public async Task DeleteAsync(T entity)

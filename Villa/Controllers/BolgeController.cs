@@ -5,6 +5,7 @@ using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
 using System.Threading.Tasks;
+using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 
 namespace Villa.Controllers
@@ -44,10 +45,9 @@ namespace Villa.Controllers
         }
 
         [HttpPost(nameof(Add))]
-        public IActionResult Add(BolgeDtoC bolge)
-        {
-             _bolgeService.AddBolge(bolge);
-            return Ok("Data inserted");
+        public async Task<ActionResult<ResponseModel>> Add(BolgeDtoC bolge)
+        { 
+            return await _bolgeService.AddBolge(bolge);
         }
         [HttpPut(nameof(Update))]
         public IActionResult Update(BolgeDtoC bolge)

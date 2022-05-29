@@ -13,6 +13,7 @@ namespace Villa.Domain.Common
             Message = message;
             UserData = data;
         }
+        
         public Response(string message)
         {
             Succeeded = false;

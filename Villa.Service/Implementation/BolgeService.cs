@@ -37,10 +37,10 @@ public class BolgeService : IBolgeService
         return await _repository.GetAsync(id);
     }
     
-    public async Task AddBolge(BolgeDtoC bolge)
+    public async Task<ResponseModel> AddBolge(BolgeDtoC bolge)
     {  
         var entity = _mapper.Map<Bolge>(bolge);
-        await _repository.AddAsync(entity);
+        return await _repository.AddAsync(entity);
     }
     public async void UpdateBolge(BolgeDtoC bolge)
     {
