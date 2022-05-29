@@ -12,8 +12,8 @@ namespace Villa.Service.Contract
     {
         Task<ResponseModel> GetAll();
         Task<Bolge> GetBolge(int id);
-        Task AddBolge(BolgeDto bolge);
-        void UpdateBolge(Bolge bolge);
+        Task AddBolge(BolgeDtoC bolge);
+        void UpdateBolge(BolgeDtoC bolge);
         void DeleteBolge(int id);
      }
 }

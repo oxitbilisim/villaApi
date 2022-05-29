@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Domain.Entities;
@@ -27,7 +29,7 @@ public class BolgeService : IBolgeService
     
     public async Task<ResponseModel> GetAll()
     {
-        var bolge = _appDbContext.Bolge.ToList();
+        List<BolgeDtoQ> bolge = _mapper.Map<List<Bolge>,List<BolgeDtoQ>>(_appDbContext.Bolge.Include(x=> x.Il).ToList());
         return new ResponseModel(bolge);
     }
     public async Task<Domain.Entities.Bolge> GetBolge(int id)
@@ -35,14 +37,15 @@ public class BolgeService : IBolgeService
         return await _repository.GetAsync(id);
     }
     
-    public async Task AddBolge(BolgeDto bolge)
+    public async Task AddBolge(BolgeDtoC bolge)
     {  
         var entity = _mapper.Map<Bolge>(bolge);
         await _repository.AddAsync(entity);
     }
-    public async void UpdateBolge(Domain.Entities.Bolge bolge)
+    public async void UpdateBolge(BolgeDtoC bolge)
     {
-        await _repository.UpdateAsync(bolge);
+        var entity = _mapper.Map<Bolge>(bolge);
+        await _repository.UpdateAsync(entity);
     }
     
     public async void DeleteBolge(int id)

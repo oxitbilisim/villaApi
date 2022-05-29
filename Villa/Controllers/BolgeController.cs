@@ -44,13 +44,13 @@ namespace Villa.Controllers
         }
 
         [HttpPost(nameof(Add))]
-        public IActionResult Add(BolgeDto bolge)
+        public IActionResult Add(BolgeDtoC bolge)
         {
              _bolgeService.AddBolge(bolge);
             return Ok("Data inserted");
         }
         [HttpPut(nameof(Update))]
-        public IActionResult Update(Bolge bolge)
+        public IActionResult Update(BolgeDtoC bolge)
         {
             _bolgeService.UpdateBolge(bolge);
             return Ok("Updation done");

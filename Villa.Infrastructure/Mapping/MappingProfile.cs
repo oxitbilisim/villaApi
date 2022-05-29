@@ -9,11 +9,17 @@ namespace Villa.Infrastructure.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Bolge, BolgeDto>()
+            #region Bolge
+            CreateMap<Bolge, BolgeDtoC>()
                 .ForMember(dest => dest.IlId, opt=> opt.MapFrom(src=> src.Il.Id))
                 .ReverseMap();
-            CreateMap<BolgeDto, Bolge>()
+            CreateMap<BolgeDtoC, Bolge>()
                  .ReverseMap();
+            CreateMap<Bolge, BolgeDtoQ>()
+                .ReverseMap();
+            CreateMap<BolgeDtoQ, Bolge>()
+                .ReverseMap();
+            #endregion
 
         }
     }
