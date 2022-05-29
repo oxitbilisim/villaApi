@@ -8,12 +8,12 @@ using Villa.Domain.Interfaces;
 
 namespace Villa.Service.Contract
 {
-    public interface IBolgeService
+    public interface IKategoriService
     {
         Task<ResponseModel> GetAll();
-        Task<Bolge> Get(int id); 
-        Task<ResponseModel> Add(BolgeDtoC dto);
-        void Update(BolgeDtoC dto);
+        Task<Kategori> Get(int id); 
+        Task<ResponseModel> Add(KategoriDtoC dto);
+        void Update(KategoriDtoC dto);
         void Delete(int id);
      }
 }

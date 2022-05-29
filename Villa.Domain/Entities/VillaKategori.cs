@@ -17,8 +17,8 @@ namespace Villa.Domain.Entities
         [ForeignKey("VillaId")]
         public virtual Villa Villa { get; set; }
         
-        public int KategorId { get; set; }
-        [ForeignKey("KategorId")]
+        public int KategoriId { get; set; }
+        [ForeignKey("KategoriId")]
         public virtual Kategori Kategori { get; set; }
         
     }

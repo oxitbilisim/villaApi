@@ -20,6 +20,17 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<BolgeDtoQ, Bolge>()
                 .ReverseMap();
             #endregion
+            
+            #region Kategori
+            CreateMap<Kategori, KategoriDtoC>()
+                 .ReverseMap();
+            CreateMap<KategoriDtoC, Kategori>()
+                .ReverseMap();
+            CreateMap<Kategori, KategoriDtoQ>()
+                .ReverseMap();
+            CreateMap<KategoriDtoQ, Kategori>()
+                .ReverseMap();
+            #endregion
 
         }
     }

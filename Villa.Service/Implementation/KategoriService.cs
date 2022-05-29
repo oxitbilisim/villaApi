@@ -12,13 +12,13 @@ using Villa.Service.Contract;
 
 namespace Villa.Service.Implementation;
 
-public class BolgeService : IBolgeService
+public class KategoriService : IKategoriService
 {
-    private readonly IRepository<Domain.Entities.Bolge> _repository;
+    private readonly IRepository<Domain.Entities.Kategori> _repository;
     private readonly IMapper _mapper;
     private readonly IAppDbContext _appDbContext;
     
-    public BolgeService(IRepository<Domain.Entities.Bolge> repository, 
+    public KategoriService(IRepository<Domain.Entities.Kategori> repository, 
            IAppDbContext appDbContext,
            IMapper mapper)
     {
@@ -29,29 +29,29 @@ public class BolgeService : IBolgeService
     
     public async Task<ResponseModel> GetAll()
     {
-        List<BolgeDtoQ> bolge = _mapper.Map<List<Bolge>,List<BolgeDtoQ>>(_appDbContext.Bolge.Include(x=> x.Il).ToList());
-        return new ResponseModel(bolge);
+        List<KategoriDtoQ> data = _mapper.Map<List<Kategori>,List<KategoriDtoQ>>(_appDbContext.Kategori.ToList());
+        return new ResponseModel(data);
     }
-    public async Task<Domain.Entities.Bolge> Get(int id)
+    public async Task<Kategori> Get(int id)
     {
         return await _repository.GetAsync(id);
     }
     
-    public async Task<ResponseModel> Add(BolgeDtoC bolge)
+    public async Task<ResponseModel> Add(KategoriDtoC dto)
     {  
-        var entity = _mapper.Map<Bolge>(bolge);
+        var entity = _mapper.Map<Kategori>(dto);
         return await _repository.AddAsync(entity);
     }
-    public async void Update(BolgeDtoC bolge)
+    public async void Update(KategoriDtoC dto)
     {
-        var entity = _mapper.Map<Bolge>(bolge);
+        var entity = _mapper.Map<Kategori>(dto);
         await _repository.UpdateAsync(entity);
     }
     
     public async void Delete(int id)
     {
-        Domain.Entities.Bolge station = await Get(id);
-        _repository.DeleteAsync(station);
+        Kategori data = await Get(id);
+        _repository.DeleteAsync(data);
     }
 
   

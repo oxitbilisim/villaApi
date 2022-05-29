@@ -12,20 +12,20 @@ namespace Villa.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("api/Bolge")]
-    public class BolgeController : ControllerBase
+    [Route("api/Kategori")]
+    public class KategoriController : ControllerBase
     {
-        private readonly IBolgeService _bolgeService;
+        private readonly IKategoriService _kategoriService;
 
-        public BolgeController(IBolgeService bolgeService)
+        public KategoriController(IKategoriService kategoriService)
         {
-            _bolgeService = bolgeService;
+            _kategoriService = kategoriService;
         }
 
         [HttpGet(nameof(GetAll))]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _bolgeService.GetAll();
+            var result = await _kategoriService.GetAll();
             if (result is not null)
             {
                 return Ok(result);
@@ -36,7 +36,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _bolgeService.Get(id);
+            var result = await _kategoriService.Get(id);
             if (result is not null)
             {
                 return Ok(result);
@@ -45,20 +45,20 @@ namespace Villa.Controllers
         }
 
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(BolgeDtoC dto)
+        public async Task<ActionResult<ResponseModel>> Add(KategoriDtoC kategori)
         { 
-            return await _bolgeService.Add(dto);
+            return await _kategoriService.Add(kategori);
         }
         [HttpPut(nameof(Update))]
-        public IActionResult Update(BolgeDtoC dto)
+        public IActionResult Update(KategoriDtoC kategori)
         {
-            _bolgeService.Update(dto);
+            _kategoriService.Update(kategori);
             return Ok("Updation done");
         }
         [HttpDelete(nameof(Delete))]
         public IActionResult Delete(int Id)
         {
-            _bolgeService.Delete(Id);
+            _kategoriService.Delete(Id);
             return Ok("Data Deleted");
         }
     }
