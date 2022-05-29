@@ -37,7 +37,7 @@ namespace Villa.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                return new ResponseModel(){ Success = false, Message = "Error",Data = ex.InnerException};
+                return new ResponseModel(){ Success = false, Message = "Error",Data = ex.InnerException.Message};
                 //throw new Exception($"{nameof(entity)} could not be saved: {ex.Message}");
             }
         }
