@@ -18,6 +18,8 @@ namespace Villa.Domain.Entities
         public string Ad { get; set; }
 
         public string Baslik { get; set; }
+ 
+        public string? Etiket { get; set; }
       
         public string Url { get; set; }
 

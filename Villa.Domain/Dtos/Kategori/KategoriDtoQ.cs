@@ -15,7 +15,7 @@ namespace Villa.Domain.Dtos
         public string Url { get; set; }
 
         public KategoriTipi Tipi { get; set; }   
-        
+        public string? Etiket { get; set; }
         public byte[] Image { get; set; }  
     }
 }

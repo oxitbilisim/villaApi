@@ -9,7 +9,7 @@ namespace Villa.Domain.Dtos
       
         public string? Url { get; set; }
         public int IlId { get; set; }
-
+        public string? Etiket { get; set; }
         public byte[]? Image { get; set; }  
         
         public string? Map { get; set; }
