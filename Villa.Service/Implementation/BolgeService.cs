@@ -42,13 +42,13 @@ public class BolgeService : IBolgeService
         var entity = _mapper.Map<Bolge>(bolge);
         return await _repository.AddAsync(entity);
     }
-    public async Task<ResponseModel>Update(BolgeDtoC bolge)
+    public async Task<ResponseModel> Update(BolgeDtoC bolge)
     {
         var entity = _mapper.Map<Bolge>(bolge);
         return await _repository.UpdateAsync(entity);
     }
     
-    public async Task<ResponseModel>Delete(int id)
+    public async Task<ResponseModel> Delete(int id)
     {
         Domain.Entities.Bolge station = await Get(id);
         return await _repository.DeleteAsync(station);

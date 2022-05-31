@@ -50,16 +50,14 @@ namespace Villa.Controllers
             return await _kategoriService.Add(kategori);
         }
         [HttpPut(nameof(Update))]
-        public IActionResult Update(KategoriDtoC kategori)
+        public async Task<ActionResult<ResponseModel>>  Update(KategoriDtoC kategori)
         {
-            _kategoriService.Update(kategori);
-            return Ok("Updation done");
+            return await _kategoriService.Update(kategori);
         }
         [HttpDelete(nameof(Delete))]
-        public IActionResult Delete(int Id)
+        public async Task<ActionResult<ResponseModel>>  Delete(int Id)
         {
-            _kategoriService.Delete(Id);
-            return Ok("Data Deleted");
+            return await _kategoriService.Delete(Id);
         }
     }
 }

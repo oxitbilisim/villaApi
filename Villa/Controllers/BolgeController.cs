@@ -50,16 +50,14 @@ namespace Villa.Controllers
             return await _bolgeService.Add(dto);
         }
         [HttpPut(nameof(Update))]
-        public IActionResult Update(BolgeDtoC dto)
+        public async Task<ActionResult<ResponseModel>> Update(BolgeDtoC dto)
         {
-            _bolgeService.Update(dto);
-            return Ok("Updation done");
+            return await _bolgeService.Update(dto);
         }
         [HttpDelete(nameof(Delete))]
-        public IActionResult Delete(int Id)
+        public async Task<ActionResult<ResponseModel>> Delete(int Id)
         {
-            _bolgeService.Delete(Id);
-            return Ok("Data Deleted");
+            return await _bolgeService.Delete(Id);
         }
     }
 }
