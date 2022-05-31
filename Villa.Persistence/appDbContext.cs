@@ -89,6 +89,8 @@ namespace Villa.Persistence
             PermissionMapper.Initialize(modelBuilder);
             BolgeMapper.Initialize(modelBuilder);
             IlMapper.Initialize(modelBuilder);
+            VillaMapper.Initialize(modelBuilder);
+            IlceMapper.Initialize(modelBuilder);
             modelBuilder.Seed();
         }
 

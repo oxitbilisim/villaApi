@@ -49,7 +49,7 @@ namespace Villa.Persistence.Repositories
                     _dbSet.Attach(entity);
 
                 _dbSet.Remove(entity);
-
+                await _context.SaveChangesAsync();
                 return new ResponseModel(){ Success = true, Message = "Succeded",Data = entity.Id};
             }
             catch (Exception ex)
