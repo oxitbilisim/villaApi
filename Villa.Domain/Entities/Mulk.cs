@@ -12,7 +12,9 @@ namespace Villa.Domain.Entities
     {
         public Mulk()
         {
+            Villa = new();
         }
         public string Ad { get; set; }
+        public virtual HashSet<Villa> Villa { get; set; }
     }
 }

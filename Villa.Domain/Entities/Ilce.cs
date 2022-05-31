@@ -16,7 +16,6 @@ namespace Villa.Domain.Entities
       
         public string Ad { get; set; }
         public int IlId { get; set; }
-        [ForeignKey("IlId")]
         public virtual Il Il { get; set; }
         public virtual HashSet<Villa> Villa { get; set; } 
     }

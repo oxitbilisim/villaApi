@@ -31,6 +31,17 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<KategoriDtoQ, Kategori>()
                 .ReverseMap();
             #endregion
+            
+            #region Villa
+            CreateMap<Domain.Entities.Villa, VillaDtoC>()
+                .ReverseMap();
+            CreateMap<VillaDtoC, Domain.Entities.Villa>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Villa, VillaDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaDtoQ, Domain.Entities.Villa>()
+                .ReverseMap();
+            #endregion
 
         }
     }

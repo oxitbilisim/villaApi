@@ -15,7 +15,6 @@ namespace Villa.Domain.Entities
         {
         }
         public int VillaId { get; set; }
-        [ForeignKey("VillaId")]
         public virtual Villa Villa { get; set; }
         
         public DateTime Baslangic { get; set; }

@@ -12,7 +12,7 @@ namespace Villa.Domain.Entities
     {
         public Bolge()
         {
-            Villa = new();
+            VillaLokasyon = new();
         }
  
         public string Ad { get; set; }
@@ -30,7 +30,7 @@ namespace Villa.Domain.Entities
         public string? Etiket  { get; set ; }
         
         [NotMapped]
-        public virtual HashSet<Villa> Villa { get; set; } 
+        public virtual HashSet<VillaLokasyon> VillaLokasyon { get; set; } 
         
     }
 }

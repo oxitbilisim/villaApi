@@ -14,11 +14,9 @@ namespace Villa.Domain.Entities
         {
         }
         public int VillaId { get; set; }
-        [ForeignKey("VillaId")]
         public virtual Villa Villa { get; set; }
         
         public int OzellikId { get; set; }
-        [ForeignKey("OzellikId")]
         public virtual Ozellik Ozellik { get; set; }
         
     }
