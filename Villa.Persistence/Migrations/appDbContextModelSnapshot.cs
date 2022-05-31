@@ -43,15 +43,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d065c559-fd4e-4e3a-9dd2-fc7289d21788",
-                            ConcurrencyStamp = "0fafd6e9-020e-49ce-bbcb-9e46c2082a71",
+                            Id = "c0e2f888-dae7-4ba0-a2b0-cc96697c8c9a",
+                            ConcurrencyStamp = "3447f98b-1791-4de3-940e-d5d777b8d3a7",
                             Name = "sistemadmin",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "e704b148-33c2-41f5-a07d-2310fa1ed898",
-                            ConcurrencyStamp = "4a00cd04-5ac1-4786-b807-2b1be962f8d1",
+                            Id = "9201f793-a804-4d4a-8b71-0352dd6a8c7d",
+                            ConcurrencyStamp = "10962191-defa-4d1f-bf6c-68d93cbe80ee",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -257,10 +257,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4c619004-c32d-4940-85e8-2387e4fc070a",
+                            Id = "bd9e514e-8d07-40d6-adeb-6e1083b55668",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "c88d0764-b24d-4ea9-a73e-6c3e6a2480c3",
+                            ConcurrencyStamp = "5a61a383-8187-47bd-8c42-7593cda99829",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +268,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0f3e7940-b11a-41dc-8bee-e46685a23ac8",
+                            SecurityStamp = "d9bb445d-31c0-410b-9c17-4e8eb4c8cd87",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "873bc0c8-c111-44be-9724-cdb1293c6bea",
+                            Id = "84ec10f2-f59b-430b-9957-a5588c127756",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "78e20b45-c20c-4462-a4e1-410262b4f45b",
+                            ConcurrencyStamp = "765f9340-ee7d-4713-910e-09b3e983e7ce",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +286,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "403ab1b0-a219-469a-b430-52aa3a0f2975",
+                            SecurityStamp = "8cc2f6ac-32eb-48d5-b144-15d0771658ac",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
@@ -961,17 +961,11 @@ namespace Villa.Persistence.Migrations
                     b.Property<string>("Ad")
                         .HasColumnType("text");
 
-                    b.Property<string>("Adres")
-                        .HasColumnType("text");
-
                     b.Property<int?>("BanyoSayisi")
                         .HasColumnType("integer");
 
                     b.Property<string>("Baslik")
                         .HasColumnType("text");
-
-                    b.Property<int>("BolgeId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("timestamp with time zone");
@@ -979,13 +973,7 @@ namespace Villa.Persistence.Migrations
                     b.Property<DateTime?>("EditDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("HvlUzaklik")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Icerik")
-                        .HasColumnType("text");
-
-                    b.Property<int>("IlceId")
+                    b.Property<int?>("IlceId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsDeleted")
@@ -994,26 +982,11 @@ namespace Villa.Persistence.Migrations
                     b.Property<int?>("Kapasite")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Map")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Mevki")
-                        .HasColumnType("text");
-
-                    b.Property<string>("MrkUzaklik")
-                        .HasColumnType("text");
+                    b.Property<int>("MulkId")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("OdaSayisi")
                         .HasColumnType("integer");
-
-                    b.Property<string>("PljUzaklik")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RstUzaklik")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SglUzaklik")
-                        .HasColumnType("text");
 
                     b.Property<string>("Url")
                         .HasColumnType("text");
@@ -1023,9 +996,9 @@ namespace Villa.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BolgeId");
-
                     b.HasIndex("IlceId");
+
+                    b.HasIndex("MulkId");
 
                     b.ToTable("Villa");
                 });
@@ -1104,6 +1077,40 @@ namespace Villa.Persistence.Migrations
                     b.ToTable("VillaGosterim");
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.VillaIcerik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Icerik")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("VillaId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VillaId");
+
+                    b.ToTable("VillaIcerik");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.VillaImage", b =>
                 {
                     b.Property<int>("Id")
@@ -1178,6 +1185,71 @@ namespace Villa.Persistence.Migrations
                     b.HasIndex("VillaId");
 
                     b.ToTable("VillaKategori");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.VillaLokasyon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Adres")
+                        .HasColumnType("text");
+
+                    b.Property<int>("BolgeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("HvlUzaklik")
+                        .HasColumnType("text");
+
+                    b.Property<int>("IlceId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Map")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Mevki")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MrkUzaklik")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PljUzaklik")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RstUzaklik")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SglUzaklik")
+                        .HasColumnType("text");
+
+                    b.Property<int>("VillaId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BolgeId");
+
+                    b.HasIndex("IlceId");
+
+                    b.HasIndex("VillaId");
+
+                    b.ToTable("VillaLokasyon");
                 });
 
             modelBuilder.Entity("Villa.Domain.Entities.VillaOzellik", b =>
@@ -1361,21 +1433,17 @@ namespace Villa.Persistence.Migrations
 
             modelBuilder.Entity("Villa.Domain.Entities.Villa", b =>
                 {
-                    b.HasOne("Villa.Domain.Entities.Bolge", "Bolge")
-                        .WithMany()
-                        .HasForeignKey("BolgeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Villa.Domain.Entities.Ilce", "Ilce")
+                    b.HasOne("Villa.Domain.Entities.Ilce", null)
                         .WithMany("Villa")
-                        .HasForeignKey("IlceId")
+                        .HasForeignKey("IlceId");
+
+                    b.HasOne("Villa.Domain.Entities.Mulk", "Mulk")
+                        .WithMany("Villa")
+                        .HasForeignKey("MulkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Bolge");
-
-                    b.Navigation("Ilce");
+                    b.Navigation("Mulk");
                 });
 
             modelBuilder.Entity("Villa.Domain.Entities.VillaGorunum", b =>
@@ -1393,6 +1461,17 @@ namespace Villa.Persistence.Migrations
                 {
                     b.HasOne("Villa.Domain.Entities.Villa", "Villa")
                         .WithMany("VillaGosterim")
+                        .HasForeignKey("VillaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Villa");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.VillaIcerik", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Villa", "Villa")
+                        .WithMany("VillaIcerik")
                         .HasForeignKey("VillaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1426,6 +1505,33 @@ namespace Villa.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Kategori");
+
+                    b.Navigation("Villa");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.VillaLokasyon", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Bolge", "Bolge")
+                        .WithMany()
+                        .HasForeignKey("BolgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Villa.Domain.Entities.Ilce", "Ilce")
+                        .WithMany()
+                        .HasForeignKey("IlceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Villa.Domain.Entities.Villa", "Villa")
+                        .WithMany("VillaLokasyon")
+                        .HasForeignKey("VillaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bolge");
+
+                    b.Navigation("Ilce");
 
                     b.Navigation("Villa");
                 });
@@ -1494,6 +1600,11 @@ namespace Villa.Persistence.Migrations
                     b.Navigation("items");
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.Mulk", b =>
+                {
+                    b.Navigation("Villa");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.Ozellik", b =>
                 {
                     b.Navigation("VillaOzellik");
@@ -1519,9 +1630,13 @@ namespace Villa.Persistence.Migrations
 
                     b.Navigation("VillaGosterim");
 
+                    b.Navigation("VillaIcerik");
+
                     b.Navigation("VillaImage");
 
                     b.Navigation("VillaKategori");
+
+                    b.Navigation("VillaLokasyon");
 
                     b.Navigation("VillaOzellik");
 
