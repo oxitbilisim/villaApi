@@ -45,6 +45,8 @@ namespace Villa.Persistence
         public DbSet<VillaKategori> VillaKategori { get; set; }
         public DbSet<VillaOzellik> VillaOzellik { get; set; }
         public DbSet<VillaSeo> VillaSeo { get; set; }
+        public DbSet<VillaIcerik> VillaIcerik { get; set; }
+        public DbSet<VillaLokasyon> VillaLokasyon { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
