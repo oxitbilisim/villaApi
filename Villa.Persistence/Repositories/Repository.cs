@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Villa.Domain;
-using Villa.Domain.Entities;
 using Villa.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
@@ -42,20 +41,38 @@ namespace Villa.Persistence.Repositories
             }
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task<ResponseModel> DeleteAsync(T entity)
         {
-            if (_context.Entry(entity).State == EntityState.Detached)
-                _dbSet.Attach(entity);
+            try
+            {
+                if (_context.Entry(entity).State == EntityState.Detached)
+                    _dbSet.Attach(entity);
 
-            _dbSet.Remove(entity);
-
-            await _context.SaveChangesAsync();
+                _dbSet.Remove(entity);
+                await _context.SaveChangesAsync();
+                
+                return new ResponseModel(){ Success = true, Message = "Succeded",Data = entity.Id};
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel(){ Success = false, Message = "Error",Data = ex.InnerException.Message};
+            }
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<ResponseModel> DeleteAsync(int id)
         {
-            var entity = await GetAsync(id);
-            await DeleteAsync(entity);
+            try
+            {
+                var entity = await GetAsync(id);
+                await DeleteAsync(entity);
+                await _context.SaveChangesAsync();
+                
+                return new ResponseModel(){ Success = true, Message = "Succeded",Data = entity.Id};
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel(){ Success = false, Message = "Error",Data = e.InnerException.Message};
+            }
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -75,14 +92,28 @@ namespace Villa.Persistence.Repositories
             return entity;
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<ResponseModel> UpdateAsync(T entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            if (entity == null)
+            {
+                throw new ArgumentNullException($"{nameof(AddAsync)} entity must not be null");
+            }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _dbSet.Attach(entity);
+                _context.Entry(entity).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+                return new ResponseModel(){ Success = true, Message = "Succeded",Data = entity.Id};
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel(){ Success = false, Message = "Error",Data = ex.InnerException.Message};
+                //throw new Exception($"{nameof(entity)} could not be saved: {ex.Message}");
+            }
         }
-
+        
         private bool _disposed = false;
         protected virtual void Dispose(bool disposing)
         {

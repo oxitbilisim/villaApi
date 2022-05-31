@@ -43,15 +43,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "22f6f622-026e-447d-a7f1-a8567e4ecd64",
-                            ConcurrencyStamp = "0dbd8a77-3c77-4d78-8dce-ef68a20f00bf",
+                            Id = "d065c559-fd4e-4e3a-9dd2-fc7289d21788",
+                            ConcurrencyStamp = "0fafd6e9-020e-49ce-bbcb-9e46c2082a71",
                             Name = "sistemadmin",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "c8e07e19-1d75-486a-b793-6709d4258efb",
-                            ConcurrencyStamp = "225235b0-d7c6-4b83-a2f5-9c8d6749d485",
+                            Id = "e704b148-33c2-41f5-a07d-2310fa1ed898",
+                            ConcurrencyStamp = "4a00cd04-5ac1-4786-b807-2b1be962f8d1",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -257,10 +257,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ea043644-2df4-4d64-8207-bc7f2678e701",
+                            Id = "4c619004-c32d-4940-85e8-2387e4fc070a",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "d03fc011-ece3-41fa-b8f4-062ca8b4b070",
+                            ConcurrencyStamp = "c88d0764-b24d-4ea9-a73e-6c3e6a2480c3",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +268,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0c2933f2-198d-4021-b20f-c9c06aa58a5e",
+                            SecurityStamp = "0f3e7940-b11a-41dc-8bee-e46685a23ac8",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "53dfe509-1145-4bca-af33-dc57f5270dd8",
+                            Id = "873bc0c8-c111-44be-9724-cdb1293c6bea",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "f3257f5d-03cf-4d5f-bfa2-0a0505702fcf",
+                            ConcurrencyStamp = "78e20b45-c20c-4462-a4e1-410262b4f45b",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +286,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1d8c1a5f-963f-4807-97fe-a2a1396fbae6",
+                            SecurityStamp = "403ab1b0-a219-469a-b430-52aa3a0f2975",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
@@ -316,6 +316,9 @@ namespace Villa.Persistence.Migrations
 
                     b.Property<DateTime?>("EditDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Etiket")
+                        .HasColumnType("text");
 
                     b.Property<int>("IlId")
                         .HasColumnType("integer");

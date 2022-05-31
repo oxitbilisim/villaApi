@@ -17,7 +17,6 @@ public class KategoriService : IKategoriService
     private readonly IRepository<Domain.Entities.Kategori> _repository;
     private readonly IMapper _mapper;
     private readonly IAppDbContext _appDbContext;
-    
     public KategoriService(IRepository<Domain.Entities.Kategori> repository, 
            IAppDbContext appDbContext,
            IMapper mapper)
@@ -42,16 +41,16 @@ public class KategoriService : IKategoriService
         var entity = _mapper.Map<Kategori>(dto);
         return await _repository.AddAsync(entity);
     }
-    public async void Update(KategoriDtoC dto)
+    public async Task<ResponseModel> Update(KategoriDtoC dto)
     {
         var entity = _mapper.Map<Kategori>(dto);
-        await _repository.UpdateAsync(entity);
+        return await _repository.UpdateAsync(entity);
     }
     
-    public async void Delete(int id)
+    public async Task<ResponseModel> Delete(int id)
     {
         Kategori data = await Get(id);
-        _repository.DeleteAsync(data);
+        return await _repository.DeleteAsync(data);
     }
 
   

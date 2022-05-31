@@ -13,7 +13,7 @@ namespace Villa.Service.Contract
         Task<ResponseModel> GetAll();
         Task<Kategori> Get(int id); 
         Task<ResponseModel> Add(KategoriDtoC dto);
-        void Update(KategoriDtoC dto);
-        void Delete(int id);
+        Task<ResponseModel>  Update(KategoriDtoC dto);
+        Task<ResponseModel>  Delete(int id);
      }
 }
