@@ -12,13 +12,13 @@ using Villa.Service.Contract;
 
 namespace Villa.Service.Implementation;
 
-public class VillaService : IVillaService
+public class VillaIcerikService : IVillaIcerikService
 {
-    private readonly IRepository<Domain.Entities.Villa> _repository;
+    private readonly IRepository<Domain.Entities.VillaIcerik> _repository;
     private readonly IMapper _mapper;
     private readonly IAppDbContext _appDbContext;
     
-    public VillaService(IRepository<Domain.Entities.Villa> repository, 
+    public VillaIcerikService(IRepository<Domain.Entities.VillaIcerik> repository, 
            IAppDbContext appDbContext,
            IMapper mapper)
     {
@@ -26,31 +26,26 @@ public class VillaService : IVillaService
         _mapper = mapper;
         _appDbContext = appDbContext;
     }
-    
-    public async Task<ResponseModel> GetAll()
-    {
-        List<VillaDtoQ> villa = _mapper.Map<List<Domain.Entities.Villa>,List<VillaDtoQ>>(_appDbContext.Villa.Include(x=> x.Mulk).ToList());
-        return new ResponseModel(villa);
-    }
-    public async Task<Domain.Entities.Villa> Get(int id)
+
+    public async Task<Domain.Entities.VillaIcerik> Get(int id)
     {
         return await _repository.GetAsync(id);
     }
     
-    public async Task<ResponseModel> Add(VillaDtoC data)
+    public async Task<ResponseModel> Add(VillaIcerikDtoC data)
     {  
-        var entity = _mapper.Map<Domain.Entities.Villa>(data);
+        var entity = _mapper.Map<Domain.Entities.VillaIcerik>(data);
         return await _repository.AddAsync(entity);
     }
-    public async Task<ResponseModel> Update(VillaDtoC data)
+    public async Task<ResponseModel> Update(VillaIcerikDtoC data)
     {
-        var entity = _mapper.Map<Domain.Entities.Villa>(data);
+        var entity = _mapper.Map<Domain.Entities.VillaIcerik>(data);
         return await _repository.UpdateAsync(entity);
     }
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Villa data = await Get(id);
+        Domain.Entities.VillaIcerik data = await Get(id);
         return await _repository.DeleteAsync(data);
     }
 

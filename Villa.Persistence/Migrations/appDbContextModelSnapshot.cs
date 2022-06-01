@@ -43,15 +43,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "da5c977f-767b-45e4-8beb-eb21e0f2b1b1",
-                            ConcurrencyStamp = "740f9ce3-b4eb-4312-8ed6-a6c7f617c6d8",
+                            Id = "977b9122-261f-4c4c-9055-e0faa481fd9a",
+                            ConcurrencyStamp = "4667ef3b-827e-4ad0-86eb-cfff230177a4",
                             Name = "sistemadmin",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "30213526-9f0b-47c3-a50d-d7322aa3043d",
-                            ConcurrencyStamp = "08cf4259-beff-4c06-8a99-a2eaf532aff2",
+                            Id = "2b24b089-e93c-4212-8e37-06d072803c91",
+                            ConcurrencyStamp = "ea0e5be4-dd5d-4ad3-9d79-9402a3188581",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -257,10 +257,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "00316038-0626-4163-bd62-36a4fbc03b07",
+                            Id = "4b4ad7b9-6e89-4e62-add9-ae8ceec11738",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "e07270b1-bb61-4cb4-8ab3-f4cc33248cfc",
+                            ConcurrencyStamp = "c313bbca-09f4-4fb3-a97e-26bd464859bb",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +268,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8eed229a-8991-4877-8a7c-a210a1a5cd9c",
+                            SecurityStamp = "7d3cde0d-f38d-4ad9-aac2-473166557b7a",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "05eed486-2697-415e-a016-084c38cd7b46",
+                            Id = "9ec8d41b-c12f-4452-bfcd-555183d0b809",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "a97fd369-0477-4b8f-9523-594b6c33cff8",
+                            ConcurrencyStamp = "7788cb58-6105-4c3a-9100-73e6e3e27a0a",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +286,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "25558244-06e1-40bc-a7e7-a926b4e7712a",
+                            SecurityStamp = "202100c2-9490-4264-b1c1-aee8cc642555",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
@@ -1096,6 +1096,9 @@ namespace Villa.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Icerik")
+                        .HasColumnType("text");
+
+                    b.Property<string>("IcerikBasligi")
                         .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")

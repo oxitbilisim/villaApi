@@ -10,5 +10,6 @@ namespace Villa.Domain.Dtos
         public int? YatakOdaSayisi { get; set; }
         public int? OdaSayisi { get; set; }
         public int? BanyoSayisi { get; set; }
+        public int? MulkId { get; set; }
     }
 }

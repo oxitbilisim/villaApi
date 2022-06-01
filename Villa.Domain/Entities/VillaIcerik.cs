@@ -16,6 +16,7 @@ namespace Villa.Domain.Entities
         public int VillaId { get; set; }
         public virtual Villa Villa { get; set; }
         public string Icerik { get; set; }
+        public string IcerikBasligi { get; set; }
 
         
     }

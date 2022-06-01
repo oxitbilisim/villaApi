@@ -17,8 +17,7 @@ namespace Villa.Persistence.Mapper
                 x.HasMany(c => c.VillaKategori).WithOne(c => c.Villa).HasForeignKey(t => t.VillaId).IsRequired(false).OnDelete(DeleteBehavior.Restrict);
                 x.HasMany(c => c.VillaLokasyon).WithOne(c => c.Villa).HasForeignKey(t => t.VillaId).IsRequired(false).OnDelete(DeleteBehavior.Restrict);
                 x.HasMany(c => c.VillaOzellik).WithOne(c => c.Villa).HasForeignKey(t => t.VillaId).IsRequired(false).OnDelete(DeleteBehavior.Restrict);
-                x.HasMany(c => c.VillaSeo).WithOne(c => c.Villa).HasForeignKey(t => t.VillaId).IsRequired(false).OnDelete(DeleteBehavior.Restrict);
-                x.HasMany(c => c.VillaSeo).WithOne(c => c.Villa).HasForeignKey(t => t.VillaId).IsRequired(false).OnDelete(DeleteBehavior.Restrict);
+                x.HasMany(c => c.VillaSeo).WithOne(c => c.Villa).HasForeignKey(t => t.VillaId).IsRequired(false).OnDelete(DeleteBehavior.Restrict); 
                 x.HasOne(c => c.Mulk).WithMany(c => c.Villa).HasForeignKey(t => t.MulkId);
             });
         }
