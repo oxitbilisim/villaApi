@@ -5,8 +5,7 @@ namespace Villa.Domain.Dtos
     public class KategoriDtoC 
     {
         public int? Id { get; set; }
-
-        public int VillaKategoriId { get; set; }
+        
 
         public string Ad { get; set; }
 
