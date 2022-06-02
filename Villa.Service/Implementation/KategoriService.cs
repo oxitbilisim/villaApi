@@ -28,7 +28,7 @@ public class KategoriService : IKategoriService
     
     public async Task<ResponseModel> GetAll()
     {
-        List<KategoriDtoQ> data = _mapper.Map<List<Kategori>,List<KategoriDtoQ>>(_appDbContext.Kategori.ToList());
+        List<KategoriDtoQ> data = _mapper.Map<List<Kategori>,List<KategoriDtoQ>>(_appDbContext.Kategori.Include(x=> x.ParentKategori).ToList());
         return new ResponseModel(data);
     }
     public async Task<Kategori> Get(int id)

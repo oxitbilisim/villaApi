@@ -26,6 +26,12 @@ namespace Villa.Domain.Entities
         public KategoriTipi Tipi { get; set; }   
         
         public byte[] Image { get; set; }  
+     
+        
+        public int? ParentKategoriId { get; set; }
+        public virtual Kategori ParentKategori { get; set; }
+
+        public virtual ICollection<Kategori> items { get; set; }
         public virtual HashSet<VillaKategori> VillaKategori { get; set; }
         
     }
