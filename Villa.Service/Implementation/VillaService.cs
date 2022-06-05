@@ -32,10 +32,10 @@ public class VillaService : IVillaService
         List<VillaDtoQ> villa = _mapper.Map<List<Domain.Entities.Villa>,List<VillaDtoQ>>(_appDbContext.Villa.Include(x=> x.Mulk).ToList());
         return new ResponseModel(villa);
     }
-    public async Task<Domain.Entities.Villa> Get(int id)
+    public async Task<VillaDtoQ> Get(int id)
     {
-        //return await _repository.GetAsync(id);
-        return await _repository.GetSingleAsync(x=>x.Id == id);
+        var entity = await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.Mulk));
+        return _mapper.Map<VillaDtoQ>(entity);
     }
     
     public async Task<ResponseModel> Add(VillaDtoC data)
@@ -51,8 +51,8 @@ public class VillaService : IVillaService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Villa data = await Get(id);
-        return await _repository.DeleteAsync(data);
+        Domain.Entities.Villa station = _mapper.Map< Domain.Entities.Villa>( Get(id));
+        return await _repository.DeleteAsync(station);
     }
 
   
