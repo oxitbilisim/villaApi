@@ -11,7 +11,7 @@ namespace Villa.Service.Contract
     public interface IBolgeService
     {
         Task<ResponseModel> GetAll();
-        Task<Bolge> Get(int id); 
+        Task<BolgeDtoQ> Get(int id); 
         Task<ResponseModel> Add(BolgeDtoC dto);
         Task<ResponseModel> Update(BolgeDtoC dto);
         Task<ResponseModel> Delete(int id);

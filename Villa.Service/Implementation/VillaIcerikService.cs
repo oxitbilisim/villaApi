@@ -29,7 +29,8 @@ public class VillaIcerikService : IVillaIcerikService
 
     public async Task<Domain.Entities.VillaIcerik> Get(int id)
     {
-        return await _repository.GetAsync(id);
+        //return await _repository.GetAsync(id);
+        return await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.Villa));
     }
     
     public async Task<ResponseModel> Add(VillaIcerikDtoC data)

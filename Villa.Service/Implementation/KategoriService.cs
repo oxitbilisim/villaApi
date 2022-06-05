@@ -31,9 +31,10 @@ public class KategoriService : IKategoriService
         List<KategoriDtoQ> data = _mapper.Map<List<Kategori>,List<KategoriDtoQ>>(_appDbContext.Kategori.Include(x=> x.ParentKategori).ToList());
         return new ResponseModel(data);
     }
-    public async Task<Kategori> Get(int id)
+    public async Task<KategoriDtoQ> Get(int id)
     {
-        return await _repository.GetAsync(id);
+        var entity = await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.ParentKategori));
+        return _mapper.Map<KategoriDtoQ>(entity);
     }
     
     public async Task<ResponseModel> Add(KategoriDtoC dto)
@@ -49,8 +50,8 @@ public class KategoriService : IKategoriService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Kategori data = await Get(id);
-        return await _repository.DeleteAsync(data);
+        Domain.Entities.Kategori station = _mapper.Map<Kategori>( Get(id));
+        return await _repository.DeleteAsync(station);
     }
 
   

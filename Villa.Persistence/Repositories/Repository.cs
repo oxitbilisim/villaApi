@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Villa.Domain;
 using Villa.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Villa.Domain.Common;
 
 namespace Villa.Persistence.Repositories
@@ -74,9 +75,113 @@ namespace Villa.Persistence.Repositories
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public Task<IQueryable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return this.GetAllAsync(null, null, null, null, null);
+        }
+
+        public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        {
+            return this.GetAllAsync(predicate, null, null, null, null);
+        }
+
+        public Task<IQueryable<T>> GetAllAsync(Func<IQueryable<T>, IIncludableQueryable<T, object>> include)
+        {
+            return this.GetAllAsync(null, include, null, null, null);
+        }
+      public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
+                                                 Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+                                                 Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                 int? skip = null, int? take = null)
+        {
+            IQueryable<T> query = GetQueryable(predicate, include);
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (skip != null && skip.HasValue)
+            {
+                query = query.Skip(skip.Value);
+            }
+
+            if (take != null && take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return new Task<IQueryable<T>>(() => query);
+        }
+
+        public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
+                                                Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            return new Task<IQueryable<T>> (() => GetQueryable(predicate, include)); 
+        }
+
+        public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
+         Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+        string orderBy = null, string orderDirection = "asc",
+         int? skip = null, int? take = null)
+        {
+            IQueryable<T> query = GetQueryable(predicate, include);
+
+            if (orderBy != null)
+            {
+                //query = query.OrderBy(orderBy, orderDirection);
+            }
+
+            if (skip != null && skip.HasValue)
+            {
+                query = query.Skip(skip.Value);
+            }
+
+            if (take != null && take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return new Task<IQueryable<T>>(() => query);
+        }
+
+        /// <summary>
+        /// Returns a single instance of T but throws exception if none is found
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public T GetSingle(
+         Expression<Func<T, bool>> predicate = null,
+         Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            IQueryable<T> query = GetQueryable(predicate, include);
+        
+            return query.FirstOrDefault();
+        }
+
+        public Task<T> GetSingleAsync(
+          Expression<Func<T, bool>> predicate = null,
+          Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            IQueryable<T> query = GetQueryable(predicate, include);
+
+            return query.FirstOrDefaultAsync();
+        }
+        private IQueryable<T> GetQueryable(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return query;
         }
 
         public async Task<IEnumerable<T>> GetWhereAsync(Expression<Func<T, bool>> predicate)

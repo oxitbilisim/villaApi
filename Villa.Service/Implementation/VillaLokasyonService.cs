@@ -28,7 +28,8 @@ public class VillaLokasyonService : IVillaLokasyonService
     }
     public async Task<Domain.Entities.VillaLokasyon> Get(int id)
     {
-        return await _repository.GetAsync(id);
+        //return await _repository.GetAsync(id);
+        return await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.Villa));
     }
     public async Task<ResponseModel> Add(VillaLokasyonDtoC data)
     {  

@@ -30,11 +30,15 @@ public class BolgeService : IBolgeService
     public async Task<ResponseModel> GetAll()
     {
         List<BolgeDtoQ> bolge = _mapper.Map<List<Bolge>,List<BolgeDtoQ>>(_appDbContext.Bolge.Include(x=> x.Il).ToList());
+        // var entity = await _repository.GetAllAsync(x => x.Include(y => y.Il));
+        // var bolge =
+        //      _mapper.Map<IQueryable<Bolge>,IQueryable<BolgeDtoQ>>(entity);
         return new ResponseModel(bolge);
     }
-    public async Task<Domain.Entities.Bolge> Get(int id)
+    public async Task<BolgeDtoQ> Get(int id)
     {
-        return await _repository.GetAsync(id);
+       var entity = await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.Il));
+       return _mapper.Map<BolgeDtoQ>(entity);
     }
     
     public async Task<ResponseModel> Add(BolgeDtoC bolge)
@@ -50,7 +54,7 @@ public class BolgeService : IBolgeService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Bolge station = await Get(id);
+        Domain.Entities.Bolge station = _mapper.Map<Bolge>( Get(id));
         return await _repository.DeleteAsync(station);
     }
 

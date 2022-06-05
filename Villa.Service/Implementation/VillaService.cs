@@ -34,7 +34,8 @@ public class VillaService : IVillaService
     }
     public async Task<Domain.Entities.Villa> Get(int id)
     {
-        return await _repository.GetAsync(id);
+        //return await _repository.GetAsync(id);
+        return await _repository.GetSingleAsync(x=>x.Id == id);
     }
     
     public async Task<ResponseModel> Add(VillaDtoC data)

@@ -11,7 +11,7 @@ namespace Villa.Service.Contract
     public interface IKategoriService
     {
         Task<ResponseModel> GetAll();
-        Task<Kategori> Get(int id); 
+        Task<KategoriDtoQ> Get(int id); 
         Task<ResponseModel> Add(KategoriDtoC dto);
         Task<ResponseModel>  Update(KategoriDtoC dto);
         Task<ResponseModel>  Delete(int id);
