@@ -59,6 +59,7 @@ namespace Villa.Infrastructure.Extension
             serviceCollection.AddTransient<IVillaService, VillaService>();
             serviceCollection.AddTransient<IVillaIcerikService, VillaIcerikService>();
             serviceCollection.AddTransient<IVillaLokasyonService, VillaLokasyonService>();
+            serviceCollection.AddTransient<IIlService, IlService>();
         }
         public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection)
         {

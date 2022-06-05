@@ -57,6 +57,18 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+                   
+            #region İl
+            CreateMap<Domain.Entities.Il, IlDtoC>()
+                .ReverseMap();
+            CreateMap<IlDtoC, Domain.Entities.Il>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Il, IlDtoQ>()
+                .ReverseMap();
+            CreateMap<IlDtoQ, Domain.Entities.Il>()
+                .ReverseMap();
+            #endregion
+            
 
         }
     }
