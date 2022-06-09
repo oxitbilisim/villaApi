@@ -10,6 +10,7 @@ namespace Villa.Domain.Dtos
         public string Adres { get; set; }
         public string Map { get; set; }
         public string MrkUzaklik { get; set; }
+        public string MarktUzaklik { get; set; }
         public string HvlUzaklik { get; set; }
         public string PljUzaklik { get; set; }
         public string RstUzaklik { get; set; }

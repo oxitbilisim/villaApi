@@ -29,7 +29,7 @@ public class VillaImageService : IVillaImageService
     public async Task<Domain.Entities.VillaImage> Get(int id)
     {
         //return await _repository.GetAsync(id);
-        return await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.Villa));
+        return await _repository.GetSingleAsync(x=>x.VillaId == id, x=> x.Include(y=> y.Villa));
     }
     public async Task<ResponseModel> Add(VillaImageDtoC data)
     {  
