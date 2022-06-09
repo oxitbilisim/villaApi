@@ -29,7 +29,7 @@ public class VillaPeriyodikFiyatAyarlariService : IVillaPeriyodikFiyatAyarlariSe
     public async Task<Domain.Entities.PeriyodikFiyatAyarlari> Get(int id)
     {
         //return await _repository.GetAsync(id);
-        return await _repository.GetSingleAsync(x=>x.Id == id);
+        return await _repository.GetSingleAsync(x=>x.VillaId == id);
     }
     public async Task<ResponseModel> Add(VillaPeriyodikFiyatAyarlariDtoC data)
     {  
