@@ -43,6 +43,18 @@ namespace Villa.Controllers
             }
             return BadRequest("No records found");
         }
+        
+        [HttpGet(nameof(GetAllAsyncIlId))]
+        public async Task<IActionResult> GetAllAsyncIlId(int id)
+        {
+            var result = await _ilceService.GetAllAsyncIlId(id);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return BadRequest("No records found");
+        }
+        
 
         [HttpPost(nameof(Add))]
         public async Task<ActionResult<ResponseModel>> Add(IlceDtoC dto)

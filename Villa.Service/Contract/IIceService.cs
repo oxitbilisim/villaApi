@@ -11,7 +11,8 @@ namespace Villa.Service.Contract
     public interface IIlceService
     {
         Task<ResponseModel> GetAll();
-        Task<IlceDtoQ> Get(int id); 
+        Task<IlceDtoQ> Get(int id);
+        Task<IEnumerable<IlceDtoQ>> GetAllAsyncIlId(int id);
         Task<ResponseModel> Add(IlceDtoC dto);
         Task<ResponseModel> Update(IlceDtoC dto);
         Task<ResponseModel> Delete(int id);
