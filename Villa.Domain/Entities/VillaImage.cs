@@ -15,7 +15,7 @@ namespace Villa.Domain.Entities
         }
         public int VillaId { get; set; }
         public virtual Villa Villa { get; set; }
-        
+        public byte[] Image { get; set; }
         public string VideoUrl { get; set; }
         public int SiraNo { get; set; }
         public bool Url { get; set; }

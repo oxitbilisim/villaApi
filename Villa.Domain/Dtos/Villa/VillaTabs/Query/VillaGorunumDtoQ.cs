@@ -4,7 +4,8 @@ namespace Villa.Domain.Dtos
     {
         public int? Id { get; set; }
         public int VillaId { get; set; }
-        public string Icerik { get; set; }
-        public string IcerikBasligi { get; set; }
+        public string OneCikanOzellik { get; set; }
+        public string Etiket { get; set; }
+        public string HavuzOzellik { get; set; }
     }
 }
