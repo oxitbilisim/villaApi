@@ -30,7 +30,7 @@ namespace Villa.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest("No records found");
+            return  NoContent();
         }
 
         [HttpGet(nameof(GetById))]
@@ -41,7 +41,7 @@ namespace Villa.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest("No records found");
+            return  NoContent();
         }
 
         [HttpPost(nameof(Add))]

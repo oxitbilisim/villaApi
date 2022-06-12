@@ -41,10 +41,10 @@ public class IlceService : IIlceService
        return _mapper.Map<IlceDtoQ>(entity);
     }
     
-    public async Task<IEnumerable<IlceDtoQ>> GetAllAsyncIlId(int id)
+    public async Task<ResponseModel> GetAllAsyncIlId(int id)
     {
-        IEnumerable<IlceDtoQ> ilce = _mapper.Map<IEnumerable<Domain.Entities.Ilce>,IEnumerable<IlceDtoQ>>(await _repository.GetWhereAsync(x=>x.IlId == id)); 
-        return ilce;
+        IEnumerable<IlceDtoQ> ilce = _mapper.Map<IEnumerable<Domain.Entities.Ilce>,IEnumerable<IlceDtoQ>>(await _repository.GetWhereAsync(x=>x.IlId == id));
+        return new ResponseModel(ilce);
     }
     
     public async Task<ResponseModel> Add(IlceDtoC bolge)

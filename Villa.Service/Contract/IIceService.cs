@@ -12,7 +12,7 @@ namespace Villa.Service.Contract
     {
         Task<ResponseModel> GetAll();
         Task<IlceDtoQ> Get(int id);
-        Task<IEnumerable<IlceDtoQ>> GetAllAsyncIlId(int id);
+        Task<ResponseModel> GetAllAsyncIlId(int id);
         Task<ResponseModel> Add(IlceDtoC dto);
         Task<ResponseModel> Update(IlceDtoC dto);
         Task<ResponseModel> Delete(int id);
