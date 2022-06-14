@@ -35,10 +35,10 @@ public class MulkService : IMulkService
         //      _mapper.Map<IQueryable<Bolge>,IQueryable<BolgeDtoQ>>(entity);
         return new ResponseModel(il);
     }
-    public async Task<MulkDtoQ> Get(int id)
+    public async Task<ResponseModel> Get(int id)
     {
        var entity = await _repository.GetSingleAsync(x=>x.Id == id);
-       return _mapper.Map<MulkDtoQ>(entity);
+       return new ResponseModel(_mapper.Map<MulkDtoQ>(entity));
     }
     
     public async Task<ResponseModel> Add(MulkDtoC bolge)

@@ -35,10 +35,10 @@ public class IlService : IIlService
         //      _mapper.Map<IQueryable<Bolge>,IQueryable<BolgeDtoQ>>(entity);
         return new ResponseModel(il);
     }
-    public async Task<IlDtoQ> Get(int id)
+    public async Task<ResponseModel> Get(int id)
     {
        var entity = await _repository.GetSingleAsync(x=>x.Id == id);
-       return _mapper.Map<IlDtoQ>(entity);
+       return new ResponseModel(_mapper.Map<IlDtoQ>(entity));
     }
     
     public async Task<ResponseModel> Add(IlDtoC bolge)

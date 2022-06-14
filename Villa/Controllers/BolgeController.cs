@@ -30,7 +30,8 @@ namespace Villa.Controllers
             {
                 return Ok(result);
             }
-            return Ok(null);
+            
+            return Ok(result);
         }
 
         [HttpGet(nameof(GetById))]
@@ -41,7 +42,7 @@ namespace Villa.Controllers
             {
                 return Ok(result);
             }
-            return Ok(null);
+            return Ok(result);
         }
 
         [HttpPost(nameof(Add))]

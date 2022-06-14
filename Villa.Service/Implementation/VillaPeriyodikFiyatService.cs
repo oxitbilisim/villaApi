@@ -26,10 +26,10 @@ public class VillaPeriyodikFiyatService : IVillaPeriyodikFiyatService
         _mapper = mapper;
         _appDbContext = appDbContext;
     }
-    public async Task<Domain.Entities.PeriyodikFiyat> Get(int id)
+    public async Task<ResponseModel> Get(int id)
     {
-        //return await _repository.GetAsync(id);
-        return await _repository.GetSingleAsync(x=>x.VillaId == id, x=> x.Include(y=> y.Villa));
+        var entity = await _repository.GetSingleAsync(x=>x.VillaId == id, x=> x.Include(y=> y.Villa));
+        return new ResponseModel(_mapper.Map<VillaIcerikDtoQ>(entity));
     }
     public async Task<ResponseModel> Add(VillaPeriyodikFiyatDtoC data)
     {  
@@ -44,8 +44,8 @@ public class VillaPeriyodikFiyatService : IVillaPeriyodikFiyatService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.PeriyodikFiyat data = await Get(id);
-        return await _repository.DeleteAsync(data);
+        PeriyodikFiyat station = _mapper.Map<PeriyodikFiyat>( Get(id));
+        return await _repository.DeleteAsync(station);
     }
 
   

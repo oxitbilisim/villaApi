@@ -26,10 +26,10 @@ public class VillaLokasyonService : IVillaLokasyonService
         _mapper = mapper;
         _appDbContext = appDbContext;
     }
-    public async Task<Domain.Entities.VillaLokasyon> Get(int id)
+    public async Task<ResponseModel> Get(int id)
     {
-        //return await _repository.GetAsync(id);
-        return await _repository.GetSingleAsync(x=>x.VillaId == id, x=> x.Include(y=> y.Villa));
+        var entity = await _repository.GetSingleAsync(x=>x.VillaId == id, x=> x.Include(y=> y.Villa));
+        return new ResponseModel(_mapper.Map<VillaIcerikDtoQ>(entity));
     }
     public async Task<ResponseModel> Add(VillaLokasyonDtoC data)
     {  
@@ -44,8 +44,8 @@ public class VillaLokasyonService : IVillaLokasyonService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.VillaLokasyon data = await Get(id);
-        return await _repository.DeleteAsync(data);
+        Domain.Entities.VillaLokasyon station = _mapper.Map<VillaLokasyon>( Get(id));
+        return await _repository.DeleteAsync(station);
     }
 
   

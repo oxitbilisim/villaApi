@@ -31,10 +31,10 @@ public class KategoriService : IKategoriService
         List<KategoriDtoQ> data = _mapper.Map<List<Kategori>,List<KategoriDtoQ>>(_appDbContext.Kategori.Include(x=> x.ParentKategori).ToList());
         return new ResponseModel(data);
     }
-    public async Task<KategoriDtoQ> Get(int id)
+    public async Task<ResponseModel> Get(int id)
     {
         var entity = await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.ParentKategori));
-        return _mapper.Map<KategoriDtoQ>(entity);
+        return new ResponseModel(_mapper.Map<KategoriDtoQ>(entity));
     }
     
     public async Task<ResponseModel> Add(KategoriDtoC dto)

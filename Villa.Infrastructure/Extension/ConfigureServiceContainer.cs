@@ -59,6 +59,10 @@ namespace Villa.Infrastructure.Extension
             serviceCollection.AddTransient<IVillaService, VillaService>();
             serviceCollection.AddTransient<IVillaIcerikService, VillaIcerikService>();
             serviceCollection.AddTransient<IVillaLokasyonService, VillaLokasyonService>();
+            serviceCollection.AddTransient<IVillaImageService, VillaImageService>();
+            serviceCollection.AddTransient<IVillaPeriyodikFiyatService, VillaPeriyodikFiyatService>();
+            serviceCollection.AddTransient<IVillaPeriyodikFiyatAyarlariService, VillaPeriyodikFiyatAyarlariService>();
+            serviceCollection.AddTransient<IVillaLokasyonService, VillaLokasyonService>();
             serviceCollection.AddTransient<IIlService, IlService>();
             serviceCollection.AddTransient<IIlceService, IlceService>();
             serviceCollection.AddTransient<IMulkService, MulkService>();

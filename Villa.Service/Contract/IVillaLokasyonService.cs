@@ -10,7 +10,7 @@ namespace Villa.Service.Contract
 {
     public interface IVillaLokasyonService
     {
-        Task<Domain.Entities.VillaLokasyon> Get(int id); 
+        Task<ResponseModel> Get(int id); 
         Task<ResponseModel> Add(VillaLokasyonDtoC dto);
         Task<ResponseModel> Update(VillaLokasyonDtoC dto);
         Task<ResponseModel> Delete(int id);

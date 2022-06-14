@@ -35,10 +35,10 @@ public class BolgeService : IBolgeService
         //      _mapper.Map<IQueryable<Bolge>,IQueryable<BolgeDtoQ>>(entity);
         return new ResponseModel(bolge);
     }
-    public async Task<BolgeDtoQ> Get(int id)
+    public async Task<ResponseModel> Get(int id)
     {
        var entity = await _repository.GetSingleAsync(x=>x.Id == id, x=> x.Include(y=> y.Il));
-       return _mapper.Map<BolgeDtoQ>(entity);
+       return new ResponseModel(_mapper.Map<BolgeDtoQ>(entity));
     }
     
     public async Task<ResponseModel> Add(BolgeDtoC bolge)

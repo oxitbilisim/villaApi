@@ -11,7 +11,7 @@ namespace Villa.Service.Contract
     public interface IVillaService
     {
         Task<ResponseModel> GetAll();
-        Task<VillaDtoQ> Get(int id); 
+        Task<ResponseModel> Get(int id); 
         Task<ResponseModel> Add(VillaDtoC dto);
         Task<ResponseModel> Update(VillaDtoC dto);
         Task<ResponseModel> Delete(int id);
