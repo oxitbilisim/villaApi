@@ -2,7 +2,7 @@ using Villa.Domain.Entities;
 
 namespace Villa.Domain.Dtos
 {
-    public class VillaPeriyodikDtoQ 
+    public class VillaPeriyodikFiyatAyarlariDtoQ 
     {
         public int? Id { get; set; }
         public int VillaId { get; set; }

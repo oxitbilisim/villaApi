@@ -57,7 +57,73 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
-                   
+            #region VillaGosterim
+            CreateMap<Domain.Entities.VillaGosterim, VillaGosterimDtoC>()
+                .ReverseMap();
+            CreateMap<VillaGosterimDtoC, Domain.Entities.VillaGosterim>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaGosterim, VillaGosterimDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaGosterimDtoQ, Domain.Entities.VillaGosterim>()
+                .ReverseMap();
+            #endregion
+            
+            #region VillaOzellik
+            CreateMap<Domain.Entities.VillaOzellik, VillaOzellikDtoC>()
+                .ReverseMap();
+            CreateMap<VillaOzellikDtoC, Domain.Entities.VillaOzellik>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaOzellik, VillaOzellikDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaOzellikDtoQ, Domain.Entities.VillaOzellik>()
+                .ReverseMap();
+            #endregion    
+            
+            
+            #region VillaGorunum
+            CreateMap<Domain.Entities.VillaGorunum, VillaGorunumDtoC>()
+                .ReverseMap();
+            CreateMap<VillaGorunumDtoC, Domain.Entities.VillaGorunum>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaGorunum, VillaGorunumDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaGorunumDtoQ, Domain.Entities.VillaGorunum>()
+                .ReverseMap();
+            #endregion
+            
+            #region VillaImage
+            CreateMap<Domain.Entities.VillaImage, VillaImageDtoC>()
+                .ReverseMap();
+            CreateMap<VillaImageDtoC, Domain.Entities.VillaImage>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaImage, VillaImageDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaImageDtoQ, Domain.Entities.VillaImage>()
+                .ReverseMap();
+            #endregion
+            
+            #region VillaPeriyodikFiyat
+            CreateMap<Domain.Entities.PeriyodikFiyat, VillaPeriyodikFiyatDtoC>()
+                .ReverseMap();
+            CreateMap<VillaPeriyodikFiyatDtoC, Domain.Entities.PeriyodikFiyat>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.PeriyodikFiyat, VillaPeriyodikFiyatDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaPeriyodikFiyatDtoQ, Domain.Entities.PeriyodikFiyat>()
+                .ReverseMap();
+            #endregion
+            
+            #region VillaPeriyodikFiyatAyarlari
+            CreateMap<Domain.Entities.PeriyodikFiyatAyarlari, VillaPeriyodikFiyatAyarlariDtoC>()
+                .ReverseMap();
+            CreateMap<VillaPeriyodikFiyatAyarlariDtoC, Domain.Entities.PeriyodikFiyatAyarlari>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.PeriyodikFiyatAyarlari, VillaPeriyodikFiyatAyarlariDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaPeriyodikFiyatAyarlariDtoQ, Domain.Entities.PeriyodikFiyatAyarlari>()
+                .ReverseMap();
+            #endregion
+            
             #region İl
             CreateMap<Domain.Entities.Il, IlDtoC>()
                 .ReverseMap();
@@ -68,7 +134,6 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<IlDtoQ, Domain.Entities.Il>()
                 .ReverseMap();
             #endregion
-            
                           
             #region İlce
             CreateMap<Domain.Entities.Ilce, IlceDtoC>()
@@ -91,6 +156,8 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<MulkDtoQ, Domain.Entities.Mulk>()
                 .ReverseMap();
             #endregion
+            
+      
 
         }
     }
