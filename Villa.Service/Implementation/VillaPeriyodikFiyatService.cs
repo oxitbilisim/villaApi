@@ -44,7 +44,7 @@ public class VillaPeriyodikFiyatService : IVillaPeriyodikFiyatService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        PeriyodikFiyat station = _mapper.Map<PeriyodikFiyat>( Get(id));
+        PeriyodikFiyat station = _mapper.Map<PeriyodikFiyat>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 

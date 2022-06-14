@@ -51,7 +51,7 @@ public class VillaService : IVillaService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Villa station = _mapper.Map< Domain.Entities.Villa>( Get(id));
+        Domain.Entities.Villa station = _mapper.Map< Domain.Entities.Villa>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 

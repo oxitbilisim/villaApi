@@ -54,7 +54,7 @@ public class BolgeService : IBolgeService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Bolge station = _mapper.Map<Bolge>( Get(id));
+        Domain.Entities.Bolge station = _mapper.Map<Bolge>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 

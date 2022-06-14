@@ -41,7 +41,6 @@ namespace Villa.Persistence.Repositories
                 //throw new Exception($"{nameof(entity)} could not be saved: {ex.Message}");
             }
         }
-
         public async Task<ResponseModel> DeleteAsync(T entity)
         {
             try
@@ -49,7 +48,9 @@ namespace Villa.Persistence.Repositories
                 if (_context.Entry(entity).State == EntityState.Detached)
                     _dbSet.Attach(entity);
 
-                _dbSet.Remove(entity);
+                //_dbSet.Remove(entity);
+                entity.IsDeleted = true;
+                _context.Entry(entity).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return new ResponseModel(){ Success = true, Message = "Succeded",Data = entity.Id};
             }
@@ -95,7 +96,7 @@ namespace Villa.Persistence.Repositories
                                                  int? skip = null, int? take = null)
         {
             IQueryable<T> query = GetQueryable(predicate, include);
-
+            
             if (orderBy != null)
             {
                 query = orderBy(query);
@@ -163,22 +164,24 @@ namespace Villa.Persistence.Repositories
           Expression<Func<T, bool>> predicate = null,
           Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
+            // predicate =  model => model.IsDeleted == false; 
             IQueryable<T> query = GetQueryable(predicate, include);
-
+                
             return query.FirstOrDefaultAsync();
         }
         private IQueryable<T> GetQueryable(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
             IQueryable<T> query = _context.Set<T>();
-
+            
             if (include != null)
             {
                 query = include(query);
             }
 
+            //
             if (predicate != null)
             {
-                query = query.Where(predicate);
+                query = query.Where(predicate); 
             }
 
             return query;

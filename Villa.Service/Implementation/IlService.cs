@@ -54,7 +54,7 @@ public class IlService : IIlService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Il station = _mapper.Map<Il>( Get(id));
+        Domain.Entities.Il station = _mapper.Map<Il>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 

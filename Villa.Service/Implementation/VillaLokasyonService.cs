@@ -44,7 +44,7 @@ public class VillaLokasyonService : IVillaLokasyonService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.VillaLokasyon station = _mapper.Map<VillaLokasyon>( Get(id));
+        Domain.Entities.VillaLokasyon station = _mapper.Map<VillaLokasyon>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 

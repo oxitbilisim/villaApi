@@ -46,7 +46,7 @@ public class VillaIcerikService : IVillaIcerikService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.VillaIcerik station = _mapper.Map<VillaIcerik>( Get(id));
+        Domain.Entities.VillaIcerik station = _mapper.Map<VillaIcerik>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 }

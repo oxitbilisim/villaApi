@@ -54,7 +54,7 @@ public class MulkService : IMulkService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Mulk station = _mapper.Map<Mulk>( Get(id));
+        Domain.Entities.Mulk station = _mapper.Map<Mulk>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 

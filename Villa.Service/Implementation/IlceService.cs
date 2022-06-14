@@ -60,7 +60,7 @@ public class IlceService : IIlceService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Ilce station = _mapper.Map<Ilce>( Get(id));
+        Domain.Entities.Ilce station = _mapper.Map<Ilce>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 

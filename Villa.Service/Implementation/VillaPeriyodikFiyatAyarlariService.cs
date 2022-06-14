@@ -44,7 +44,7 @@ public class VillaPeriyodikFiyatAyarlariService : IVillaPeriyodikFiyatAyarlariSe
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.PeriyodikFiyatAyarlari station = _mapper.Map<PeriyodikFiyatAyarlari>( Get(id));
+        Domain.Entities.PeriyodikFiyatAyarlari station = _mapper.Map<PeriyodikFiyatAyarlari>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 }

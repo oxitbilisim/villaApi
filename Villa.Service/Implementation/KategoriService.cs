@@ -50,7 +50,7 @@ public class KategoriService : IKategoriService
     
     public async Task<ResponseModel> Delete(int id)
     {
-        Domain.Entities.Kategori station = _mapper.Map<Kategori>( Get(id));
+        Domain.Entities.Kategori station = _mapper.Map<Kategori>( Get(id).Result.Data);
         return await _repository.DeleteAsync(station);
     }
 
