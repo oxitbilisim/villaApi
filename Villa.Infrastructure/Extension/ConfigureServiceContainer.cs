@@ -48,14 +48,17 @@ namespace Villa.Infrastructure.Extension
         {
             serviceCollection.AddScoped<IAppDbContext>(provider => provider.GetService<appDbContext>());
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            serviceCollection.AddScoped<BolgeService>();
+            serviceCollection.AddScoped<KategoriService>();
+            serviceCollection.AddScoped<IlService>();
+            serviceCollection.AddScoped<IlceService>();
         }
         public static void AddTransientServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IDateTimeService, DateTimeService>();
             serviceCollection.AddTransient<IAccountService, AccountService>();
             serviceCollection.AddTransient<IRoleService, RoleService>();
-            serviceCollection.AddTransient<IBolgeService, BolgeService>();
-            serviceCollection.AddTransient<IKategoriService, KategoriService>();
+
             serviceCollection.AddTransient<IVillaService, VillaService>();
             serviceCollection.AddTransient<IVillaIcerikService, VillaIcerikService>();
             serviceCollection.AddTransient<IVillaLokasyonService, VillaLokasyonService>();
@@ -63,8 +66,6 @@ namespace Villa.Infrastructure.Extension
             serviceCollection.AddTransient<IVillaPeriyodikFiyatService, VillaPeriyodikFiyatService>();
             serviceCollection.AddTransient<IVillaPeriyodikFiyatAyarlariService, VillaPeriyodikFiyatAyarlariService>();
             serviceCollection.AddTransient<IVillaLokasyonService, VillaLokasyonService>();
-            serviceCollection.AddTransient<IIlService, IlService>();
-            serviceCollection.AddTransient<IIlceService, IlceService>();
             serviceCollection.AddTransient<IMulkService, MulkService>();
         }
         public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection)

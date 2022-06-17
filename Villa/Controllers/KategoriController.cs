@@ -7,25 +7,26 @@ using System;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Service.Implementation;
 
 namespace Villa.Controllers
 {
     //[Authorize]
     [ApiController]
     [Route("api/Kategori")]
-    public class KategoriController : ControllerBase
+    public class KategoriController : ControllerBase, IDisposable
     {
-        private readonly IKategoriService _kategoriService;
+        private readonly KategoriService _kategoriService;
 
-        public KategoriController(IKategoriService kategoriService)
+        public KategoriController(KategoriService kategoriService)
         {
             _kategoriService = kategoriService;
         }
 
         [HttpGet(nameof(GetAll))]
-        public async Task<IActionResult> GetAll()
+        public  IActionResult GetAll()
         {
-            var result = await _kategoriService.GetAll();
+            var result =  _kategoriService.GetAll(x=> x.IsDeleted == false);
             if (result is not null)
             {
                 return Ok(result);
@@ -34,30 +35,35 @@ namespace Villa.Controllers
         }
 
         [HttpGet(nameof(GetById))]
-        public async Task<IActionResult> GetById(int id)
+        public ResponseModel GetById(int id)
         {
-            var result = await _kategoriService.Get(id);
+            var result =  _kategoriService.Get(id);
             if (result is not null)
             {
-                return Ok(result);
+                return new ResponseModel(result);
             }
-            return Ok(null);
+            return new ResponseModel();
         }
 
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(KategoriDtoC kategori)
+        public ResponseModel Add(KategoriDtoC dto)
         { 
-            return await _kategoriService.Add(kategori);
+            return new ResponseModel(_kategoriService.Add(dto));
         }
         [HttpPut(nameof(Update))]
-        public async Task<ActionResult<ResponseModel>>  Update(KategoriDtoC kategori)
+        public ResponseModel  Update(KategoriDtoC dto)
         {
-            return await _kategoriService.Update(kategori);
+            return new ResponseModel(_kategoriService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]
-        public async Task<ActionResult<ResponseModel>>  Delete(int Id)
+        public ActionResult<ResponseModel>  Delete(int Id)
         {
-            return await _kategoriService.Delete(Id);
+            return  new ResponseModel(_kategoriService.Delete(Id));
+        }
+        
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

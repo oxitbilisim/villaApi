@@ -7,58 +7,63 @@ using System;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Service.Implementation;
 
 namespace Villa.Controllers
 {
     //[Authorize]
     [ApiController]
     [Route("api/Bolge")]
-    public class BolgeController : ControllerBase
+    public class BolgeController : ControllerBase, IDisposable
     {
-        private readonly IBolgeService _bolgeService;
+        private readonly BolgeService _bolgeService;
 
-        public BolgeController(IBolgeService bolgeService)
+        public BolgeController(BolgeService bolgeService)
         {
             _bolgeService = bolgeService;
         }
 
         [HttpGet(nameof(GetAll))]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var result = await _bolgeService.GetAll();
+            var result =  _bolgeService.GetAll(x=> x.IsDeleted == false);
             if (result is not null)
             {
                 return Ok(result);
             }
-            
             return Ok(result);
         }
 
         [HttpGet(nameof(GetById))]
-        public async Task<IActionResult> GetById(int id)
+        public ResponseModel GetById(int id)
         {
-            var result = await _bolgeService.Get(id);
+            var result =  _bolgeService.Get(id);
             if (result is not null)
             {
-                return Ok(result);
+                return new ResponseModel(result);
             }
-            return Ok(result);
+            return new ResponseModel();
         }
 
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(BolgeDtoC dto)
+        public ResponseModel Add(BolgeDtoC dto)
         { 
-            return await _bolgeService.Add(dto);
+            return   new ResponseModel(_bolgeService.Add(dto));
         }
         [HttpPut(nameof(Update))]
-        public async Task<ActionResult<ResponseModel>> Update(BolgeDtoC dto)
+        public ResponseModel Update(BolgeDtoC dto)
         {
-            return await _bolgeService.Update(dto);
+            return  new ResponseModel(_bolgeService.Update(dto)); ;
         }
         [HttpDelete(nameof(Delete))]
-        public async Task<ActionResult<ResponseModel>> Delete(int Id)
+        public ResponseModel Delete(int Id)
         {
-            return await _bolgeService.Delete(Id);
+            return  new ResponseModel(_bolgeService.Delete(Id));
+        }
+        
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }
