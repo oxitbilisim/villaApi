@@ -38,8 +38,8 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _bolgeService.GetPI<BolgeDtoQ>(x=> x.Id == id,
-                                                                            x=> x.Include(y=> y.Il));
+            var result =  _bolgeService.GetPI<BolgeDtoQ>(x=> x.Id == id
+                                                                           );
             if (result is not null)
             {
                 return new ResponseModel(result);

@@ -26,7 +26,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public  IActionResult GetAll()
         {
-            var result =  _kategoriService.GetAll(x=> x.IsDeleted == false);
+            var result = _kategoriService.GetAllPI<KategoriDtoQ>(x => x.IsDeleted == false);
             if (result is not null)
             {
                 return Ok(result);
@@ -37,7 +37,8 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _kategoriService.Get(id);
+            var result = _kategoriService.GetPI<KategoriDtoQ>(x => x.Id == id
+                                                                   );
             if (result is not null)
             {
                 return new ResponseModel(result);

@@ -7,6 +7,7 @@ namespace Villa.Domain.Dtos
         public int? Id { get; set; }
 
         public string ParentKategoriAd { get; set; }
+        public string ParentKategoriId { get; set; }
 
         public string Ad { get; set; }
 
