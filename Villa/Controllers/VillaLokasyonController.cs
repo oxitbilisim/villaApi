@@ -23,21 +23,11 @@ namespace Villa.Controllers
             _villaLokasyonService = villaLokasyonService;
         }
         
-        [HttpGet(nameof(GetAll))]
-        public IActionResult GetAll()
-        {
-            var result =  _villaLokasyonService.GetAllPI<BolgeDtoQ>(x=> x.IsDeleted == false);
-            if (result is not null)
-            {
-                return Ok(result);
-            }
-            return Ok(result);
-        }
 
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _villaLokasyonService.GetPI<BolgeDtoQ>(x=> x.Id == id);
+            var result =  _villaLokasyonService.GetPI<VillaLokasyonDtoQ>(x=> x.Id == id);
             if (result is not null)
             {
                 return new ResponseModel(result);

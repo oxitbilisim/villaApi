@@ -33,6 +33,17 @@ namespace Villa.Controllers
             }
             return new ResponseModel();
         }
+        
+        [HttpGet(nameof(GetPFAVillaById))]
+        public ResponseModel GetPFAVillaById(int id)
+        {
+            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x=> x.VillaId == id);
+            if (result is not null)
+            {
+                return new ResponseModel(result);
+            }
+            return new ResponseModel();
+        }
 
         [HttpPost(nameof(Add))]
         public ActionResult<ResponseModel> Add(VillaPeriyodikFiyatDtoC dto)

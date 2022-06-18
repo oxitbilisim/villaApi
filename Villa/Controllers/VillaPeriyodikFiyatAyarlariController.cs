@@ -25,7 +25,18 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _villaPeriyodikFiyatAyarlariService.Get(id);
+            var result =  _villaPeriyodikFiyatAyarlariService.GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x=> x.Id == id);
+            if (result is not null)
+            {
+                return new ResponseModel(result);
+            }
+            return new ResponseModel();
+        }
+
+        [HttpGet(nameof(GetPFVillaById))]
+        public ResponseModel GetPFVillaById(int id)
+        {
+            var result =  _villaPeriyodikFiyatAyarlariService.GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x=> x.VillaId == id);
             if (result is not null)
             {
                 return new ResponseModel(result);

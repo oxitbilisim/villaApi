@@ -33,8 +33,8 @@ namespace Villa.Controllers
             return new ResponseModel();
         }
         
-        [HttpGet(nameof(GetVillaById))]
-        public ResponseModel GetVillaById(int id)
+        [HttpGet(nameof(GetImageVillaById))]
+        public ResponseModel GetImageVillaById(int id)
         {
             var result =  _villaImageService.GetPI<VillaImageDtoQ>(x=> x.VillaId == id);
             if (result is not null)
