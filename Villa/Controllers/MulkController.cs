@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Service.Implementation;
 
 namespace Villa.Controllers
 {
@@ -15,49 +16,48 @@ namespace Villa.Controllers
     [Route("api/Mulk")]
     public class MulkController : ControllerBase
     {
-        private readonly IMulkService _mulkService;
+        private readonly MulkService _mulkService;
 
-        public MulkController(IMulkService mulkService)
+        public MulkController(MulkService mulkService)
         {
             _mulkService = mulkService;
         }
 
         [HttpGet(nameof(GetAll))]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var result = await _mulkService.GetAll();
+            var result =  _mulkService.GetAllPI<MulkDtoQ>(x=> x.IsDeleted == false);
             if (result is not null)
             {
                 return Ok(result);
             }
-            return Ok(null);
+            return Ok(result);
         }
 
         [HttpGet(nameof(GetById))]
-        public async Task<IActionResult> GetById(int id)
+        public ResponseModel GetById(int id)
         {
-            var result = await _mulkService.Get(id);
+            var result =  _mulkService.GetPI<MulkDtoQ>(x=> x.Id == id);
             if (result is not null)
             {
-                return Ok(result);
+                return new ResponseModel(result);
             }
-            return Ok(null);
+            return new ResponseModel();
         }
-
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(MulkDtoC dto)
+        public ActionResult<ResponseModel> Add(MulkDtoC dto)
         { 
-            return await _mulkService.Add(dto);
+            return  new ResponseModel(_mulkService.Add(dto));
         }
         [HttpPut(nameof(Update))]
-        public async Task<ActionResult<ResponseModel>> Update(MulkDtoC dto)
+        public ActionResult<ResponseModel> Update(MulkDtoC dto)
         {
-            return await _mulkService.Update(dto);
+            return  new ResponseModel(_mulkService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]
-        public async Task<ActionResult<ResponseModel>> Delete(int Id)
+        public  ActionResult<ResponseModel> Delete(int Id)
         {
-            return await _mulkService.Delete(Id);
+            return  new ResponseModel(_mulkService.Delete(Id));
         }
     }
 }
