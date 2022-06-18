@@ -5,8 +5,10 @@ using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Service.Implementation;
 
 namespace Villa.Controllers
 {
@@ -15,49 +17,50 @@ namespace Villa.Controllers
     [Route("api/Villa")]
     public class VillaController : ControllerBase
     {
-        private readonly IVillaService _villaService;
+        private readonly VillaService _villaService;
 
-        public VillaController(IVillaService villaService)
+        public VillaController(VillaService villaService)
         {
             _villaService = villaService;
         }
 
         [HttpGet(nameof(GetAll))]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var result = await _villaService.GetAll();
+            var result =  _villaService.GetAllPI<VillaDtoQ>(x=> x.IsDeleted == false);
             if (result is not null)
             {
                 return Ok(result);
             }
-            return Ok(null);
+            return Ok(result);
         }
 
         [HttpGet(nameof(GetById))]
-        public async Task<IActionResult> GetById(int id)
+        public ResponseModel GetById(int id)
         {
-            var result = await _villaService.Get(id);
+            var result =  _villaService.GetPI<VillaDtoQ>(x=> x.Id == id,
+                x=> x.Include(y=> y.Mulk));
             if (result is not null)
             {
-                return Ok(result);
+                return new ResponseModel(result);
             }
-            return Ok(null);
+            return new ResponseModel();
         }
 
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(VillaDtoC dto)
+        public  ActionResult<ResponseModel> Add(VillaDtoC dto)
         { 
-            return await _villaService.Add(dto);
+            return new ResponseModel(_villaService.Add(dto));
         }
         [HttpPut(nameof(Update))]
-        public async Task<ActionResult<ResponseModel>> Update(VillaDtoC dto)
+        public ActionResult<ResponseModel> Update(VillaDtoC dto)
         {
-            return await _villaService.Update(dto);
+            return new ResponseModel( _villaService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]
-        public async Task<ActionResult<ResponseModel>> Delete(int Id)
+        public ActionResult<ResponseModel> Delete(int Id)
         {
-            return await _villaService.Delete(Id);
+            return new ResponseModel( _villaService.Delete(Id));
         }
     }
 }
