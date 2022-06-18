@@ -14,7 +14,7 @@ using Villa.Service.Contract;
 namespace Villa.Service.Implementation;
 
 
-    public class IlceService : BaseService<Bolge>
+    public class IlceService : BaseService<Ilce>
     {
         private readonly IMapper _mapper;
         private readonly appDbContext _appDbContext;

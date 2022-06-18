@@ -7,13 +7,14 @@ using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Domain.Entities;
 using Villa.Domain.Interfaces;
+using Villa.Domain.Utilities;
 using Villa.Persistence;
 using Villa.Service.Base;
 using Villa.Service.Contract;
 
 namespace Villa.Service.Implementation;
 
-public class IlService : BaseService<Bolge>
+public class IlService : BaseService<Il>
 {
     private readonly IMapper _mapper;
     private readonly appDbContext _appDbContext;

@@ -13,7 +13,7 @@ using Villa.Service.Contract;
 
 namespace Villa.Service.Implementation;
 
-public class MulkService : BaseService<Bolge>
+public class MulkService : BaseService<Mulk>
 {
     private readonly IMapper _mapper;
     private readonly appDbContext _appDbContext;

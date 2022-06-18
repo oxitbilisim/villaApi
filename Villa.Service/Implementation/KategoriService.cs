@@ -14,7 +14,7 @@ using Villa.Service.Contract;
 namespace Villa.Service.Implementation;
 
 
-    public class KategoriService : BaseService<Bolge>
+    public class KategoriService : BaseService<Kategori>
     {
         private readonly IMapper _mapper;
         private readonly appDbContext _appDbContext;
