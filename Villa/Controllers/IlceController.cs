@@ -27,7 +27,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public IActionResult GetAll()
         {
-            var result =  _ilceService.GetAllPI<BolgeDtoQ>(x=> x.IsDeleted == false);
+            var result =  _ilceService.GetAllPI<IlceDtoQ>(x=> x.IsDeleted == false);
             if (result is not null)
             {
                 return Ok(result);
