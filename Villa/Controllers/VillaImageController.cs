@@ -13,7 +13,7 @@ namespace Villa.Controllers
 {
     [ApiController]
     [Route("api/VillaImage")]
-    public class VillaImageController : ControllerBase
+    public class VillaImageController : ControllerBase, IDisposable
     {
         private readonly VillaImageService _villaImageService;
 

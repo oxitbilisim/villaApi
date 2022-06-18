@@ -14,7 +14,7 @@ namespace Villa.Controllers
     //[Authorize]
     [ApiController]
     [Route("api/VillaIcerik")]
-    public class VillaIcerikController : ControllerBase
+    public class VillaIcerikController : ControllerBase, IDisposable
     {
         private readonly VillaIcerikService _villaIcerikService;
         public VillaIcerikController(VillaIcerikService villaIcerikService)
