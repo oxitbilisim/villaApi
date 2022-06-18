@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Service.Implementation;
 
 namespace Villa.Controllers
 {
@@ -15,38 +16,38 @@ namespace Villa.Controllers
     [Route("api/VillaPeriyodikFiyat")]
     public class VillaPeriyodikFiyatController : ControllerBase
     {
-        private readonly IVillaPeriyodikFiyatService _villaPeriyodikFiyatService;
+        private readonly VillaPeriyodikFiyatService _villaPeriyodikFiyatService;
 
-        public VillaPeriyodikFiyatController(IVillaPeriyodikFiyatService villaPeriyodikFiyatService)
+        public VillaPeriyodikFiyatController(VillaPeriyodikFiyatService villaPeriyodikFiyatService)
         {
             _villaPeriyodikFiyatService = villaPeriyodikFiyatService;
         }
         
         [HttpGet(nameof(GetById))]
-        public async Task<IActionResult> GetById(int id)
+        public ResponseModel GetById(int id)
         {
-            var result = await _villaPeriyodikFiyatService.Get(id);
+            var result =  _villaPeriyodikFiyatService.Get(id);
             if (result is not null)
             {
-                return Ok(result);
+                return new ResponseModel(result);
             }
-            return Ok(null);
+            return new ResponseModel();
         }
 
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(VillaPeriyodikFiyatDtoC dto)
+        public ActionResult<ResponseModel> Add(VillaPeriyodikFiyatDtoC dto)
         { 
-            return await _villaPeriyodikFiyatService.Add(dto);
+            return  new ResponseModel(_villaPeriyodikFiyatService.Add(dto));
         }
         [HttpPut(nameof(Update))]
-        public async Task<ActionResult<ResponseModel>> Update(VillaPeriyodikFiyatDtoC dto)
+        public ActionResult<ResponseModel> Update(VillaPeriyodikFiyatDtoC dto)
         {
-            return await _villaPeriyodikFiyatService.Update(dto);
+            return new ResponseModel(_villaPeriyodikFiyatService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]
-        public async Task<ActionResult<ResponseModel>> Delete(int Id)
+        public ActionResult<ResponseModel> Delete(int Id)
         {
-            return await _villaPeriyodikFiyatService.Delete(Id);
+            return  new ResponseModel(_villaPeriyodikFiyatService.Delete(Id));
         }
     }
 }

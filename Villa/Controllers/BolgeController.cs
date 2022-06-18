@@ -5,6 +5,7 @@ using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Service.Implementation;
@@ -26,7 +27,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public IActionResult GetAll()
         {
-            var result =  _bolgeService.GetAll(x=> x.IsDeleted == false);
+            var result =  _bolgeService.GetAllPI<BolgeDtoQ>(x=> x.IsDeleted == false);
             if (result is not null)
             {
                 return Ok(result);
@@ -37,7 +38,8 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _bolgeService.Get(id);
+            var result =  _bolgeService.GetPI<BolgeDtoQ>(x=> x.Id == id,
+                                                                            x=> x.Include(y=> y.Il));
             if (result is not null)
             {
                 return new ResponseModel(result);
@@ -48,7 +50,7 @@ namespace Villa.Controllers
         [HttpPost(nameof(Add))]
         public ResponseModel Add(BolgeDtoC dto)
         { 
-            return   new ResponseModel(_bolgeService.Add(dto));
+            return new ResponseModel(_bolgeService.Add(dto));
         }
         [HttpPut(nameof(Update))]
         public ResponseModel Update(BolgeDtoC dto)

@@ -33,7 +33,7 @@ namespace Villa.Controllers
             }
             return Ok(null);
         }
-
+        
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {

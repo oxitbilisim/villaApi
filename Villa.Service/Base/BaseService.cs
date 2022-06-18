@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore.Query;
 using Villa.Persistence;
 
 namespace Villa.Service.Base
@@ -43,11 +44,29 @@ namespace Villa.Service.Base
         public virtual IQueryable<T> GetAll() =>
             _appDbContext
           .Set<T>();
+        
         public virtual IQueryable<T> GetAll(Expression<Func<T, bool>> predicate) =>
             _appDbContext
          .Set<T>()
-         .Where(predicate)
-            ;
+         .Where(predicate);
+        
+        public virtual IQueryable<M> GetAllPI<M>(Expression<Func<T, bool>> predicate = null,
+                                                         Func<IQueryable<T>,IIncludableQueryable<T, object>> include = null) 
+        {
+            IQueryable<T> query = _appDbContext.Set<T>();
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return query.ProjectTo<M>(_mapper.ConfigurationProvider);;
+        }
         public virtual M Get<M>(int Id) =>
             _mapper
             .Map<M>(_appDbContext
@@ -58,6 +77,25 @@ namespace Villa.Service.Base
             _appDbContext
            .Set<T>()
            .Find(Id);
+        
+        public virtual IQueryable<M> GetPI<M>(Expression<Func<T, bool>> predicate  = null,
+                                              Func<IQueryable<T>,IIncludableQueryable<T, object>> include = null) 
+        {
+            IQueryable<T> query = _appDbContext.Set<T>();
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return query.ProjectTo<M>(_mapper.ConfigurationProvider);;
+        }
+        
         public virtual int Add<M>(M model)
         {
             var data = _mapper.Map<T>(model);

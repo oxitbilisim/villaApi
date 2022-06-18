@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Service.Implementation;
 
 namespace Villa.Controllers
 {
@@ -15,38 +16,37 @@ namespace Villa.Controllers
     [Route("api/VillaPeriyodikFiyatAyarlari")]
     public class VillaPeriyodikFiyatAyarlariController : ControllerBase
     {
-        private readonly IVillaPeriyodikFiyatAyarlariService _villaPeriyodikFiyatAyarlariService;
+        private readonly VillaPeriyodikFiyatAyarlariService _villaPeriyodikFiyatAyarlariService;
 
-        public VillaPeriyodikFiyatAyarlariController(IVillaPeriyodikFiyatAyarlariService villaPeriyodikFiyatAyarlariService)
+        public VillaPeriyodikFiyatAyarlariController(VillaPeriyodikFiyatAyarlariService villaPeriyodikFiyatAyarlariService)
         {
             _villaPeriyodikFiyatAyarlariService = villaPeriyodikFiyatAyarlariService;
         }
-        
         [HttpGet(nameof(GetById))]
-        public async Task<IActionResult> GetById(int id)
+        public ResponseModel GetById(int id)
         {
-            var result = await _villaPeriyodikFiyatAyarlariService.Get(id);
+            var result =  _villaPeriyodikFiyatAyarlariService.Get(id);
             if (result is not null)
             {
-                return Ok(result);
+                return new ResponseModel(result);
             }
-            return Ok(null);
+            return new ResponseModel();
         }
 
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(VillaPeriyodikFiyatAyarlariDtoC dto)
+        public ActionResult<ResponseModel> Add(VillaPeriyodikFiyatAyarlariDtoC dto)
         { 
-            return await _villaPeriyodikFiyatAyarlariService.Add(dto);
+            return  new ResponseModel(_villaPeriyodikFiyatAyarlariService.Add(dto));
         }
         [HttpPut(nameof(Update))]
-        public async Task<ActionResult<ResponseModel>> Update(VillaPeriyodikFiyatAyarlariDtoC dto)
+        public ActionResult<ResponseModel> Update(VillaPeriyodikFiyatAyarlariDtoC dto)
         {
-            return await _villaPeriyodikFiyatAyarlariService.Update(dto);
+            return  new ResponseModel(_villaPeriyodikFiyatAyarlariService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]
-        public async Task<ActionResult<ResponseModel>> Delete(int Id)
+        public  ActionResult<ResponseModel> Delete(int Id)
         {
-            return await _villaPeriyodikFiyatAyarlariService.Delete(Id);
+            return  new ResponseModel(_villaPeriyodikFiyatAyarlariService.Delete(Id));
         }
     }
 }

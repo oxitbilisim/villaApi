@@ -23,5 +23,4 @@ public class BolgeService : BaseService<Bolge>
         _mapper = mapper;
         _appDbContext = appDbContext;
     }
-  
 }

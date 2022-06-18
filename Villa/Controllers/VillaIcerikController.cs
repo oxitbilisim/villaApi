@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Service.Implementation;
 
 namespace Villa.Controllers
 {
@@ -15,38 +16,44 @@ namespace Villa.Controllers
     [Route("api/VillaIcerik")]
     public class VillaIcerikController : ControllerBase
     {
-        private readonly IVillaIcerikService _villaIcerikService;
-
-        public VillaIcerikController(IVillaIcerikService villaIcerikService)
+        private readonly VillaIcerikService _villaIcerikService;
+        public VillaIcerikController(VillaIcerikService villaIcerikService)
         {
             _villaIcerikService = villaIcerikService;
         }
-
+        
         [HttpGet(nameof(GetById))]
-        public async Task<IActionResult> GetById(int id)
+        public ResponseModel GetById(int id)
         {
-            var result = await _villaIcerikService.Get(id);
+            var result =  _villaIcerikService.Get(id);
             if (result is not null)
             {
-                return Ok(result);
+                return new ResponseModel(result);
             }
-            return Ok(null);
+            return new ResponseModel();
         }
 
         [HttpPost(nameof(Add))]
-        public async Task<ActionResult<ResponseModel>> Add(VillaIcerikDtoC dto)
+        public ResponseModel Add(VillaIcerikDtoC dto)
         { 
-            return await _villaIcerikService.Add(dto);
+            return  new ResponseModel(_villaIcerikService.Add(dto));
         }
+        
         [HttpPut(nameof(Update))]
-        public async Task<ActionResult<ResponseModel>> Update(VillaIcerikDtoC dto)
+        public ResponseModel Update(VillaIcerikDtoC dto)
         {
-            return await _villaIcerikService.Update(dto);
+            return  new ResponseModel(_villaIcerikService.Update(dto)); ;
         }
+        
         [HttpDelete(nameof(Delete))]
-        public async Task<ActionResult<ResponseModel>> Delete(int Id)
+        public ResponseModel Delete(int Id)
         {
-            return await _villaIcerikService.Delete(Id);
+            return  new ResponseModel(_villaIcerikService.Delete(Id));
+        }
+        
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }
