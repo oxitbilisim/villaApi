@@ -30,7 +30,7 @@ namespace Villa.Controllers
             var result =  _villaService.GetAllPI<VillaDtoQ>(x=> x.IsDeleted == false);
             if (result is not null)
             {
-                return Ok(result);
+                return Ok(result );
             }
             return Ok(result);
         }
