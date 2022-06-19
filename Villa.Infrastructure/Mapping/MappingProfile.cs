@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Villa.Domain.Dtos;
 using Villa.Domain.Entities;
 using Villa.Infrastructure.ViewModel;
@@ -138,8 +139,12 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<VillaPeriyodikFiyatDtoC, Domain.Entities.PeriyodikFiyat>()
                 .ReverseMap();
             CreateMap<Domain.Entities.PeriyodikFiyat, VillaPeriyodikFiyatDtoQ>()
+                .ForMember(x=> x.Baslangic,opt => opt.MapFrom(src=> ((DateTime)src.Baslangic).ToString("dd:MM:yyyy")))
+                .ForMember(x=> x.Bitis,opt => opt.MapFrom(src=> ((DateTime)src.Bitis).ToString("dd:MM:yyyy")))
                 .ReverseMap();
             CreateMap<VillaPeriyodikFiyatDtoQ, Domain.Entities.PeriyodikFiyat>()
+                .ForMember(x=> x.Baslangic,opt => opt.MapFrom(src=> ((DateTime)src.Baslangic).ToString("dd:MM:yyyy")))
+                .ForMember(x=> x.Bitis,opt => opt.MapFrom(src=> ((DateTime)src.Bitis).ToString("dd:MM:yyyy")))
                 .ReverseMap();
             #endregion
             
