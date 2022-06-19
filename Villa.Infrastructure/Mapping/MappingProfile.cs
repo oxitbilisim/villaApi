@@ -32,6 +32,28 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+            #region Ozellik
+            CreateMap<Ozellik, OzellikDtoC>()
+                 .ReverseMap();
+            CreateMap<OzellikDtoC, Ozellik>()
+                .ReverseMap();
+            CreateMap<Ozellik, OzellikDtoQ>()
+                .ReverseMap();
+            CreateMap<OzellikDtoQ, Ozellik>()
+                .ReverseMap();
+            #endregion
+            
+            #region ParaBirimi
+            CreateMap<ParaBirimi, ParaBirimiDtoC>()
+                .ReverseMap();
+            CreateMap<ParaBirimiDtoC, ParaBirimi>()
+                .ReverseMap();
+            CreateMap<ParaBirimi, ParaBirimiDtoQ>()
+                .ReverseMap();
+            CreateMap<ParaBirimiDtoQ, ParaBirimi>()
+                .ReverseMap();
+            #endregion
+            
             #region Villa
             CreateMap<Domain.Entities.Villa, VillaDtoC>()
                 .ReverseMap();
@@ -88,7 +110,6 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion    
             
-            
             #region VillaGorunum
             CreateMap<Domain.Entities.VillaGorunum, VillaGorunumDtoC>()
                 .ReverseMap();
@@ -130,6 +151,28 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<Domain.Entities.PeriyodikFiyatAyarlari, VillaPeriyodikFiyatAyarlariDtoQ>()
                 .ReverseMap();
             CreateMap<VillaPeriyodikFiyatAyarlariDtoQ, Domain.Entities.PeriyodikFiyatAyarlari>()
+                .ReverseMap();
+            #endregion
+            
+            #region VillaSeo
+            CreateMap<Domain.Entities.VillaSeo, VillaSeoDtoC>()
+                .ReverseMap();
+            CreateMap<VillaSeoDtoC, Domain.Entities.VillaSeo>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaSeo, VillaSeoDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaSeoDtoQ, Domain.Entities.VillaSeo>()
+                .ReverseMap();
+            #endregion
+            
+            #region VillaKategori
+            CreateMap<Domain.Entities.VillaKategori, VillaKategoriDtoC>()
+                .ReverseMap();
+            CreateMap<VillaKategoriDtoC, Domain.Entities.VillaKategori>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaKategori, VillaKategoriDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaKategoriDtoQ, Domain.Entities.VillaKategori>()
                 .ReverseMap();
             #endregion
             
