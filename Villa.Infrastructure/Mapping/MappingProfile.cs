@@ -48,6 +48,10 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             CreateMap<VillaIcerikDtoC, Domain.Entities.VillaIcerik>()
                 .ReverseMap();
+            CreateMap<Domain.Entities.VillaIcerik, VillaIcerikDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaIcerikDtoQ, Domain.Entities.VillaIcerik>()
+                .ReverseMap();
             #endregion
             
             #region VillaLokasyon
@@ -55,6 +59,11 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             CreateMap<VillaLokasyonDtoC, Domain.Entities.VillaLokasyon>()
                 .ReverseMap();
+            CreateMap<Domain.Entities.VillaLokasyon, VillaLokasyonDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaLokasyonDtoQ, Domain.Entities.VillaLokasyon>()
+                .ReverseMap();
+            
             #endregion
             
             #region VillaGosterim
