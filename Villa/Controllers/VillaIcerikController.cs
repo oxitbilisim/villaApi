@@ -32,6 +32,17 @@ namespace Villa.Controllers
             }
             return new ResponseModel();
         }
+        
+        [HttpGet(nameof(GetIcerikVillaById))]
+        public ResponseModel GetIcerikVillaById(int id)
+        {
+            var result =  _villaIcerikService.GetPI<VillaIcerikDtoQ>(x=> x.VillaId == id);
+            if (result is not null)
+            {
+                return new ResponseModel(result);
+            }
+            return new ResponseModel();
+        }
 
         [HttpPost(nameof(Add))]
         public ResponseModel Add(VillaIcerikDtoC dto)

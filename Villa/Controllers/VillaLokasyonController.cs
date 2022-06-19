@@ -35,6 +35,16 @@ namespace Villa.Controllers
             return new ResponseModel();
         }
 
+        [HttpGet(nameof(GetLokasyonVillaById))]
+        public ResponseModel GetLokasyonVillaById(int id)
+        {
+            var result =  _villaLokasyonService.GetPI<VillaLokasyonDtoQ>(x=> x.VillaId == id);
+            if (result is not null)
+            {
+                return new ResponseModel(result);
+            }
+            return new ResponseModel();
+        }
         [HttpPost(nameof(Add))]
         public ActionResult<ResponseModel> Add(VillaLokasyonDtoC dto)
         { 
