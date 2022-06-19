@@ -16,6 +16,8 @@ namespace Villa.Domain.Entities
         }
         public int VillaId { get; set; }
         public virtual Villa Villa { get; set; }
+        public int ParaBirimiId { get; set; }
+        public virtual ParaBirimi ParaBirimi { get; set; }
         
         public DateTime Baslangic { get; set; }
 

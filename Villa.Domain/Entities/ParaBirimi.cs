@@ -15,5 +15,6 @@ namespace Villa.Domain.Entities
         }
         public string Ad { get; set; }
         public virtual HashSet<PeriyodikFiyatAyarlari> PeriyodikFiyatAyarlari { get; set; } 
+        public virtual HashSet<PeriyodikFiyat> PeriyodikFiyat{ get; set; } 
     }
 }

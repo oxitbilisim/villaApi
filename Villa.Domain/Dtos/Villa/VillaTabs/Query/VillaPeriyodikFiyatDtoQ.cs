@@ -8,7 +8,8 @@ namespace Villa.Domain.Dtos
         public int? Id { get; set; }
         public int VillaId { get; set; }
         public DateTime Baslangic { get; set; }
-
+        public int ParaBirimiId { get; set; }
+        public string ParaBirimiAd  { get; set; }
         public DateTime Bitis { get; set; }
 
         public decimal Fiyat { get; set; }
