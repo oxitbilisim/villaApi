@@ -17,9 +17,22 @@ namespace Villa.Controllers
     public class VillaGorunumController : ControllerBase, IDisposable
     {
         private readonly VillaGorunumService _villaGorunumService;
-        public VillaGorunumController(VillaGorunumService villaGorunumService)
+        private readonly VillaOzellikService _villaOzellikService;
+        private readonly VillaKategoriService _villaKategoriService;
+        private readonly VillaGosterimService _villaGosterimService;
+        
+        public VillaGorunumController(
+            VillaGorunumService villaGorunumService,
+            VillaOzellikService villaOzellikService,
+            VillaKategoriService villaKategoriService,
+            VillaGosterimService villaGosterimService
+            )
         {
             _villaGorunumService = villaGorunumService;
+            _villaOzellikService = villaOzellikService;
+            _villaKategoriService = villaKategoriService;
+            _villaGosterimService = villaGosterimService;
+            
         }
         
         [HttpGet(nameof(GetById))]
@@ -46,8 +59,13 @@ namespace Villa.Controllers
 
         [HttpPost(nameof(Add))]
         public ResponseModel Add(VillaGorunumDtoC dto)
-        { 
-            return  new ResponseModel(_villaGorunumService.Add(dto));
+        {
+            _villaGorunumService.Add(dto);
+            _villaOzellikService.Add(dto.VillaOzellik);
+            _villaKategoriService.Add(dto.VillaKategori);
+            _villaGosterimService.Add(dto.VillaGosterim);
+            
+            return  new ResponseModel();
         }
         
         [HttpPut(nameof(Update))]

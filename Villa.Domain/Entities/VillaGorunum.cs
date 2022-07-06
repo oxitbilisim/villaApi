@@ -20,5 +20,6 @@ namespace Villa.Domain.Entities
         public string OneCikanOzellik { get; set; }
         public string Etiket { get; set; }
         public string HavuzOzellik { get; set; }
+        
     }
 }

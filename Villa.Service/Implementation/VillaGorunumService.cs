@@ -17,10 +17,33 @@ public class VillaGorunumService : BaseService<VillaGorunum>
 {
     private readonly IMapper _mapper;
     private readonly appDbContext _appDbContext;
+    private readonly VillaOzellikService _villaOzellikService;
+    private readonly VillaKategoriService _villaKategoriService;
+    private readonly VillaGosterimService _villaGosterimService;
     public VillaGorunumService( appDbContext appDbContext,
-        IMapper mapper) :  base(appDbContext, mapper)
+        IMapper mapper , 
+        VillaOzellikService villaOzellikService,
+        VillaKategoriService villaKategoriService, 
+        VillaGosterimService villaGosterimService
+        ) :  base(appDbContext, mapper)
     {
         _mapper = mapper;
         _appDbContext = appDbContext;
+        _villaOzellikService = villaOzellikService;
+        _villaKategoriService = villaKategoriService;
+        _villaGosterimService = villaGosterimService;
     }
+
+    // public override int Add( VillaGorunumDtoC dto)
+    //
+    // {
+    //     _villaOzellikService.AddMany(dto.VillaOzellik);
+    //     _villaKategoriService.AddMany(dto.VillaOzellik);
+    //     _villaGosterimService.AddMany(dto.VillaGosterim);
+    //
+    //        
+    //     _appDbContext.SaveChanges();
+    //     
+    //     return 1;
+    // }
 }
