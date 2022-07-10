@@ -32,7 +32,6 @@ namespace Villa.Controllers
             _villaOzellikService = villaOzellikService;
             _villaKategoriService = villaKategoriService;
             _villaGosterimService = villaGosterimService;
-            
         }
         
         [HttpGet(nameof(GetById))]
@@ -61,9 +60,24 @@ namespace Villa.Controllers
         public ResponseModel Add(VillaGorunumDtoC dto)
         {
             _villaGorunumService.Add(dto);
-            _villaOzellikService.Add(dto.VillaOzellik);
-            _villaKategoriService.Add(dto.VillaKategori);
-            _villaGosterimService.Add(dto.VillaGosterim);
+            
+            foreach (var item in dto.VillaOzellik)
+            {
+                item.VillaId = dto.VillaId;
+                _villaOzellikService.Add(item);
+            }
+            
+            foreach (var item1 in dto.VillaKategori)
+            {
+                item1.VillaId = dto.VillaId;
+                _villaKategoriService.Add(item1);
+            }
+            
+            foreach (var item2 in dto.VillaGosterim)
+            {
+                item2.VillaId = dto.VillaId;
+                _villaGosterimService.Add(item2);
+            }
             
             return  new ResponseModel();
         }
