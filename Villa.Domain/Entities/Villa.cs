@@ -23,6 +23,7 @@ namespace Villa.Domain.Entities
             VillaSeo = new();
             VillaIcerik = new();
             VillaLokasyon = new();
+            Rezervasyon = new();
         }
         
         public string Ad { get; set; }
@@ -44,6 +45,7 @@ namespace Villa.Domain.Entities
         public virtual HashSet<VillaSeo> VillaSeo { get; set; }
         public virtual HashSet<VillaIcerik> VillaIcerik { get; set; }
         public virtual HashSet<VillaLokasyon> VillaLokasyon { get; set; }
+        public virtual HashSet<Rezervasyon> Rezervasyon { get; set; }
         
         
         
