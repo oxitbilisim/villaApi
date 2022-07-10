@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Villa.Domain.Dtos
 {
     public class VillaOzellikDtoC 
     {
-        public int? Id { get; set; }
+        [NotMapped]
         public int? VillaId { get; set; }
         public int OzellikId { get; set; }
     }

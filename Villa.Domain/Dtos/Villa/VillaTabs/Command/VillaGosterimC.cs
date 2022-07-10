@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using Villa.Domain.Enum;
+
 namespace Villa.Domain.Dtos
 {
     public class VillaGosterimDtoC 
     {
-        public int? Id { get; set; }
+        [NotMapped]
         public int? VillaId { get; set; }
 
+        public Gosterim Gosterim { get; set; }
     }
 }
