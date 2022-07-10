@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
@@ -38,8 +39,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _villaGorunumService.GetPI<VillaGorunumDtoQ>(x=> x.VillaId == id)
-                ;
+            var result =  _villaGorunumService.GetPI<VillaGorunumDtoQ>(x=> x.VillaId == id);
             if (result is not null)
             {
                 return new ResponseModel(result);
@@ -61,7 +61,7 @@ namespace Villa.Controllers
         [HttpPost(nameof(Add))]
         public ResponseModel Add(VillaGorunumDtoC dto)
         {
-            _villaGorunumService.Add(dto);
+            var result =  _villaGorunumService.Add(dto);
             
             foreach (var item in dto.VillaOzellik)
             {
@@ -81,17 +81,31 @@ namespace Villa.Controllers
                 _villaGosterimService.Add(item2);
             }
             
-            return  new ResponseModel();
+            return  new ResponseModel(result);
         }
         
         [HttpPut(nameof(Update))]
         public ResponseModel Update(VillaGorunumDtoC dto)
         {
-            _villaGorunumService.Update(dto);
+            var result =  _villaGorunumService.Add(dto);
+
+
+            var ozellik = _villaOzellikService.GetAll(x => x.VillaId == dto.VillaId).ToList();
+            foreach (var itemozellik in ozellik)
+            {
+                _villaOzellikService.DeleteHard((int)itemozellik.Id);
+            }
+            var kategori =  _villaKategoriService.GetAll(x => x.VillaId == dto.VillaId).ToList();
+            foreach (var itemkategori in kategori)
+            {
+                _villaKategoriService.DeleteHard((int)itemkategori.Id);
+            }
             
-            _villaOzellikService.DeleteHard((int)dto.VillaId);
-            _villaKategoriService.DeleteHard((int)dto.VillaId);
-            _villaGosterimService.DeleteHard((int)dto.VillaId);
+            var gosterim = _villaGosterimService.GetAll(x => x.VillaId == dto.VillaId).ToList();
+            foreach (var itemgosterim in gosterim)
+            {
+                _villaGosterimService.DeleteHard((int)itemgosterim.Id);
+            }
             
             foreach (var item in dto.VillaOzellik)
             {
@@ -113,7 +127,7 @@ namespace Villa.Controllers
             
             
             
-            return  new ResponseModel(); ;
+            return  new ResponseModel(result); 
         }
         
         [HttpDelete(nameof(Delete))]
