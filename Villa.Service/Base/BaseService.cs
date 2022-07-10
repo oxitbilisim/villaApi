@@ -143,5 +143,16 @@ namespace Villa.Service.Base
             //     .Remove(data);
             return _appDbContext.SaveChanges();
         }
+        
+        public virtual int DeleteHard(int Id)
+        {
+            var data = _appDbContext.Set<T>().Find(Id); 
+            _appDbContext
+            .Set<T>()
+            .Remove(data);
+        
+        
+            return _appDbContext.SaveChanges();
+        }
     }
 }

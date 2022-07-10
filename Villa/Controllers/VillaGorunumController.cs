@@ -87,7 +87,33 @@ namespace Villa.Controllers
         [HttpPut(nameof(Update))]
         public ResponseModel Update(VillaGorunumDtoC dto)
         {
-            return  new ResponseModel(_villaGorunumService.Update(dto)); ;
+            _villaGorunumService.Update(dto);
+            
+            _villaOzellikService.DeleteHard((int)dto.VillaId);
+            _villaKategoriService.DeleteHard((int)dto.VillaId);
+            _villaGosterimService.DeleteHard((int)dto.VillaId);
+            
+            foreach (var item in dto.VillaOzellik)
+            {
+                item.VillaId = dto.VillaId;
+                _villaOzellikService.Add(item);
+            }
+            
+            foreach (var item1 in dto.VillaKategori)
+            {
+                item1.VillaId = dto.VillaId;
+                _villaKategoriService.Add(item1);
+            }
+            
+            foreach (var item2 in dto.VillaGosterim)
+            {
+                item2.VillaId = dto.VillaId;
+                _villaGosterimService.Add(item2);
+            }
+            
+            
+            
+            return  new ResponseModel(); ;
         }
         
         [HttpDelete(nameof(Delete))]
