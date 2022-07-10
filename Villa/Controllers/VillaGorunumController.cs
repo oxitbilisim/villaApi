@@ -5,6 +5,7 @@ using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Service.Implementation;
@@ -37,7 +38,8 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _villaGorunumService.GetPI<VillaGorunumDtoQ>(x=> x.VillaId == id);
+            var result =  _villaGorunumService.GetPI<VillaGorunumDtoQ>(x=> x.VillaId == id)
+                ;
             if (result is not null)
             {
                 return new ResponseModel(result);
