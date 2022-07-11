@@ -43,15 +43,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b25cbb02-eaa3-4461-841a-e55912fa64e3",
-                            ConcurrencyStamp = "701bb59c-b321-4315-a36d-c9c0b6aa6f62",
+                            Id = "8ab7156d-b5ff-4f39-afda-78ff11f891ec",
+                            ConcurrencyStamp = "b1d4d890-492e-4025-aaf5-1dcb5d4125c9",
                             Name = "sistemadmin",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "04f8540f-132e-4871-85a4-138aa5b1ff38",
-                            ConcurrencyStamp = "0ac0222e-3228-4349-9505-9ed06791f22e",
+                            Id = "9371ad8b-bda3-4d6f-93ff-353af9b37d56",
+                            ConcurrencyStamp = "46f336dd-1c0d-4483-aa1a-efee284b63d2",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -257,10 +257,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "aa3cf29b-5d96-4382-a3f3-1950118d8b71",
+                            Id = "1bb9e613-5f09-4a80-8215-a9577046797e",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "14613e5e-13cf-419b-826b-f55a158ea7f2",
+                            ConcurrencyStamp = "4e83b540-3e2d-4af1-984e-42c9b35f6ebd",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +268,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dcdb638b-a066-4baf-8f9c-b2cc53a64aee",
+                            SecurityStamp = "1f44ca7a-3c8f-4e5e-bbac-5f53dda6bc19",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "0df3282c-7f31-4a2e-8197-babeb769db71",
+                            Id = "c2de7ff2-224f-4e84-87f2-e54a4f2800ca",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "f54aedfa-fb82-4049-b726-d4ce382e63a1",
+                            ConcurrencyStamp = "b85d073d-603f-4e02-81e3-f5e67bdaeb75",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +286,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ad03c17d-106f-44a0-9928-d4571a24aa5d",
+                            SecurityStamp = "ebb3ee11-1b58-4400-a2dd-7c9aed9e4360",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
@@ -956,6 +956,274 @@ namespace Villa.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.Rezervasyon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateOnly>("Baslangic")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("Bitis")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("MSBebek")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MSCocuk")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MSYetiskin")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MusteriAdSoyad")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Not")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RezervasyonDurum")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TelefonNo")
+                        .HasColumnType("text");
+
+                    b.Property<int>("VillaId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VillaId");
+
+                    b.ToTable("Rezervasyon");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.RezervasyonMaliBilgi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double?>("Depozito")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("DepozitoDurum")
+                        .HasColumnType("integer");
+
+                    b.Property<double?>("DigerGider")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double?>("EvSahibiOdenenTutar")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime?>("EvSahibineOdemeTarihi")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FaturaNumarasi")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("FaturaTarihi")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double?>("Harcama")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("HavuzGideri")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("IndırımsızTutar")
+                        .HasColumnType("double precision");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<double?>("KahvaltiSatisi")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("KiralamaKaporasi")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("KkOdemeTutar")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Komisyon")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("KomisyonTutari")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("KomisyondanIndirim")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Konaklama")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Not")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("RentGeliri")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("RezervasyonId")
+                        .HasColumnType("integer");
+
+                    b.Property<double?>("TahsilExtraTemizlik")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("TahsilatBanka")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("TahsilatTarihi")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double?>("TahsitTutar")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("TemizlikGideri")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("ToplamTutar")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("TransferGeliri")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("VillaSahibindenIndirim")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("YemekSatisi")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RezervasyonId");
+
+                    b.ToTable("RezervasyonMaliBilgi");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.RezervasyonMisafir", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Cinsiyet")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("MisafirAdSoyad")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RezervasyonId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TcNo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Yas")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RezervasyonId");
+
+                    b.ToTable("RezervasyonMisafir");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.RezervasyonOperasyon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool?>("Havuz")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("Kapora")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("Karşılama")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("Kepozito")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("RezervasyonId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool?>("Tahsilat")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("Temizlik")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RezervasyonId");
+
+                    b.ToTable("RezervasyonOperasyon");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.Villa", b =>
                 {
                     b.Property<int>("Id")
@@ -1466,6 +1734,50 @@ namespace Villa.Persistence.Migrations
                     b.Navigation("Villa");
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.Rezervasyon", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Villa", "Villa")
+                        .WithMany("Rezervasyon")
+                        .HasForeignKey("VillaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Villa");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.RezervasyonMaliBilgi", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Rezervasyon", "Rezervasyon")
+                        .WithMany()
+                        .HasForeignKey("RezervasyonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rezervasyon");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.RezervasyonMisafir", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Rezervasyon", "Rezervasyon")
+                        .WithMany()
+                        .HasForeignKey("RezervasyonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rezervasyon");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.RezervasyonOperasyon", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Rezervasyon", "Rezervasyon")
+                        .WithMany()
+                        .HasForeignKey("RezervasyonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rezervasyon");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.Villa", b =>
                 {
                     b.HasOne("Villa.Domain.Entities.Ilce", null)
@@ -1656,6 +1968,8 @@ namespace Villa.Persistence.Migrations
                     b.Navigation("PeriyodikFiyat");
 
                     b.Navigation("PeriyodikFiyatAyarlari");
+
+                    b.Navigation("Rezervasyon");
 
                     b.Navigation("VillaGorunum");
 

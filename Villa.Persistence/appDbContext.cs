@@ -37,6 +37,12 @@ namespace Villa.Persistence
         public DbSet<ParaBirimi> ParaBirimi { get; set; }
         public DbSet<PeriyodikFiyat> PeriyodikFiyat { get; set; }
         
+        public DbSet<Rezervasyon> Rezervasyon { get; set; }
+        public DbSet<RezervasyonMisafir> RezervasyonMisafir { get; set; }
+        public DbSet<RezervasyonOperasyon> RezervasyonOperasyon { get; set; }
+        public DbSet<RezervasyonMaliBilgi> RezervasyonMaliBilgi { get; set; }
+        
+        
         public DbSet<PeriyodikFiyatAyarlari> PeriyodikFiyatAyarlari { get; set; }
         public DbSet<Villa.Domain.Entities.Villa> Villa { get; set; }
         public DbSet<VillaGorunum> VillaGorunum { get; set; }

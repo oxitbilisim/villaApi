@@ -50,7 +50,8 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetGorunumVillaById))]
         public ResponseModel GetGorunumVillaById(int id)
         {
-            var result =  _villaGorunumService.GetPI<VillaGorunumDtoQ>(x=> x.VillaId == id);
+            var result = _villaGorunumService.GetPI<VillaGorunumDtoQ>(x => x.VillaId == id);
+              
             if (result is not null)
             {
                 return new ResponseModel(result);

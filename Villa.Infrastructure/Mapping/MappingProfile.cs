@@ -214,6 +214,51 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+            #region Rezervasyon
+            CreateMap<Domain.Entities.Rezervasyon, RezervasyonDtoC>()
+                .ReverseMap();
+            CreateMap<RezervasyonDtoC, Domain.Entities.Rezervasyon>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Rezervasyon, RezervasyonDtoQ>()
+                .ReverseMap();
+            CreateMap<RezervasyonDtoQ, Domain.Entities.Rezervasyon>()
+                .ReverseMap();
+            #endregion
+            
+            #region RezervasyonMisafir
+            CreateMap<Domain.Entities.RezervasyonMisafir, RezervasyonMisafirC>()
+                .ReverseMap();
+            CreateMap<RezervasyonMisafirC, Domain.Entities.RezervasyonMisafir>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.RezervasyonMisafir, RezervasyonMisafirQ>()
+                .ReverseMap();
+            CreateMap<RezervasyonMisafirQ, Domain.Entities.RezervasyonMisafir>()
+                .ReverseMap();
+            #endregion
+            
+            #region RezervasyonOperasyonC
+            CreateMap<Domain.Entities.RezervasyonOperasyon, RezervasyonOperasyonC>()
+                .ReverseMap();
+            CreateMap<RezervasyonOperasyonC, Domain.Entities.RezervasyonOperasyon>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.RezervasyonOperasyon, RezervasyonOperasyonQ>()
+                .ReverseMap();
+            CreateMap<RezervasyonOperasyonQ, Domain.Entities.RezervasyonOperasyon>()
+                .ReverseMap();
+            #endregion
+            
+            #region RezervasyonMaliBilgi
+            CreateMap<Domain.Entities.RezervasyonMaliBilgi, RezervasyonMaliBilgiC>()
+                .ReverseMap();
+            CreateMap<RezervasyonMaliBilgiC, Domain.Entities.RezervasyonMaliBilgi>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.RezervasyonMaliBilgi, RezervasyonMaliBilgiQ>()
+                .ReverseMap();
+            CreateMap<RezervasyonMaliBilgiQ, Domain.Entities.RezervasyonMaliBilgi>()
+                .ReverseMap();
+            #endregion
+            
+            
       
 
         }
