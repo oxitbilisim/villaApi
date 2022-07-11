@@ -29,6 +29,7 @@ namespace Villa.Domain.Entities
      
         
         public int? ParentKategoriId { get; set; }
+        [NotMapped]
         public virtual Kategori ParentKategori { get; set; }
 
         public virtual ICollection<Kategori> items { get; set; }

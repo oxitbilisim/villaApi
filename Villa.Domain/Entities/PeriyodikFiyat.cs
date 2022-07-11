@@ -19,9 +19,9 @@ namespace Villa.Domain.Entities
         public int ParaBirimiId { get; set; }
         public virtual ParaBirimi ParaBirimi { get; set; }
         
-        public DateTime Baslangic { get; set; }
+        public DateTimeOffset Baslangic { get; set; }
 
-        public DateTime Bitis { get; set; }
+        public DateTimeOffset Bitis { get; set; }
 
         public decimal Fiyat { get; set; }
        

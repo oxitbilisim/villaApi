@@ -11,7 +11,7 @@ namespace Villa.Domain
 
         public bool IsDeleted { get; set; } = false;
         public bool Active { get; set; } = true;
-        public DateTime? CreateDate { get; set; }
-        public DateTime? EditDate { get; set; }
+        public DateTimeOffset? CreateDate { get; set; }
+        public DateTimeOffset? EditDate { get; set; }
     }
 }

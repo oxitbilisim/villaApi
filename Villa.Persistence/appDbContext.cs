@@ -91,6 +91,8 @@ namespace Villa.Persistence
             });
             #endregion
 
+    
+            
             MenuMapper.Initialize(modelBuilder);
             PermissionMapper.Initialize(modelBuilder);
             MenuPermissionMapper.Initialize(modelBuilder);

@@ -28,6 +28,8 @@ namespace Villa.Infrastructure.Extension
         {
             serviceCollection.AddDbContext<appDbContext>(options => {
                 //options.EnableSensitiveDataLogging();
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                //AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
                 options.UseNpgsql(configuration.GetConnectionString("OnionArchConn") ?? configRoot["ConnectionStrings:OnionArchConn"]
              , b => b.MigrationsAssembly(typeof(appDbContext).Assembly.FullName));
 

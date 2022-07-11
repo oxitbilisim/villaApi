@@ -32,7 +32,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetBolgeAll))]
         public IActionResult GetBolgeAll(int rules)
         {
-            var result = _villaFEService.GetBolgeFE(rules);
+            var result = _villaFEService.GetBolge(rules);
          
             if (result is not null)
             {
@@ -41,10 +41,35 @@ namespace Villa.Controllers
             return Ok(result);
         }
         
+        [HttpGet(nameof(GetBolgeVillas))]
+        public IActionResult GetBolgeVillas(string bolgeAd)
+        {
+            var result = _villaFEService.GetBolgeVillas(bolgeAd);
+         
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
+        
+        
         [HttpGet(nameof(GetKategoriAll))]
         public IActionResult GetKategoriAll(int rules)
         {
-            var result = _villaFEService.GetKategoriFE(rules);
+            var result = _villaFEService.GetKategori(rules);
+         
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
+        
+        [HttpGet(nameof(GetKategoriVillas))]
+        public IActionResult GetKategoriVillas(string kategoriAd)
+        {
+            var result = _villaFEService.GetKategoriVillas(kategoriAd);
          
             if (result is not null)
             {

@@ -18,9 +18,9 @@ namespace Villa.Domain.Entities
         }
         public int VillaId  { get; set; }
         public virtual Villa Villa { get; set; }
-        public DateTime Baslangic { get; set; }
+        public DateTimeOffset Baslangic { get; set; }
 
-        public DateTime Bitis { get; set; }
+        public DateTimeOffset Bitis { get; set; }
         public string MusteriAdSoyad { get; set; }
         
         public int? MSYetiskin { get; set; }

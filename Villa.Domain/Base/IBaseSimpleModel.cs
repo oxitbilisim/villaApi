@@ -7,8 +7,8 @@ namespace Villa.Domain
         int Id { get; set; }
         bool IsDeleted { get; set; }
         bool Active { get; set; }
-        DateTime? CreateDate { get; set; } 
-        DateTime? EditDate { get; set; }
+        DateTimeOffset? CreateDate { get; set; } 
+        DateTimeOffset? EditDate { get; set; }
      
     }
 }
