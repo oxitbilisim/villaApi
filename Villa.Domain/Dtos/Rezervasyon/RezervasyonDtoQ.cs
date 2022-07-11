@@ -7,6 +7,7 @@ namespace Villa.Domain.Dtos
     {
         public int? Id { get; set; }
         public int VillaId  { get; set; }
+        public string VillaAd  { get; set; }
         public DateTime Baslangic { get; set; }
         public DateTime Bitis { get; set; }
         public string MusteriAdSoyad { get; set; }
