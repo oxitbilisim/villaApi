@@ -66,7 +66,6 @@ namespace Villa.Infrastructure.Extension
             serviceCollection.AddTransient<VillaPeriyodikFiyatService>();
             serviceCollection.AddTransient<VillaPeriyodikFiyatAyarlariService>();
             serviceCollection.AddTransient<VillaLokasyonService>();
-            
             serviceCollection.AddTransient<RezervasyonMisafirService>();
             serviceCollection.AddTransient<RezervasyonOperasyonService>();
             serviceCollection.AddTransient<RezervasyonMaliBilgiService>();
