@@ -4,7 +4,7 @@ namespace Villa.Domain.Dtos
     {
         public int? Id { get; set; }
         public int VillaId { get; set; }
-        public int KategoriAd { get; set; }
+        public string KategoriAd { get; set; }
         public int KategoriId { get; set; }
     }
 }

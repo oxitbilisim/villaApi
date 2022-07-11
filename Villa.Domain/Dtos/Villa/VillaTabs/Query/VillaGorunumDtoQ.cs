@@ -9,9 +9,9 @@ namespace Villa.Domain.Dtos
         public string OneCikanOzellik { get; set; }
         public string Etiket { get; set; }
         public string HavuzOzellik { get; set; }
-        public HashSet<VillaOzellikDtoQ> VillaOzellik { get; set; }
-        public HashSet<VillaGosterimDtoQ> VillaGosterim { get; set; }
-        public HashSet<VillaKategoriDtoQ> VillaKategori { get; set; }
+        public List<VillaOzellikDtoQ> VillaOzellik { get; set; }
+        public List<VillaGosterimDtoQ> VillaGosterim { get; set; }
+        public List<VillaKategoriDtoQ> VillaKategori { get; set; }
         
     }
 }

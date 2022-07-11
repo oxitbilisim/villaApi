@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -50,8 +51,12 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetGorunumVillaById))]
         public ResponseModel GetGorunumVillaById(int id)
         {
-            var result = _villaGorunumService.GetPI<VillaGorunumDtoQ>(x => x.VillaId == id);
-              
+            VillaGorunumDtoQ result = new();
+            result = _villaGorunumService.GetPI<VillaGorunumDtoQ>(x => x.VillaId == id).FirstOrDefault();
+            result.VillaOzellik = _villaOzellikService.GetPI<VillaOzellikDtoQ>(x => x.VillaId == id).ToList();
+            result.VillaKategori = _villaKategoriService.GetPI<VillaKategoriDtoQ>(x => x.VillaId == id).ToList();
+            result.VillaGosterim = _villaGosterimService.GetPI<VillaGosterimDtoQ>(x => x.VillaId == id).ToList();
+   
             if (result is not null)
             {
                 return new ResponseModel(result);
