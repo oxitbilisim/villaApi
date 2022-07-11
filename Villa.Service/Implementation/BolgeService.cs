@@ -23,4 +23,17 @@ public class BolgeService : BaseService<Bolge>
         _mapper = mapper;
         _appDbContext = appDbContext;
     }
+    
+    public List<BolgeDtoFQ> GetBolgeFE()
+    {
+        var bolge = _appDbContext.Bolge.Select(x=> new BolgeDtoFQ
+        {
+            Ad     = x.Ad,
+            Url = x.Url,
+            Image = x.Image,
+            Toplam = _appDbContext.VillaLokasyon.Where(y=> y.BolgeId == x.Id).Sum(z=> z.VillaId)
+        }).ToList();
+        
+        return bolge;
+    }
 }

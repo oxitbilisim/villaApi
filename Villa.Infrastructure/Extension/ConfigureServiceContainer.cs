@@ -70,8 +70,7 @@ namespace Villa.Infrastructure.Extension
             serviceCollection.AddTransient<RezervasyonOperasyonService>();
             serviceCollection.AddTransient<RezervasyonMaliBilgiService>();
             serviceCollection.AddTransient<RezervasyonService>();
-            
-            
+            serviceCollection.AddTransient<VillaFEService>();
             serviceCollection.AddTransient<VillaSeoService>();
             serviceCollection.AddTransient<VillaOzellikService>();
             serviceCollection.AddTransient<ParaBirimiService>();

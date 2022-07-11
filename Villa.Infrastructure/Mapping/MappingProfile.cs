@@ -20,6 +20,10 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             CreateMap<BolgeDtoQ, Bolge>()
                 .ReverseMap();
+            CreateMap<Bolge, BolgeDtoFQ>()
+                .ReverseMap();
+            CreateMap<BolgeDtoFQ, Bolge>()
+                .ReverseMap();
             #endregion
             
             #region Kategori
@@ -30,6 +34,10 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<Kategori, KategoriDtoQ>()
                 .ReverseMap();
             CreateMap<KategoriDtoQ, Kategori>()
+                .ReverseMap();
+            CreateMap<Kategori, KategoriDtoFQ>()
+                .ReverseMap();
+            CreateMap<KategoriDtoFQ, Kategori>()
                 .ReverseMap();
             #endregion
             

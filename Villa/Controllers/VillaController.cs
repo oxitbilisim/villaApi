@@ -34,6 +34,17 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
+        
+        [HttpGet(nameof(GetAllF))]
+        public IActionResult GetAllF()
+        {
+            var result =  _villaService.GetAllPI<VillaDtoQ>(x=> x.IsDeleted == false);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
 
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)

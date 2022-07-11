@@ -34,6 +34,16 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
+        [HttpGet(nameof(GetAllF))]
+        public IActionResult GetAllF()
+        {
+            var result =  _bolgeService.GetAllPI<BolgeDtoFQ>(x=> x.IsDeleted == false);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
 
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
