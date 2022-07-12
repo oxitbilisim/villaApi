@@ -222,6 +222,17 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+            #region VillaSahip
+            CreateMap<Domain.Entities.VillaSahip, VillaSahipDtoC>()
+                .ReverseMap();
+            CreateMap<VillaSahipDtoC, Domain.Entities.VillaSahip>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaSahip, VillaSahipDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaSahipDtoQ, Domain.Entities.VillaSahip>()
+                .ReverseMap();
+            #endregion
+            
             #region Rezervasyon
             CreateMap<Domain.Entities.Rezervasyon, RezervasyonDtoC>()
                 .ReverseMap();
