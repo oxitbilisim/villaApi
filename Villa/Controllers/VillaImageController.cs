@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Domain.Utilities;
 using Villa.Service.Implementation;
 
 namespace Villa.Controllers
@@ -16,10 +18,14 @@ namespace Villa.Controllers
     public class VillaImageController : ControllerBase, IDisposable
     {
         private readonly VillaImageService _villaImageService;
+        private readonly VillaImageDetayService _villaImageDetayService;
 
-        public VillaImageController(VillaImageService villaImageService)
+        public VillaImageController(VillaImageService villaImageService,
+            VillaImageDetayService villaImageDetayService
+        )
         {
             _villaImageService = villaImageService;
+            _villaImageDetayService = villaImageDetayService;
         }
 
         [HttpGet(nameof(GetById))]
@@ -28,6 +34,7 @@ namespace Villa.Controllers
             var result =  _villaImageService.Get(id);
             if (result is not null)
             {
+            
                 return new ResponseModel(result);
             }
             return new ResponseModel();
@@ -36,18 +43,29 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetImageVillaById))]
         public ResponseModel GetImageVillaById(int id)
         {
-            var result =  _villaImageService.GetPI<VillaImageDtoQ>(x=> x.VillaId == id);
-            if (result is not null)
+            VillaImageDtoQ villaImage = new();
+            villaImage = _villaImageService.GetPI<VillaImageDtoQ>(x=> x.VillaId == id).FirstOrDefault();
+            villaImage.ImageList = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == id).ToList();
+         
+            if (villaImage is not null)
             {
-                return new ResponseModel(result);
+                return new ResponseModel(villaImage);
             }
             return new ResponseModel();
         }
 
         [HttpPost(nameof(Add))]
         public ResponseModel Add(VillaImageDtoC dto)
-        { 
-            return  new ResponseModel(_villaImageService.Add(dto));
+        {
+            var result =  _villaImageService.Add(dto);
+            
+            foreach (var item in dto.ImageList)
+            {
+                item.VillaId = dto.VillaId;
+                _villaImageDetayService.Add(item);
+            }
+            
+            return  new ResponseModel(result);
         }
         
         [HttpPut(nameof(Update))]
@@ -55,10 +73,17 @@ namespace Villa.Controllers
         {
             return  new ResponseModel(_villaImageService.Update(dto)); ;
         }
+        
         [HttpDelete(nameof(Delete))]
         public ResponseModel Delete(int Id)
         {
             return  new ResponseModel(_villaImageService.Delete(Id));
+        }
+        
+        [HttpDelete(nameof(DeleteImage))]
+        public ResponseModel DeleteImage(int Id)
+        {
+            return  new ResponseModel(_villaImageDetayService.DeleteHard(Id));
         }
         
         public void Dispose()

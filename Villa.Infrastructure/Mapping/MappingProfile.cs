@@ -141,6 +141,17 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+            #region VillaImageDetay
+            CreateMap<Domain.Entities.VillaImageDetay, VillaImageDetayDtoC>()
+                .ReverseMap();
+            CreateMap<VillaImageDetayDtoC, Domain.Entities.VillaImageDetay>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.VillaImageDetay, VillaImageDetayDtoQ>()
+                .ReverseMap();
+            CreateMap<VillaImageDetayDtoQ, Domain.Entities.VillaImageDetay>()
+                .ReverseMap();
+            #endregion
+            
             #region VillaPeriyodikFiyat
             CreateMap<Domain.Entities.PeriyodikFiyat, VillaPeriyodikFiyatDtoC>()
                 .ReverseMap();

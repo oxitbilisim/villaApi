@@ -46,6 +46,7 @@ namespace Villa.Persistence
         public DbSet<PeriyodikFiyatAyarlari> PeriyodikFiyatAyarlari { get; set; }
         public DbSet<Villa.Domain.Entities.Villa> Villa { get; set; }
         public DbSet<VillaGorunum> VillaGorunum { get; set; }
+        public DbSet<VillaImageDetay> VillaImageDetay { get; set; }
         public DbSet<VillaGosterim> VillaGosterim { get; set; }
         public DbSet<VillaImage> VillaImage { get; set; }
         public DbSet<VillaKategori> VillaKategori { get; set; }

@@ -8,16 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Villa.Domain.Entities
 {
 
-    public class VillaImage : BaseSimpleModel
+    public class VillaImageDetay : BaseSimpleModel
     {
-        public VillaImage()
+        public VillaImageDetay()
         {
         }
         public int VillaId { get; set; }
         public virtual Villa Villa { get; set; }
-        public string VideoUrl { get; set; }
-        public int? SiraNo { get; set; }
-        public string Url { get; set; }
-        
+        public byte[] Image { get; set; }
     }
 }

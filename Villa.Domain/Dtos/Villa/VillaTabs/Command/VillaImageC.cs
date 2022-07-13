@@ -6,9 +6,8 @@ namespace Villa.Domain.Dtos
     {
         public int? Id { get; set; }
         public int VillaId { get; set; }
-        public List<byte[]> Image { get; set; }
         public string VideoUrl { get; set; }
-        public int SiraNo { get; set; }
-        public bool Url { get; set; }
+        public string Url { get; set; }
+        public List<VillaImageDetayDtoC> ImageList { get; set; }
     }
 }
