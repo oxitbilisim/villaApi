@@ -77,5 +77,17 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
+        
+        [HttpGet(nameof(GetVillaById))]
+        public IActionResult GetVillaById(int villaId)
+        {
+            var result = _villaFEService.GetVillaById(villaId);
+         
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
     }
 }

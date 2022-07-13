@@ -17,12 +17,6 @@ namespace Villa.Domain.Dtos
         public byte[]? Image { get; set; }
         public decimal? Fiyat { get; set; }
         public string? FiyatTuru { get; set; }
-        // public string? ParaBirimi { get; set; }
-        // public string? Des { get; set; }
-        // public string? ParaBirimi { get; set; }
-        // public string? ParaBirimi { get; set; }
-        // public string? ParaBirimi { get; set; }
-        // public string? ParaBirimi { get; set; }
-        // public string? ParaBirimi { get; set; }
+
     }
 }
