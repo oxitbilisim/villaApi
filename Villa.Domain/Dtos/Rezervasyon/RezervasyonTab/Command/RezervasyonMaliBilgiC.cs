@@ -5,6 +5,7 @@ namespace Villa.Domain.Dtos;
 
 public class RezervasyonMaliBilgiC
 {
+    public int Id { get; set; }
     public int RezervasyonId  { get; set; }
     public DepozitoDurum DepozitoDurum { get; set; }
     public Double? IndırımsızTutar { get; set; }
