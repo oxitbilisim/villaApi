@@ -19,6 +19,13 @@ namespace Villa.Persistence.Seeds
             CreateMenu(modelBuilder);
 
             CreatePermissions(modelBuilder);
+            
+            CreateMulk(modelBuilder);
+
+            CreateParaBirimi(modelBuilder);
+            CreateIl(modelBuilder);
+
+            CreateIlce(modelBuilder);
         }
 
         private static void CreateRoles(ModelBuilder modelBuilder)
@@ -32,6 +39,28 @@ namespace Villa.Persistence.Seeds
             List<User> users = DefaultUser.IdentityBasicUserList();
             modelBuilder.Entity<User>().HasData(users);
         }
+        private static void CreateMulk(ModelBuilder modelBuilder)
+        {
+            List<Mulk> mulks = DefaultMulks.MulkList();
+            modelBuilder.Entity<Mulk>().HasData(mulks);
+        }
+        private static void CreateParaBirimi(ModelBuilder modelBuilder)
+        {
+            List<ParaBirimi> paraBirimis = DefaultParaBirimis.ParaBirimiList();
+            modelBuilder.Entity<ParaBirimi>().HasData(paraBirimis);
+        }
+        
+        private static void CreateIl(ModelBuilder modelBuilder)
+        {
+            List<Il> ils = DefaultIls.IlList();
+            modelBuilder.Entity<Il>().HasData(ils);
+        }
+        private static void CreateIlce(ModelBuilder modelBuilder)
+        {
+            List<Ilce> ilces = DefaultIlces.IlceList();
+            modelBuilder.Entity<Ilce>().HasData(ilces);
+        }
+        
 
         private static void MapUserRole(ModelBuilder modelBuilder)
         {

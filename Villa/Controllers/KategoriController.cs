@@ -33,17 +33,7 @@ namespace Villa.Controllers
             }
             return Ok(null);
         }
-        [HttpGet(nameof(GetAllF))]
-        public  IActionResult GetAllF()
-        {
-            var result = _kategoriService.GetAllPI<KategoriDtoFQ>(x => x.IsDeleted == false);
-            if (result is not null)
-            {
-                return Ok(result);
-            }
-            return Ok(null);
-        }
-        
+     
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {

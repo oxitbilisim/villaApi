@@ -38,7 +38,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _rezervasyonService.GetPI<RezervasyonDtoQ>(x=> x.Id == id);
+            var result =  _rezervasyonService.GetPI<RezervasyonDtoQ>(x=> x.VillaId == id);
             if (result is not null)
             {
                 return new ResponseModel(result);
