@@ -133,7 +133,7 @@ public class VillaFEService
     public VillaFullDtoFQ GetVillaById(int villaId)
     {
         VillaFullDtoFQ villa = new();
-        villa.Villa = _villaService.GetAllPI<VillaDtoQ>(x => x.IsDeleted == false).FirstOrDefault();
+        villa.Villa = _villaService.GetAllPI<VillaDtoQ>(x => x.IsDeleted == false && x.Id == villaId).FirstOrDefault();
         villa.Images = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == villaId).ToList();
         villa.Lokasyon = _villaLokasyonService.GetPI<VillaLokasyonDtoQ>(x => x.VillaId == villaId).FirstOrDefault();
         villa.Icerik = _villaIcerikService.GetPI<VillaIcerikDtoQ>(x => x.VillaId == villaId).FirstOrDefault();
