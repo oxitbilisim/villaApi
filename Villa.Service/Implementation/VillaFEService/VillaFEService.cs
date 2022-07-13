@@ -28,21 +28,21 @@ public class VillaFEService
     
     public List<BolgeDtoFQ> GetBolge(int rules)
     {
-        var bolge = _appDbContext.Bolge.Select(x => new BolgeDtoFQ
+        var bolge = _appDbContext.Bolge.Where(x=> x.IsDeleted).Select(x => new BolgeDtoFQ
         {
             Id = x.Id,
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id).Count()
+            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && x.IsDeleted).Count()
         }).ToList();
         return bolge;
     }
     
-    public List<VillaDtoFQ> GetBolgeVillas(string BolgeAd)
+    public List<VillaDtoFQ> GetBolgeVillas(int bolgeId)
     {
         var villaBolge = _appDbContext.VillaLokasyon
-                                                           .Where(x=> x.Bolge.Ad == BolgeAd)
+                                                           .Where(x=> x.BolgeId == bolgeId)
                                                            .Select(x => new VillaDtoFQ
         {
             Id = x.Id,
@@ -66,22 +66,22 @@ public class VillaFEService
   
     public List<KategoriDtoFQ> GetKategori(int rules)
     {
-        var kategori = _appDbContext.Kategori.Select(x=> new KategoriDtoFQ
+        var kategori = _appDbContext.Kategori.Where(x=> x.IsDeleted).Select(x=> new KategoriDtoFQ
         {
             Id = x.Id,
             Ad   = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaKategori.Where(y=> y.KategoriId == x.Id).Count()
+            Toplam = _appDbContext.VillaKategori.Where(y=> y.KategoriId == x.Id && y.IsDeleted).Count()
         }).ToList();
         
         return kategori;
     }
     
-    public List<VillaDtoFQ> GetKategoriVillas(string kategoriAd)
+    public List<VillaDtoFQ> GetKategoriVillas(int kategoriId)
     {
         var villaKategori = _appDbContext.VillaKategori
-            .Where(x=> x.Kategori.Ad == kategoriAd)
+            .Where(x=> x.KategoriId == kategoriId && x.IsDeleted)
             .Select(x => new VillaDtoFQ
             {
                 Id = x.Id,

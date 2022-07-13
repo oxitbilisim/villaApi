@@ -42,9 +42,9 @@ namespace Villa.Controllers
         }
         
         [HttpGet(nameof(GetBolgeVillas))]
-        public IActionResult GetBolgeVillas(string bolgeAd)
+        public IActionResult GetBolgeVillas(int bolgeId)
         {
-            var result = _villaFEService.GetBolgeVillas(bolgeAd);
+            var result = _villaFEService.GetBolgeVillas(bolgeId);
          
             if (result is not null)
             {
@@ -67,9 +67,9 @@ namespace Villa.Controllers
         }
         
         [HttpGet(nameof(GetKategoriVillas))]
-        public IActionResult GetKategoriVillas(string kategoriAd)
+        public IActionResult GetKategoriVillas(int kategoriId)
         {
-            var result = _villaFEService.GetKategoriVillas(kategoriAd);
+            var result = _villaFEService.GetKategoriVillas(kategoriId);
          
             if (result is not null)
             {
