@@ -164,13 +164,13 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<VillaPeriyodikFiyatDtoC, Domain.Entities.PeriyodikFiyat>()
                 .ReverseMap();
             CreateMap<Domain.Entities.PeriyodikFiyat, VillaPeriyodikFiyatDtoQ>()
-                .ForMember(x=> x.Baslangic,opt => opt.MapFrom(src=> ((DateTimeOffset)src.Baslangic.Date).ToString("dd.MM.yyyy")))
-                .ForMember(x=> x.Bitis,opt => opt.MapFrom(src=> ((DateTimeOffset)src.Bitis.Date).ToString("dd.MM.yyyy")))
-                .ReverseMap();
+                // .ForMember(x=> x.Baslangic,opt => opt.MapFrom(src=> (src.Baslangic.Date.ToString("dd.MM.yyyy"))))
+                // .ForMember(x=> x.Bitis,opt => opt.MapFrom(src=> (src.Bitis.Date.ToString("dd.MM.yyyy"))))
+                 .ReverseMap();
             CreateMap<VillaPeriyodikFiyatDtoQ, Domain.Entities.PeriyodikFiyat>()
-                .ForMember(x=> x.Baslangic,opt => opt.MapFrom(src=> ((DateTimeOffset)src.Baslangic.Date).ToString("dd.MM.yyyy")))
-                .ForMember(x=> x.Bitis,opt => opt.MapFrom(src=> ((DateTimeOffset)src.Bitis.Date).ToString("dd.MM.yyyy")))
-                .ReverseMap();
+                // .ForMember(x=> x.Baslangic,opt => opt.MapFrom(src=> (src.Baslangic.Date.ToString("dd.MM.yyyy"))))
+                // .ForMember(x=> x.Bitis,opt => opt.MapFrom(src=> (src.Bitis.Date.ToString("dd.MM.yyyy"))))
+                 .ReverseMap();
             #endregion
             
             #region VillaPeriyodikFiyatAyarlari

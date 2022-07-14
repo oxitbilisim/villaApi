@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Villa.Domain.Enum;
 
 namespace Villa.Domain.Dtos

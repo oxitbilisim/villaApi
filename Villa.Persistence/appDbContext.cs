@@ -49,6 +49,7 @@ namespace Villa.Persistence
         public DbSet<VillaImageDetay> VillaImageDetay { get; set; }
         public DbSet<VillaGosterim> VillaGosterim { get; set; }
         public DbSet<VillaImage> VillaImage { get; set; }
+        public DbSet<VillaSahip> VillaSahip { get; set; }
         public DbSet<VillaKategori> VillaKategori { get; set; }
         public DbSet<VillaOzellik> VillaOzellik { get; set; }
         public DbSet<VillaSeo> VillaSeo { get; set; }

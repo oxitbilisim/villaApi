@@ -5,7 +5,9 @@ namespace Villa.Domain.Dtos
         public int? Id { get; set; }
         public int VillaId { get; set; }
         public int BolgeId { get; set; }
+        public string BolgeAd { get; set; }
         public int? IlceId { get; set; }
+        public string IlceAd { get; set; }
         public string Mevki { get; set; }
         public string Adres { get; set; }
         public string Map { get; set; }

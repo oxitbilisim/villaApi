@@ -17,6 +17,7 @@ namespace Villa.Persistence
         public DbSet<IdentityRoleClaim<string>> RoleClaims { get; set; }
         public DbSet<VillaImageDetay> VillaImageDetay { get; set; }
         public DbSet<Rezervasyon> Rezervasyon { get; set; }
+        public DbSet<VillaSahip> VillaSahip { get; set; }
         public DbSet<RezervasyonMisafir> RezervasyonMisafir { get; set; }
         public DbSet<RezervasyonOperasyon> RezervasyonOperasyon { get; set; }
         public DbSet<RezervasyonMaliBilgi> RezervasyonMaliBilgi { get; set; }

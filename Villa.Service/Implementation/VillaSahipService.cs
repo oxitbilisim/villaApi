@@ -13,7 +13,7 @@ using Villa.Service.Contract;
 
 namespace Villa.Service.Implementation;
 
-public class VillaSahipService : BaseService<VillaIcerik>
+public class VillaSahipService : BaseService<VillaSahip>
 {
     private readonly IMapper _mapper;
     private readonly appDbContext _appDbContext;

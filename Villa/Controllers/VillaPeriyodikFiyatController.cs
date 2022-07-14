@@ -38,6 +38,7 @@ namespace Villa.Controllers
         public ResponseModel GetPFAVillaById(int id)
         {
             var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false);
+            
             if (result is not null)
             {
                 return new ResponseModel(result);
