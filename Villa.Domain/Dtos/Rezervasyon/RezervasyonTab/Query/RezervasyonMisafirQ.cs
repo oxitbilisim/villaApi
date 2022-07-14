@@ -5,6 +5,7 @@ namespace Villa.Domain.Dtos;
 
 public class RezervasyonMisafirQ
 {
+    public int Id { get; set; }
     public int RezervasyonId  { get; set; }
     public string MisafirAdSoyad { get; set; }
     public string Yas { get; set; }
