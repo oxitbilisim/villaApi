@@ -78,16 +78,38 @@ namespace Villa.Controllers
             return Ok(result);
         }
         
-        [HttpGet(nameof(GetVillaById))]
-        public IActionResult GetVillaById(int villaId)
+        [HttpGet(nameof(GetVillaByURL))]
+        public IActionResult GetVillaByURL(string url)
         {
-            var result = _villaFEService.GetVillaById(villaId);
+            var result = _villaFEService.GetVillaByUrl(url);
          
             if (result is not null)
             {
                 return Ok(result);
             }
             return Ok(result);
+        }
+        
+        
+        [HttpGet(nameof(GetPopularVillas))]
+        public IActionResult GetPopularVillas(int limit)
+        {
+            var result = _villaFEService.GetPopularVillas(limit);
+         
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
+        
+        [HttpGet(nameof(GetRegionImage))]
+        public async Task<FileContentResult> GetRegionImage(int id)
+        {
+            
+            byte[] content = _villaFEService.GetRegionImage(id);
+            Response.Headers.Add("Content-Disposition", "inline; filename=villalarim-"+id);
+            return new FileContentResult(content, "image/png");
         }
     }
 }

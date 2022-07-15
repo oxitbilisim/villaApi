@@ -7,7 +7,7 @@ namespace Villa.Domain.Enum
         [Display(Name = "Anasayfa")]
         Anasayfa = 1,
         [Display(Name = "Öneçıkan")]
-        Önecikan = 2,
+        Onecikan = 2,
         [Display(Name = "Slider")]
         Slider = 3,
         [Display(Name = "Özel")]
