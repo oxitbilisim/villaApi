@@ -62,7 +62,7 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && x.IsDeleted).Count()
+            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !x.IsDeleted).Count()
         }).ToList();
         return bolge;
     }
@@ -80,7 +80,7 @@ public class VillaFEService
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => pf.Baslangic.Date >= DateTime.Today && pf.Bitis.Date <= DateTime.Today)
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Mevki,
@@ -102,7 +102,7 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && y.IsDeleted).Count()
+            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted).Count()
         }).ToList();
 
         return kategori;
@@ -122,7 +122,7 @@ public class VillaFEService
                 Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => pf.Baslangic.Date >= DateTime.Today && pf.Bitis.Date <= DateTime.Today)
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
@@ -174,7 +174,7 @@ public class VillaFEService
             Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
             Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
             Fiyat = x.Villa.PeriyodikFiyat
-                .Where(pf => pf.Baslangic.Date >= DateTime.Today && pf.Bitis.Date <= DateTime.Today)
+                .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
                 .FirstOrDefault().Fiyat,
             Kapasite = x.Villa.Kapasite,
             Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
