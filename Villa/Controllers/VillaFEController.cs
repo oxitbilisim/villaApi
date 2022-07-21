@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Utilities;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Service.Implementation;
@@ -144,16 +145,20 @@ namespace Villa.Controllers
             string property,
             string startprice,
             string endprice,
-            string name
+            string name,
+            string startPrice,
+            string endPrice,
+            string guestCount
             )
         {
             List<int> filterRegion = new List<int>();
             List<int> filterCategory = new List<int>();
             List<int> filterType = new List<int>();
             List<int> filterProperty = new List<int>();
-            string filterName = WebUtility.UrlDecode(name);
-            double filterStartPrice = Double.MinValue;
-            double filterEndPrice = Double.MaxValue;
+            string filterName = null;
+            double filterStartPrice = -1;
+            double filterEndPrice = -1;
+            int filterGuestCount = -1;
 
             if (!String.IsNullOrEmpty(region))
             {
@@ -171,9 +176,33 @@ namespace Villa.Controllers
             {
                 filterType = type?.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
             }
+            if (!String.IsNullOrEmpty(name))
+            {
+                filterName = WebUtility.UrlDecode(name);
+            }
+            if (!String.IsNullOrEmpty(startprice))
+            {
+                filterStartPrice = Double.Parse(WebUtility.UrlDecode(startprice));
+            }
+            if (!String.IsNullOrEmpty(endprice))
+            {
+                filterEndPrice = Double.Parse(WebUtility.UrlDecode(endprice));
+            }
+            if (!String.IsNullOrEmpty(guestCount))
+            {
+                filterGuestCount = Int16.Parse(WebUtility.UrlDecode(guestCount));
+            }
             
             
-            var result = _villaFEService.SearchVillas(filterRegion,filterCategory,filterType,filterProperty,filterName,filterStartPrice,filterEndPrice);
+            var result = _villaFEService.SearchVillas(
+                filterRegion,
+                filterCategory,
+                filterType,
+                filterProperty,
+                filterName,
+                filterStartPrice,
+                filterEndPrice,
+                filterGuestCount);
          
             if (result is not null)
             {
@@ -193,6 +222,10 @@ namespace Villa.Controllers
         [HttpPost(nameof(CreateCollection))]
         public IActionResult CreateCollection(CollectionVillaFQ rb)
         {
+            if (rb.Ids.Count==0)
+            {
+                return BadRequest();
+            }
             var result = _villaFEService.CreateCollection(rb);
             return Ok(result.Result.UserData);
         }

@@ -222,11 +222,22 @@ public class VillaFEService
         List<int> filterProperty,
         string filterName,
         double filterStartPrice,
-        double filterEndPrice
+        double filterEndPrice,
+        int filterGuestCount
     )
     {
         var villaQuery = _appDbContext.Villa.Where(v => !v.IsDeleted).AsQueryable();
 
+        if (filterName != null)
+        {
+            villaQuery = villaQuery
+                .Where(i => i.Ad.ToLower().Contains(filterName.ToLower()));
+        }
+        if (filterGuestCount > -1)
+        {
+            villaQuery = villaQuery
+                .Where(i => i.Kapasite>=filterGuestCount);
+        }
         if (filterType.Count > 0)
         {
             villaQuery = villaQuery
@@ -243,18 +254,13 @@ public class VillaFEService
         if (filterCategory.Count > 0)
         {
             villaQuery = villaQuery
-                .Where(i => i.VillaKategori.Where(vl => !vl.IsDeleted)
-                    .FirstOrDefault(l =>
-                        filterCategory.Contains(l.KategoriId)
-                    ) != null);
+                .Where(i => _appDbContext.VillaKategori.Where(vk => filterCategory.Contains(vk.Id) && vk.VillaId==i.Id && !vk.IsDeleted).Count() == filterCategory.Count());
         }
         if (filterProperty.Count > 0)
         {
             villaQuery = villaQuery
-                .Where(i => i.VillaOzellik.Where(vl => !vl.IsDeleted)
-                    .FirstOrDefault(l =>
-                        filterCategory.Contains(l.OzellikId)
-                    ) != null);
+                .Where(i => i.VillaOzellik.Where(vl => !vl.IsDeleted && filterCategory.Contains(vl.Id)).Count() == filterCategory.Count()
+                );
         }
         
         var searchResult = villaQuery.Select(x => new VillaDtoFQ
