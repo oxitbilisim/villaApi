@@ -181,5 +181,26 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
+        
+        
+        [HttpPost(nameof(GetVillaByIds))]
+        public IActionResult GetVillaByIds(VillaIdsFQ rb)
+        {
+            var result = _villaFEService.GetVillasByIds(rb);
+            return Ok(result);
+        }
+        
+        [HttpPost(nameof(CreateCollection))]
+        public IActionResult CreateCollection(CollectionVillaFQ rb)
+        {
+            var result = _villaFEService.CreateCollection(rb);
+            return Ok(result.Result.UserData);
+        }
+        [HttpGet(nameof(GetCollectionVillas))]
+        public IActionResult GetCollectionVillas(Guid key)
+        {
+            var result = _villaFEService.GetCollectionVillas(key);
+            return Ok(result);
+        }
     }
 }

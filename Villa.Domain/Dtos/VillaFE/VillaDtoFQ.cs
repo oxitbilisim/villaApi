@@ -14,7 +14,8 @@ namespace Villa.Domain.Dtos
         public int? YatakOdaSayisi { get; set; }
         public int? OdaSayisi { get; set; }
         public int? BanyoSayisi { get; set; }
-        public byte[]? Image { get; set; }
+        
+        public int? ImageId { get; set; }
         public decimal? Fiyat { get; set; }
         public string? FiyatTuru { get; set; }
         public string? ParaBirimi { get; set; }

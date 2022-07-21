@@ -7,6 +7,6 @@ namespace Villa.Domain.Enum
         [Display(Name = "Gunluk")]
         Gunluk = 1,
         [Display(Name = "Haftalık")]
-        Haftalık = 2,
+        Haftalık = 0,
     }
 }

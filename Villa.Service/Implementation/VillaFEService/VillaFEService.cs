@@ -73,10 +73,10 @@ public class VillaFEService
             .Where(x => x.BolgeId == bolgeId && !x.Villa.IsDeleted)
             .Select(x => new VillaDtoFQ
             {
-                Id = x.Id,
+                Id = x.Villa.Id,
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
-                Image = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Image : null,
+                ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
@@ -85,7 +85,7 @@ public class VillaFEService
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Mevki,
                 BanyoSayisi = x.Villa.BanyoSayisi,
-                //FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.Where(f_ => !f_.IsDeleted).FirstOrDefault().FiyatTuru),
+                FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.Where(f_ => !f_.IsDeleted).FirstOrDefault().FiyatTuru),
                 ParaBirimi = x.Villa.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
                 OdaSayisi = x.Villa.OdaSayisi,
                 YatakOdaSayisi = x.Villa.YatakOdaSayisi
@@ -118,7 +118,7 @@ public class VillaFEService
                 Id = x.Id,
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
-                Image = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Image : null,
+                ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
                 Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
@@ -127,7 +127,7 @@ public class VillaFEService
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
                 BanyoSayisi = x.Villa.BanyoSayisi,
-                //FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
+                FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
                 ParaBirimi = x.Villa.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
                 OdaSayisi = x.Villa.OdaSayisi,
                 YatakOdaSayisi = x.Villa.YatakOdaSayisi
@@ -170,7 +170,7 @@ public class VillaFEService
             Id = x.Villa.Id,
             Ad = x.Villa.Ad,
             Url = x.Villa.Url,
-            Image = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Image : null,
+            ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
             Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
             Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
             Fiyat = x.Villa.PeriyodikFiyat
@@ -262,7 +262,7 @@ public class VillaFEService
                 Id = x.Id,
                 Ad = x.Ad,
                 Url = x.Url,
-                Image = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Image : null,
+                ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
                 Il = x.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.VillaLokasyon.FirstOrDefault().Ilce.Ad,
                 Fiyat = x.PeriyodikFiyat
@@ -271,12 +271,88 @@ public class VillaFEService
                 Kapasite = x.Kapasite,
                 Mevki = x.VillaLokasyon.FirstOrDefault().Mevki,
                 BanyoSayisi = x.BanyoSayisi,
-                //FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
+                FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
                 ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
                 OdaSayisi = x.OdaSayisi,
                 YatakOdaSayisi = x.YatakOdaSayisi
             }).ToList();
 
         return searchResult;
+    }
+    
+    public List<VillaDtoFQ> GetVillasByIds(VillaIdsFQ rb)
+    {
+        var villaBolge = _appDbContext.Villa
+            .Where(x =>!x.IsDeleted && rb.Ids.Contains(x.Id))
+            .Select(x => new VillaDtoFQ
+            {
+                Id = x.Id,
+                Ad = x.Ad,
+                Url = x.Url,
+                ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
+
+                Fiyat = x.PeriyodikFiyat
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
+                    .FirstOrDefault().Fiyat,
+                Kapasite = x.Kapasite,
+                BanyoSayisi = x.BanyoSayisi,
+                FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(f_ => !f_.IsDeleted).FirstOrDefault().FiyatTuru),
+                ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+                OdaSayisi = x.OdaSayisi,
+                YatakOdaSayisi = x.YatakOdaSayisi
+            }).ToList();
+
+        return villaBolge;
+    }
+    public List<VillaDtoFQ> GetCollectionVillas(Guid key)
+    {
+        Collections collection = _appDbContext.Collections.FirstOrDefault(c => c.key == key);
+        if (collection == null)
+        {
+            return new List<VillaDtoFQ>();
+        }
+
+        var villaIds = _appDbContext.CollectionVillas.Where(v => v.CollectionId == collection.Id).Select(v => v.VillaId).ToList();
+        var villas = _appDbContext.Villa
+            .Where(x =>!x.IsDeleted && villaIds.Contains(x.Id))
+            .Select(x => new VillaDtoFQ
+            {
+                Id = x.Id,
+                Ad = x.Ad,
+                Url = x.Url,
+                ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
+
+                Fiyat = x.PeriyodikFiyat
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
+                    .FirstOrDefault().Fiyat,
+                Kapasite = x.Kapasite,
+                BanyoSayisi = x.BanyoSayisi,
+                FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(f_ => !f_.IsDeleted).FirstOrDefault().FiyatTuru),
+                ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+                OdaSayisi = x.OdaSayisi,
+                YatakOdaSayisi = x.YatakOdaSayisi
+            }).ToList();
+
+        return villas;
+    }
+
+    public async Task<Response<Guid>> CreateCollection(CollectionVillaFQ requestBody)
+    {
+        var key = Guid.NewGuid();
+        Collections collection = new Collections();
+        collection.key = key;
+        await _appDbContext.Collections.AddAsync(collection);
+        await _appDbContext.SaveChangesAsync();
+        var response = _appDbContext.Collections.FirstOrDefault(i => i.key == key);
+        requestBody.Ids.ForEach(i =>
+        {
+            CollectionVillas cv = new CollectionVillas();
+            cv.CollectionId = response.Id;
+            cv.VillaId = i;
+
+            _appDbContext.CollectionVillas.Add(cv);
+        });
+        await _appDbContext.SaveChangesAsync();
+        return new Response<Guid>(key, message: $"Collection Registered.");
     }
 }

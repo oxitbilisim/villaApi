@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Villa.Persistence;
@@ -11,9 +12,10 @@ using Villa.Persistence;
 namespace Villa.Persistence.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    partial class appDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220721083645_mig9")]
+    partial class mig9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,15 +45,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8cec3865-612e-4bd0-8a7d-ba82943677ae",
-                            ConcurrencyStamp = "91776757-7f55-402e-92b4-9549ef1e8dca",
+                            Id = "fd95272d-1cf6-47a4-bb00-0bb36ca4c63b",
+                            ConcurrencyStamp = "9bbf76be-f0a1-4531-b653-c5f289fd3ae8",
                             Name = "sistemadmin",
                             NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "c72926d9-5189-4d37-8939-6e34f2f7e238",
-                            ConcurrencyStamp = "f9efe60f-7403-45f0-b852-9685d8db3dbd",
+                            Id = "08c032a5-376f-47ad-8d4c-101e4c297764",
+                            ConcurrencyStamp = "e5edd05d-6711-4470-ae08-ef817d5cdc7e",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -257,10 +259,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3559d638-e708-49ac-9b41-e3ec1676cff4",
+                            Id = "0c0becec-cd35-482b-8a33-f886dbb1c794",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "5e3fd2ad-6822-444b-bd52-91a5aa6fd3d9",
+                            ConcurrencyStamp = "bbf93a86-d991-457c-90cb-8a892fd3354e",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +270,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bb54321f-af3d-417c-b6b8-24d865428c62",
+                            SecurityStamp = "1aead207-3f1b-47bd-a50d-d7ff4b7130eb",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "047f4dda-0ef8-46b9-afc1-6dac1e2eadd0",
+                            Id = "f4e697fc-04d7-4268-a791-c9c57facf5ee",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "e19fdaeb-0478-4fbf-97ec-0a3519b81701",
+                            ConcurrencyStamp = "60c9474f-62ac-40d7-8d02-cdcf8ea26e04",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +288,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "76f25946-6f7c-426f-8d55-0e2afd4c7307",
+                            SecurityStamp = "02cbd20e-a3dc-4668-b824-4386921e89b0",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
@@ -355,6 +357,9 @@ namespace Villa.Persistence.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset?>("EditDate")
