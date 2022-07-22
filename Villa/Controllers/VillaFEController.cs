@@ -158,7 +158,7 @@ namespace Villa.Controllers
             string filterName = null;
             double filterStartPrice = -1;
             double filterEndPrice = -1;
-            int filterGuestCount = -1;
+            int filterGuestCount = 0;
 
             if (!String.IsNullOrEmpty(region))
             {
