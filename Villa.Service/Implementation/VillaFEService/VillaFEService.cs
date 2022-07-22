@@ -77,6 +77,7 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
+                Bolge = x.Villa.VillaLokasyon.FirstOrDefault().Bolge.Ad,
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
@@ -119,6 +120,7 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
+                Bolge = x.Villa.VillaLokasyon.FirstOrDefault().Bolge.Ad,
                 Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
@@ -188,6 +190,7 @@ public class VillaFEService
             Ad = x.Villa.Ad,
             Url = x.Villa.Url,
             ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
+            Bolge = x.Villa.VillaLokasyon.FirstOrDefault().Bolge.Ad,
             Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
             Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
             Fiyat = x.Villa.PeriyodikFiyat
@@ -286,6 +289,7 @@ public class VillaFEService
                 Ad = x.Ad,
                 Url = x.Url,
                 ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
+                Bolge = x.VillaLokasyon.FirstOrDefault().Bolge.Ad,
                 Il = x.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.VillaLokasyon.FirstOrDefault().Ilce.Ad,
                 Fiyat = x.PeriyodikFiyat
