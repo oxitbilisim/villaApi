@@ -241,7 +241,7 @@ public class VillaFEService
         if (filterType.Count > 0)
         {
             villaQuery = villaQuery
-                .Where(i => filterType.Contains(i.MulkId));
+                .Where(i => filterType.Any(t => t ==i.MulkId));
         }
         if (filterRegion.Count > 0)
         {
@@ -254,12 +254,12 @@ public class VillaFEService
         if (filterCategory.Count > 0)
         {
             villaQuery = villaQuery
-                .Where(i => _appDbContext.VillaKategori.Where(vk => filterCategory.Contains(vk.Id) && vk.VillaId==i.Id && !vk.IsDeleted).Count() == filterCategory.Count());
+                .Where(i => i.VillaKategori.Where(vk => filterCategory.Any(f => f == vk.KategoriId) && vk.VillaId==i.Id && !vk.IsDeleted).Count() == filterCategory.Count());
         }
         if (filterProperty.Count > 0)
         {
             villaQuery = villaQuery
-                .Where(i => i.VillaOzellik.Where(vl => !vl.IsDeleted && filterCategory.Contains(vl.Id)).Count() == filterCategory.Count()
+                .Where(i => i.VillaOzellik.Where(vl => !vl.IsDeleted && filterProperty.Any(f => f == vl.OzellikId)).Count() == filterProperty.Count()
                 );
         }
         
