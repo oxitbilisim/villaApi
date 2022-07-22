@@ -12,5 +12,7 @@ namespace Villa.Domain.Enum
         OnayBekliyor = 3,
         [Display(Name = "İptal")]
         Iptal = 4,
+        [Display(Name = "Kapama")]
+        Kapama = 5,
     }
 }

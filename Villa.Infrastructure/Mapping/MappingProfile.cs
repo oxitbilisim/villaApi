@@ -261,6 +261,17 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+            #region Kapama
+            CreateMap<Domain.Entities.Rezervasyon, KapamaDtoC>()
+                .ReverseMap();
+            CreateMap<KapamaDtoC, Domain.Entities.Rezervasyon>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Rezervasyon, KapamaDtoQ>()
+                .ReverseMap();
+            CreateMap<KapamaDtoQ, Domain.Entities.Rezervasyon>()
+                .ReverseMap();
+            #endregion
+            
             #region RezervasyonMisafir
             CreateMap<Domain.Entities.RezervasyonMisafir, RezervasyonMisafirC>()
                 .ReverseMap();
