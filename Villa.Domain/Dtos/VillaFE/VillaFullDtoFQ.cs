@@ -11,7 +11,7 @@ namespace Villa.Domain.Dtos
         // public string Ilce { get; set; }
         // public string Mevki { get; set; }
         
-        public VillaDtoQ Villa { get; set; }
+        public VillaDtoFQ Villa { get; set; }
         public List<VillaImageDetayDtoQ> Images { get; set; }
         public VillaIcerikDtoQ Icerik { get; set; }
         public VillaLokasyonDtoQ Lokasyon { get; set; }
