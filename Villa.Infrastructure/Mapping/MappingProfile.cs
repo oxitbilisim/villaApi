@@ -272,6 +272,17 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+            #region Takvim
+            CreateMap<Domain.Entities.Rezervasyon, TakvimDtoQ>()
+                .ReverseMap();
+            CreateMap<TakvimDtoQ, Domain.Entities.Rezervasyon>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Rezervasyon, TakvimRezarvasyonDtoQ>()
+                .ReverseMap();
+            CreateMap<TakvimRezarvasyonDtoQ, Domain.Entities.Rezervasyon>()
+                .ReverseMap();
+            #endregion
+            
             #region RezervasyonMisafir
             CreateMap<Domain.Entities.RezervasyonMisafir, RezervasyonMisafirC>()
                 .ReverseMap();
