@@ -43,17 +43,17 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8cec3865-612e-4bd0-8a7d-ba82943677ae",
-                            ConcurrencyStamp = "91776757-7f55-402e-92b4-9549ef1e8dca",
+                            Id = "59a77b2c-f88e-4ca4-ab13-67079b681bb2",
+                            ConcurrencyStamp = "ed8aa70c-5721-430d-866b-83ac35447ce0",
                             Name = "sistemadmin",
-                            NormalizedName = "SISTEMADMIN"
+                            NormalizedName = "SİSTEMADMİN"
                         },
                         new
                         {
-                            Id = "c72926d9-5189-4d37-8939-6e34f2f7e238",
-                            ConcurrencyStamp = "f9efe60f-7403-45f0-b852-9685d8db3dbd",
+                            Id = "c6fd87da-eec8-43b4-98af-6ce22a0bfa45",
+                            ConcurrencyStamp = "861e2b97-3ac0-43b9-a99a-20634cabbe87",
                             Name = "admin",
-                            NormalizedName = "ADMIN"
+                            NormalizedName = "ADMİN"
                         });
                 });
 
@@ -257,10 +257,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3559d638-e708-49ac-9b41-e3ec1676cff4",
+                            Id = "cbe72b4b-009b-48c3-9eb4-3dadcd9566a6",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "5e3fd2ad-6822-444b-bd52-91a5aa6fd3d9",
+                            ConcurrencyStamp = "990b2b43-9410-4b81-ac09-e054871b0666",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +268,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bb54321f-af3d-417c-b6b8-24d865428c62",
+                            SecurityStamp = "82f341cc-bfcd-45b6-b138-46ef58d3c4ab",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "047f4dda-0ef8-46b9-afc1-6dac1e2eadd0",
+                            Id = "c5f7c4d9-fb37-4175-9e47-637e2955be13",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "e19fdaeb-0478-4fbf-97ec-0a3519b81701",
+                            ConcurrencyStamp = "78a6c322-c76b-47b8-9247-9343c0799b16",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,11 +286,170 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "76f25946-6f7c-426f-8d55-0e2afd4c7307",
+                            SecurityStamp = "c1985767-7d8c-43e7-8083-66a5bbbef46b",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
                         });
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("AltBaslik")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Baslik")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Etiket")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GirisYazisi")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Blog");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.BlogIcerik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Icerik")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogIcerik");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.BlogKategori", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlogKategori");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.BlogSeo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aciklama")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("AnahtarKelime")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Baslik")
+                        .HasColumnType("text");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("HtmlMetaEtiket")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogSeo");
                 });
 
             modelBuilder.Entity("Villa.Domain.Entities.Bolge", b =>
@@ -1455,6 +1614,130 @@ namespace Villa.Persistence.Migrations
                     b.ToTable("RezervasyonOperasyon");
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.Sayfa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Baslik")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Menu")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sayfa");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.SayfaIcerik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Icerik")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("SayfaId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SayfaId");
+
+                    b.ToTable("SayfaIcerik");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.SayfaSeo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aciklama")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("AnahtarKelime")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Baslik")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("HtmlMetaEtiket")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("SayfaId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SayfaId");
+
+                    b.ToTable("SayfaSeo");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.Villa", b =>
                 {
                     b.Property<int>("Id")
@@ -1933,6 +2216,28 @@ namespace Villa.Persistence.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.BlogIcerik", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Blog", "Blog")
+                        .WithMany("BlogIcerik")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.BlogSeo", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Blog", "Blog")
+                        .WithMany("BlogSeo")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.Bolge", b =>
                 {
                     b.HasOne("Villa.Domain.Entities.Il", "Il")
@@ -2097,6 +2402,28 @@ namespace Villa.Persistence.Migrations
                     b.Navigation("Rezervasyon");
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.SayfaIcerik", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Sayfa", "Sayfa")
+                        .WithMany("SayfaIcerik")
+                        .HasForeignKey("SayfaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sayfa");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.SayfaSeo", b =>
+                {
+                    b.HasOne("Villa.Domain.Entities.Sayfa", "Sayfa")
+                        .WithMany("SayfaSeo")
+                        .HasForeignKey("SayfaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sayfa");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.Villa", b =>
                 {
                     b.HasOne("Villa.Domain.Entities.Ilce", null)
@@ -2251,6 +2578,13 @@ namespace Villa.Persistence.Migrations
                     b.Navigation("RefreshTokens");
                 });
 
+            modelBuilder.Entity("Villa.Domain.Entities.Blog", b =>
+                {
+                    b.Navigation("BlogIcerik");
+
+                    b.Navigation("BlogSeo");
+                });
+
             modelBuilder.Entity("Villa.Domain.Entities.Etiket", b =>
                 {
                     b.Navigation("EtiketDetay");
@@ -2302,6 +2636,13 @@ namespace Villa.Persistence.Migrations
             modelBuilder.Entity("Villa.Domain.Entities.Permission", b =>
                 {
                     b.Navigation("MenuPermission");
+                });
+
+            modelBuilder.Entity("Villa.Domain.Entities.Sayfa", b =>
+                {
+                    b.Navigation("SayfaIcerik");
+
+                    b.Navigation("SayfaSeo");
                 });
 
             modelBuilder.Entity("Villa.Domain.Entities.Villa", b =>
