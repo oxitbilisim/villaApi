@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Domain.Enum;
 using Villa.Service.Implementation;
 
 namespace Villa.Controllers
@@ -49,7 +50,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAllCustomer))]
         public IActionResult GetAllCustomer()
         {
-            var result =  _rezervasyonService.GetAllPI<RezervasyonCustomerDtoQ>(x=> x.IsDeleted == false && x.MusteriAdSoyad != null);
+            var result =  _rezervasyonService.GetAllPI<RezervasyonCustomerDtoQ>(x=> x.IsDeleted == false  && (x.RezervasyonDurum == RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.Opsiyon  ));
             if (result is not null)
             {
                 return Ok(result);
@@ -60,7 +61,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAllEntry))]
         public IActionResult GetAllEntry()
         {
-            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false && x.Active && x.MusteriAdSoyad != null);
+            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false && x.Active   && (x.RezervasyonDurum == RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.Opsiyon  ));
             if (result is not null)
             {
                 return Ok(result);
@@ -71,7 +72,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAllEntrywithDate))]
         public IActionResult GetAllEntrywithDate(DateTimeOffset dt)
         {
-            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false   && x.MusteriAdSoyad != null &&
+            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false   && (x.RezervasyonDurum == RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.Opsiyon  ) &&
                                                                                                                            x.Baslangic.Date == dt.Date && x.Active);
             if (result is not null)
             {
