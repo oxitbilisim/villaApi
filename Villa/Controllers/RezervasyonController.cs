@@ -56,6 +56,29 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
+        
+        [HttpGet(nameof(GetAllEntry))]
+        public IActionResult GetAllEntry()
+        {
+            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false && x.Active);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
+        
+        [HttpGet(nameof(GetAllEntrywithDate))]
+        public IActionResult GetAllEntrywithDate(DateTimeOffset dt)
+        {
+            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false &&   
+                                                                                                                           x.Baslangic.Date == dt.Date && x.Active);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
 
         [HttpPost(nameof(Add))]
         public  ActionResult<ResponseModel> Add(RezervasyonDtoC dto)
