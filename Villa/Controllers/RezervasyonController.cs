@@ -45,6 +45,17 @@ namespace Villa.Controllers
             }
             return new ResponseModel();
         }
+        
+        [HttpGet(nameof(GetAllCustomer))]
+        public IActionResult GetAllCustomer()
+        {
+            var result =  _rezervasyonService.GetAllPI<RezervasyonCustomerDtoQ>(x=> x.IsDeleted == false);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
 
         [HttpPost(nameof(Add))]
         public  ActionResult<ResponseModel> Add(RezervasyonDtoC dto)
