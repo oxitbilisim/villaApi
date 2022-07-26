@@ -40,6 +40,13 @@ namespace Villa.Persistence
         public DbSet<VillaSeo> VillaSeo { get; set; }
         public DbSet<VillaIcerik> VillaIcerik { get; set; }
         public DbSet<VillaLokasyon> VillaLokasyon { get; set; }
+        public DbSet<Blog> Blog { get; set; }
+        public DbSet<BlogSeo> BlogSeo { get; set; }
+        public DbSet<BlogKategori> BlogKategori { get; set; }
+        public DbSet<BlogIcerik> BlogIcerik { get; set; }
+        public DbSet<Sayfa> Sayfa { get; set; }
+        public DbSet<SayfaIcerik> SayfaIcerik { get; set; }
+        public DbSet<SayfaSeo> SayfaSeo { get; set; }
 
         Task<int> SaveChangesAsync();
     }

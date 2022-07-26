@@ -83,6 +83,13 @@ namespace Villa.Infrastructure.Extension
             serviceCollection.AddTransient<VillaKategoriService>();
             serviceCollection.AddTransient<VillaGosterimService>();
             serviceCollection.AddTransient<VillaSahipService>();
+            serviceCollection.AddTransient<BlogService>();
+            serviceCollection.AddTransient<BlogIcerikService>();
+            serviceCollection.AddTransient<BlogKategoriService>();
+            serviceCollection.AddTransient<BlogSeoService>();
+            serviceCollection.AddTransient<SayfaService>();
+            serviceCollection.AddTransient<SayfaSeoService>();
+            serviceCollection.AddTransient<SayfaIcerikService>();
         }
         public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection)
         {

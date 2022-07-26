@@ -327,6 +327,82 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             #endregion
             
+            #region Blog
+            CreateMap<Domain.Entities.Blog, BlogDtoQ>()
+                .ReverseMap();
+            CreateMap<BlogDtoQ, Domain.Entities.Blog>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Blog, BlogDtoC>()
+                .ReverseMap();
+            CreateMap<BlogDtoC, Domain.Entities.Blog>()
+                .ReverseMap();
+            #endregion
+            
+            #region BlogKategori
+            CreateMap<Domain.Entities.BlogKategori, BlogKategoriDtoQ>()
+                .ReverseMap();
+            CreateMap<BlogKategoriDtoQ, Domain.Entities.BlogKategori>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.BlogKategori, BlogKategoriDtoC>()
+                .ReverseMap();
+            CreateMap<BlogKategoriDtoC, Domain.Entities.BlogKategori>()
+                .ReverseMap();
+            #endregion
+            
+            #region BlogSeo
+            CreateMap<Domain.Entities.BlogSeo, BlogSeoDtoQ>()
+                .ReverseMap();
+            CreateMap<BlogSeoDtoQ, Domain.Entities.BlogSeo>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.BlogSeo, BlogSeoDtoC>()
+                .ReverseMap();
+            CreateMap<BlogSeoDtoC, Domain.Entities.BlogSeo>()
+                .ReverseMap();
+            #endregion
+            
+            #region BlogIcerik
+            CreateMap<Domain.Entities.BlogIcerik, BlogIcerikDtoQ>()
+                .ReverseMap();
+            CreateMap<BlogIcerikDtoQ, Domain.Entities.BlogIcerik>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.BlogIcerik, BlogIcerikDtoC>()
+                .ReverseMap();
+            CreateMap<BlogIcerikDtoC, Domain.Entities.BlogIcerik>()
+                .ReverseMap();
+            #endregion
+            
+            #region Sayfa
+            CreateMap<Domain.Entities.Sayfa, SayfaDtoQ>()
+                .ReverseMap();
+            CreateMap<SayfaDtoQ, Domain.Entities.Sayfa>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Sayfa, SayfaDtoC>()
+                .ReverseMap();
+            CreateMap<SayfaDtoQ, Domain.Entities.Sayfa>()
+                .ReverseMap();
+            #endregion
+            
+            #region SayfaSeo
+            CreateMap<Domain.Entities.SayfaSeo, SayfaSeoDtoQ>()
+                .ReverseMap();
+            CreateMap<SayfaSeoDtoQ, Domain.Entities.SayfaSeo>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.SayfaSeo, SayfaSeoDtoC>()
+                .ReverseMap();
+            CreateMap<SayfaSeoDtoC, Domain.Entities.SayfaSeo>()
+                .ReverseMap();
+            #endregion
+            
+            #region SayfaIcerik
+            CreateMap<Domain.Entities.SayfaIcerik, SayfaIcerikDtoQ>()
+                .ReverseMap();
+            CreateMap<BlogIcerikDtoQ, Domain.Entities.SayfaIcerik>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.SayfaIcerik, BlogIcerikDtoC>()
+                .ReverseMap();
+            CreateMap<BlogIcerikDtoC, Domain.Entities.SayfaIcerik>()
+                .ReverseMap();
+            #endregion
             
       
 
