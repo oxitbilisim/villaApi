@@ -29,6 +29,10 @@ public class VillaFEService
     private readonly VillaPeriyodikFiyatService _villaPeriyodikFiyatService;
     private readonly VillaPeriyodikFiyatAyarlariService _villaPeriyodikFiyatAyarlariService;
 
+    private readonly BlogService _blogService;
+    private readonly BlogIcerikService _blogIcerikService;
+    private readonly BlogSeoService _blogSeoService;
+
     public VillaFEService(appDbContext appDbContext,
         VillaService villaService,
         VillaImageDetayService villaImageDetayService,
@@ -381,5 +385,26 @@ public class VillaFEService
         });
         await _appDbContext.SaveChangesAsync();
         return new Response<Guid>(key, message: $"Collection Registered.");
+    }
+
+    public Blog GetBlogByURL(string url)
+    {
+        return _appDbContext.Blog
+            .Where(b => !b.IsDeleted)
+            .Include(b => b.BlogIcerik)
+            .Include(b => b.BlogSeo)
+            .First(b => b.Url == url);
+    }
+    public List<Blog> GetAllBlogs()
+    {
+        return _appDbContext.Blog
+            .Where(b => !b.IsDeleted)
+            .OrderBy( b => b.CreateDate).ToList();
+    }
+    
+    public byte[] GetBlogImage(int id)
+    {
+        var image = _appDbContext.Blog.Find(id);
+        return image.Image;
     }
 }

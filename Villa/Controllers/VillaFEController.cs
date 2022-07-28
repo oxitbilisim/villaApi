@@ -122,6 +122,14 @@ namespace Villa.Controllers
             Response.Headers.Add("Content-Disposition", "inline; filename=villalarim-"+id);
             return new FileContentResult(content, "image/png");
         }
+        [HttpGet("villa-image/{id}.jpg")]
+        public async Task<FileContentResult> GetVillaImagejpg(int id)
+        {
+            
+            byte[] content = _villaFEService.GetVillaImage(id);
+            Response.Headers.Add("Content-Disposition", "inline; filename=villalarim-"+id);
+            return new FileContentResult(content, "image/png");
+        }
         
         [HttpGet(nameof(GetProperties))]
         public IActionResult GetProperties()
@@ -234,6 +242,28 @@ namespace Villa.Controllers
         {
             var result = _villaFEService.GetCollectionVillas(key);
             return Ok(result);
+        }
+        
+        [HttpGet(nameof(GetAllBlogs))]
+        public IActionResult GetAllBlogs()
+        {
+            var list = _villaFEService.GetAllBlogs();
+            return Ok(list);
+        }
+        [HttpGet(nameof(GetBlogByURL))]
+        public IActionResult GetBlogByURL(string url)
+        {
+            var blog = _villaFEService.GetBlogByURL(url);
+            return Ok(blog);
+        }
+        
+        [HttpGet(nameof(GetBlogImage))]
+        public async Task<FileContentResult> GetBlogImage(int id)
+        {
+            
+            byte[] content = _villaFEService.GetBlogImage(id);
+            Response.Headers.Add("Content-Disposition", "inline; filename=villalarim-blog-"+id);
+            return new FileContentResult(content, "image/png");
         }
     }
 }
