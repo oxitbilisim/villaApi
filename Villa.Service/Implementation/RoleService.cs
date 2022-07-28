@@ -20,7 +20,6 @@ namespace Villa.Service.Implementation
         private readonly UserManager<User> _userManager;
         private IAppDbContext _appDbContext;
         private readonly ILogger<RoleService> _logger;
-
         public RoleService(UserManager<User> userManager, 
                            RoleManager<IdentityRole> roleManager,
                            IAppDbContext appDbContext,
@@ -118,13 +117,13 @@ namespace Villa.Service.Implementation
             User user = await _userManager.FindByIdAsync(id);
 
 
-            if (!await _userManager.IsInRoleAsync(user, "KARAKOL"))
+            if (!await _userManager.IsInRoleAsync(user, "Admin"))
             {
                 _logger.LogInformation("Adding sysadmin to Admin role");
-                var userResult = await _userManager.AddToRoleAsync(user, "KARAKOL");
+                var userResult = await _userManager.AddToRoleAsync(user, "Admin");
             }
 
-            await _userManager.AddToRoleAsync(user, "KARAKOL");
+            await _userManager.AddToRoleAsync(user, "Admin");
 
             return new Response<string>(user.Id, message: $"User && Role Assiged.");
         }

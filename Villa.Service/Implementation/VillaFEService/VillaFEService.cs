@@ -77,11 +77,11 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
-                Bolge = x.Villa.VillaLokasyon.FirstOrDefault().Bolge.Ad,
+                Bolge = x.Villa.VillaLokasyon.Where(y => y.BolgeId == x.Id && !x.IsDeleted).FirstOrDefault().Bolge.Ad,
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !x.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Mevki,
@@ -124,7 +124,7 @@ public class VillaFEService
                 Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !x.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
@@ -141,13 +141,13 @@ public class VillaFEService
     public VillaFullDtoFQ GetVillaByUrl(string url)
     {
         VillaFullDtoFQ villa = new();
-        villa.Villa = _appDbContext.Villa.Where(x => x.IsDeleted == false && x.Url == url).Select(x => new VillaDtoFQ
+        villa.Villa = _appDbContext.Villa.Where(x =>  !x.IsDeleted && x.Url == url).Select(x => new VillaDtoFQ
         {
             Id = x.Id,
             Ad = x.Ad,
             Url = x.Url,
             Fiyat = x.PeriyodikFiyat
-                .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
+                .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !x.IsDeleted )
                 .FirstOrDefault().Fiyat,
             Kapasite = x.Kapasite,
             BanyoSayisi = x.BanyoSayisi,
@@ -156,20 +156,20 @@ public class VillaFEService
             OdaSayisi = x.OdaSayisi,
             YatakOdaSayisi = x.YatakOdaSayisi
         }).FirstOrDefault();
-        villa.Images = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == villa.Villa.Id).Select(i => new VillaImageDetayDtoQ
+        villa.Images = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted).Select(i => new VillaImageDetayDtoQ
         {
             Id = i.Id
         }).ToList();
-        villa.Lokasyon = _villaLokasyonService.GetPI<VillaLokasyonDtoQ>(x => x.VillaId == villa.Villa.Id)
+        villa.Lokasyon = _villaLokasyonService.GetPI<VillaLokasyonDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted)
             .FirstOrDefault();
-        villa.Icerik = _villaIcerikService.GetPI<VillaIcerikDtoQ>(x => x.VillaId == villa.Villa.Id).FirstOrDefault();
-        villa.Kategori = _villaKategoriService.GetPI<VillaKategoriDtoQ>(x => x.VillaId == villa.Villa.Id).ToList();
-        villa.Ozellik = _villaOzellikService.GetPI<VillaOzellikDtoQ>(x => x.VillaId == villa.Villa.Id).ToList();
-        villa.Gorunum = _villaGorunumService.GetPI<VillaGorunumDtoQ>(x => x.VillaId == villa.Villa.Id).FirstOrDefault();
+        villa.Icerik = _villaIcerikService.GetPI<VillaIcerikDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted).FirstOrDefault();
+        villa.Kategori = _villaKategoriService.GetPI<VillaKategoriDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted) .ToList();
+        villa.Ozellik = _villaOzellikService.GetPI<VillaOzellikDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted).ToList();
+        villa.Gorunum = _villaGorunumService.GetPI<VillaGorunumDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted).FirstOrDefault();
         villa.PeriyodikFiyat = _villaPeriyodikFiyatService
-            .GetPI<VillaPeriyodikFiyatDtoQ>(x => x.VillaId == villa.Villa.Id && x.IsDeleted == false).OrderBy(x => x.Baslangic).ToList();
+            .GetPI<VillaPeriyodikFiyatDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted).OrderBy(x => x.Baslangic).ToList();
         villa.PeriyodikFiyatAyarlari = _villaPeriyodikFiyatAyarlariService
-            .GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x => x.VillaId == villa.Villa.Id).ToList();
+            .GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x => x.VillaId == villa.Villa.Id  && !x.IsDeleted).ToList();
 
         return villa;
     }
@@ -190,9 +190,9 @@ public class VillaFEService
             Ad = x.Villa.Ad,
             Url = x.Villa.Url,
             ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
-            Bolge = x.Villa.VillaLokasyon.FirstOrDefault().Bolge.Ad,
-            Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
-            Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
+            Bolge = x.Villa.VillaLokasyon.FirstOrDefault(x=>  !x.IsDeleted).Bolge.Ad,
+            Il = x.Villa.VillaLokasyon.FirstOrDefault(x=>  !x.IsDeleted).Ilce.Il.Ad,
+            Ilce = x.Villa.VillaLokasyon.FirstOrDefault(x=>  !x.IsDeleted).Ilce.Ad,
             Fiyat = x.Villa.PeriyodikFiyat
                 .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
                 .FirstOrDefault().Fiyat,
@@ -288,17 +288,17 @@ public class VillaFEService
                 Id = x.Id,
                 Ad = x.Ad,
                 Url = x.Url,
-                ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
-                Bolge = x.VillaLokasyon.FirstOrDefault().Bolge.Ad,
-                Il = x.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
-                Ilce = x.VillaLokasyon.FirstOrDefault().Ilce.Ad,
+                ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault(x=>  !x.IsDeleted).Id : null,
+                Bolge = x.VillaLokasyon.FirstOrDefault(x=>  !x.IsDeleted).Bolge.Ad,
+                Il = x.VillaLokasyon.FirstOrDefault(x=>  !x.IsDeleted).Ilce.Il.Ad,
+                Ilce = x.VillaLokasyon.FirstOrDefault(x=>  !x.IsDeleted).Ilce.Ad,
                 Fiyat = x.PeriyodikFiyat
                     .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Kapasite,
-                Mevki = x.VillaLokasyon.FirstOrDefault().Mevki,
+                Mevki = x.VillaLokasyon.FirstOrDefault(x=>  !x.IsDeleted).Mevki,
                 BanyoSayisi = x.BanyoSayisi,
-                FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
+                FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault(x=>  !x.IsDeleted).FiyatTuru),
                 ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
                 OdaSayisi = x.OdaSayisi,
                 YatakOdaSayisi = x.YatakOdaSayisi
