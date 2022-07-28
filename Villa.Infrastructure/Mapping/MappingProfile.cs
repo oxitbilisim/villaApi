@@ -396,11 +396,11 @@ namespace Villa.Infrastructure.Mapping
             #region SayfaIcerik
             CreateMap<Domain.Entities.SayfaIcerik, SayfaIcerikDtoQ>()
                 .ReverseMap();
-            CreateMap<BlogIcerikDtoQ, Domain.Entities.SayfaIcerik>()
+            CreateMap<SayfaIcerikDtoQ, Domain.Entities.SayfaIcerik>()
                 .ReverseMap();
-            CreateMap<Domain.Entities.SayfaIcerik, BlogIcerikDtoC>()
+            CreateMap<Domain.Entities.SayfaIcerik, SayfaIcerikDtoC>()
                 .ReverseMap();
-            CreateMap<BlogIcerikDtoC, Domain.Entities.SayfaIcerik>()
+            CreateMap<SayfaIcerikDtoC, Domain.Entities.SayfaIcerik>()
                 .ReverseMap();
             #endregion
             
