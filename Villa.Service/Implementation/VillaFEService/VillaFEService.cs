@@ -66,7 +66,7 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted).Count()
+            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted ).Count()
         }).ToList();
         return bolge;
     }
@@ -108,7 +108,7 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted).Count()
+            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted ).Count()
         }).ToList();
 
         return kategori;
