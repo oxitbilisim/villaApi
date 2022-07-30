@@ -122,6 +122,14 @@ namespace Villa.Controllers
             Response.Headers.Add("Content-Disposition", "inline; filename=villalarim-"+id);
             return new FileContentResult(content, "image/png");
         }
+        [HttpGet("villa-image/{id}.jpg")]
+        public async Task<FileContentResult> GetVillaImagejpg(int id)
+        {
+            
+            byte[] content = _villaFEService.GetVillaImage(id);
+            Response.Headers.Add("Content-Disposition", "inline; filename=villalarim-"+id);
+            return new FileContentResult(content, "image/png");
+        }
         
         [HttpGet(nameof(GetProperties))]
         public IActionResult GetProperties()
@@ -146,8 +154,8 @@ namespace Villa.Controllers
             string startprice,
             string endprice,
             string name,
-            string startPrice,
-            string endPrice,
+            string startDate,
+            string endDate,
             string guestCount
             )
         {
@@ -156,8 +164,10 @@ namespace Villa.Controllers
             List<int> filterType = new List<int>();
             List<int> filterProperty = new List<int>();
             string filterName = null;
-            double filterStartPrice = -1;
-            double filterEndPrice = -1;
+            decimal filterStartPrice = -1;
+            decimal filterEndPrice = -1;
+            DateOnly filterStartDate = DateOnly.MinValue;
+            DateOnly filterEndDate = DateOnly.MaxValue;
             int filterGuestCount = 0;
 
             if (!String.IsNullOrEmpty(region))
@@ -182,11 +192,19 @@ namespace Villa.Controllers
             }
             if (!String.IsNullOrEmpty(startprice))
             {
-                filterStartPrice = Double.Parse(WebUtility.UrlDecode(startprice));
+                filterStartPrice = Decimal.Parse(WebUtility.UrlDecode(startprice));
             }
             if (!String.IsNullOrEmpty(endprice))
             {
-                filterEndPrice = Double.Parse(WebUtility.UrlDecode(endprice));
+                filterEndPrice = Decimal.Parse(WebUtility.UrlDecode(endprice));
+            }
+            if (!String.IsNullOrEmpty(startDate))
+            {
+                filterStartDate = DateOnly.Parse(startDate);
+            }
+            if (!String.IsNullOrEmpty(endDate))
+            {
+                filterEndDate = DateOnly.Parse(endDate);
             }
             if (!String.IsNullOrEmpty(guestCount))
             {
@@ -202,6 +220,8 @@ namespace Villa.Controllers
                 filterName,
                 filterStartPrice,
                 filterEndPrice,
+                filterStartDate,
+                filterEndDate,
                 filterGuestCount);
          
             if (result is not null)
@@ -234,6 +254,35 @@ namespace Villa.Controllers
         {
             var result = _villaFEService.GetCollectionVillas(key);
             return Ok(result);
+        }
+        
+        [HttpGet(nameof(GetAllBlogs))]
+        public IActionResult GetAllBlogs()
+        {
+            var list = _villaFEService.GetAllBlogs();
+            return Ok(list);
+        }
+        [HttpGet(nameof(GetBlogByURL))]
+        public IActionResult GetBlogByURL(string url)
+        {
+            var blog = _villaFEService.GetBlogByURL(url);
+            return Ok(blog);
+        }
+        
+        [HttpGet(nameof(GetBlogImage))]
+        public async Task<FileContentResult> GetBlogImage(int id)
+        {
+            
+            byte[] content = _villaFEService.GetBlogImage(id);
+            Response.Headers.Add("Content-Disposition", "inline; filename=villalarim-blog-"+id);
+            return new FileContentResult(content, "image/png");
+        }
+        
+        [HttpGet(nameof(GetVillaReservations))]
+        public IActionResult GetVillaReservations(int id,int year)
+        {
+            var reservations = _villaFEService.GetVillaReservations(id,year);
+            return Ok(reservations);
         }
     }
 }
