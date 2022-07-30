@@ -62,7 +62,7 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !x.IsDeleted).Count()
+            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted).Count()
         }).ToList();
         return bolge;
     }
@@ -77,11 +77,11 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
-                Bolge = x.Villa.VillaLokasyon.Where(y => y.BolgeId == x.Id && !x.IsDeleted).FirstOrDefault().Bolge.Ad,
+                Bolge = x.Villa.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted).FirstOrDefault().Bolge.Ad,
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !x.IsDeleted)
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !pf.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Mevki,
@@ -124,7 +124,7 @@ public class VillaFEService
                 Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !x.IsDeleted)
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !pf.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
@@ -147,7 +147,7 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Fiyat = x.PeriyodikFiyat
-                .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !x.IsDeleted )
+                .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date  && !pf.IsDeleted )
                 .FirstOrDefault().Fiyat,
             Kapasite = x.Kapasite,
             BanyoSayisi = x.BanyoSayisi,
@@ -350,7 +350,7 @@ public class VillaFEService
                 ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
 
                 Fiyat = x.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date )
+                    .Where(pf => DateTime.Today >= pf.Baslangic.Date  &&  DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted )
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Kapasite,
                 BanyoSayisi = x.BanyoSayisi,

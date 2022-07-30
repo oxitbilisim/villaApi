@@ -92,6 +92,8 @@ namespace Villa.Service.Base
             {
                 query = query.Where(predicate);
             }
+            // PropertyInfo propertyInfo = query.GetType().GetProperty("IsDeleted");
+            // propertyInfo.SetValue(query, Convert.ChangeType(true, propertyInfo.PropertyType), null);
 
             return query.ProjectTo<M>(_mapper.ConfigurationProvider);;
         }
