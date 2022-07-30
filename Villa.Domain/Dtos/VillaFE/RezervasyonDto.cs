@@ -1,11 +1,4 @@
-﻿using Villa.Domain;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Villa.Domain.Enum;
+﻿using Villa.Domain.Enum;
 
 namespace Villa.Domain.Entities
 {
