@@ -81,7 +81,7 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
-                Bolge = x.Villa.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted).FirstOrDefault().Bolge.Ad,
+                Bolge = x.Villa.VillaLokasyon.Where(y => !y.IsDeleted).FirstOrDefault().Bolge.Ad,
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
@@ -125,14 +125,14 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
-                Bolge = x.Villa.VillaLokasyon.FirstOrDefault().Bolge.Ad,
-                Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
-                Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
+                Bolge = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Bolge.Ad,
+                Il = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Il.Ad,
+                Ilce = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
                     .Where(pf => DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
-                Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
+                Mevki = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Mevki,
                 BanyoSayisi = x.Villa.BanyoSayisi,
                 FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
                 ParaBirimi = x.Villa.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
