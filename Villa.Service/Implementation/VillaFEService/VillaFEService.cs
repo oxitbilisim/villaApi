@@ -310,6 +310,14 @@ public class VillaFEService
 
         if (filterStartPrice > -1 || filterEndPrice > -1)
         {
+            if (filterStartDate == DateOnly.MinValue)
+            {
+                filterStartDate = DateOnly.FromDateTime(DateTime.Now);
+            }
+            if (filterEndDate == DateOnly.MaxValue)
+            {
+                filterEndDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+            }
             villaQuery = villaQuery.Where(i => i.PeriyodikFiyat.AsEnumerable().Where(pf => !pf.IsDeleted &&
                                                                             (((DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                                    .CompareTo(filterStartDate) == 0 ||
