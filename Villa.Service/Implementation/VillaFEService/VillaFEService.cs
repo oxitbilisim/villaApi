@@ -66,7 +66,8 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted ).Count()
+            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted)
+                .Count()
         }).ToList();
         return bolge;
     }
@@ -85,7 +86,8 @@ public class VillaFEService
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
+                    .Where(pf =>
+                        DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Mevki,
@@ -108,7 +110,8 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted ).Count()
+            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted)
+                .Count()
         }).ToList();
 
         return kategori;
@@ -129,7 +132,8 @@ public class VillaFEService
                 Il = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
+                    .Where(pf =>
+                        DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Mevki,
@@ -156,8 +160,8 @@ public class VillaFEService
                 .FirstOrDefault().Fiyat,
             Kapasite = x.Kapasite,
             BanyoSayisi = x.BanyoSayisi,
-            FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
-            ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+            FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault().FiyatTuru),
+            ParaBirimi = x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault().ParaBirimi.Ad,
             OdaSayisi = x.OdaSayisi,
             YatakOdaSayisi = x.YatakOdaSayisi
         }).FirstOrDefault();
@@ -314,38 +318,42 @@ public class VillaFEService
             {
                 filterStartDate = DateOnly.FromDateTime(DateTime.Now);
             }
+
             if (filterEndDate == DateOnly.MaxValue)
             {
                 filterEndDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
             }
+
             villaQuery = villaQuery.Where(i => i.PeriyodikFiyat.AsEnumerable().Where(pf => !pf.IsDeleted &&
-                                                                            (((DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                   .CompareTo(filterStartDate) == 0 ||
-                                                                               DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                   .CompareTo(filterStartDate) == 1) &&
-                                                                              DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                  .CompareTo(filterEndDate) == -1) ||
-                                                                             (DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                  .CompareTo(filterStartDate) == 1 &&
-                                                                              (DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                   .CompareTo(filterEndDate) == -1 ||
-                                                                               DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                   .CompareTo(filterEndDate) == 0)) ||
-                                                                             (DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                  .CompareTo(filterStartDate) == -1 &&
-                                                                              DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                  .CompareTo(filterEndDate) == 1)))
+                    (((DateOnly.FromDateTime(pf.Baslangic.Date)
+                           .CompareTo(filterStartDate) == 0 ||
+                       DateOnly.FromDateTime(pf.Baslangic.Date)
+                           .CompareTo(filterStartDate) == 1) &&
+                      DateOnly.FromDateTime(pf.Baslangic.Date)
+                          .CompareTo(filterEndDate) == -1) ||
+                     ((DateOnly.FromDateTime(pf.Bitis.Date)
+                          .CompareTo(filterStartDate) == 1|| DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(filterStartDate) == 0 ) &&
+                      (DateOnly.FromDateTime(pf.Bitis.Date)
+                           .CompareTo(filterEndDate) == -1 ||
+                       DateOnly.FromDateTime(pf.Bitis.Date)
+                           .CompareTo(filterEndDate) == 0)) ||
+                     (DateOnly.FromDateTime(pf.Baslangic.Date)
+                          .CompareTo(filterStartDate) == -1 &&
+                      DateOnly.FromDateTime(pf.Bitis.Date)
+                          .CompareTo(filterEndDate) == 1)))
                 .Count() == i.PeriyodikFiyat.AsEnumerable().Where(pf => !pf.IsDeleted &&
-                                                                        (pf.Fiyat >= filterStartPrice || filterStartPrice == -1) &&
-                                                                        (pf.Fiyat <= filterEndPrice || filterEndPrice == -1) &&
+                                                                        (pf.Fiyat >= filterStartPrice ||
+                                                                         filterStartPrice == -1) &&
+                                                                        (pf.Fiyat <= filterEndPrice ||
+                                                                         filterEndPrice == -1) &&
                                                                         (((DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                                .CompareTo(filterStartDate) == 0 ||
                                                                            DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                                .CompareTo(filterStartDate) == 1) &&
                                                                           DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                               .CompareTo(filterEndDate) == -1) ||
-                                                                         (DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                              .CompareTo(filterStartDate) == 1 &&
+                                                                         ((DateOnly.FromDateTime(pf.Bitis.Date)
+                                                                              .CompareTo(filterStartDate) == 1|| DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(filterStartDate) == 0 ) &&
                                                                           (DateOnly.FromDateTime(pf.Bitis.Date)
                                                                                .CompareTo(filterEndDate) ==
                                                                            -1 ||
@@ -515,5 +523,64 @@ public class VillaFEService
                 RezervasyonDurum = r.RezervasyonDurum
             }).ToList();
         return reservationList;
+    }
+
+    public ReservationCalculation CostCalculate(int id, DateOnly startDate, DateOnly endDate)
+    {
+        List<PeriyodikFiyat> priceList = _appDbContext.PeriyodikFiyat.Include(p => p.ParaBirimi).AsEnumerable().Where(
+            pf => pf.VillaId == id && !pf.IsDeleted &&
+                  (((DateOnly.FromDateTime(pf.Baslangic.Date)
+                         .CompareTo(startDate) == 0 ||
+                     DateOnly.FromDateTime(pf.Baslangic.Date)
+                         .CompareTo(startDate) == 1) &&
+                    DateOnly.FromDateTime(pf.Baslangic.Date)
+                        .CompareTo(endDate) == -1) ||
+                   ((DateOnly.FromDateTime(pf.Bitis.Date)
+                        .CompareTo(startDate) == 1 || DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(startDate) == 0) &&
+                    (DateOnly.FromDateTime(pf.Bitis.Date)
+                         .CompareTo(endDate) == -1 ||
+                     DateOnly.FromDateTime(pf.Bitis.Date)
+                         .CompareTo(endDate) == 0)) ||
+                   (DateOnly.FromDateTime(pf.Baslangic.Date)
+                        .CompareTo(startDate) == -1 &&
+                    DateOnly.FromDateTime(pf.Bitis.Date)
+                        .CompareTo(endDate) == 1))).OrderBy(i => i.Id).ToList();
+
+        decimal totalPrice = 0;
+        for (DateOnly sd = startDate; sd.CompareTo(endDate) == -1; sd = sd.AddDays(1))
+        {
+            PeriyodikFiyat price = priceList.Where(p =>
+                (DateOnly.FromDateTime(p.Baslangic.DateTime).CompareTo(sd) == 0 ||
+                 DateOnly.FromDateTime(p.Baslangic.DateTime).CompareTo(sd) == -1) &&
+                (DateOnly.FromDateTime(p.Bitis.DateTime).CompareTo(sd) == 0 ||
+                 DateOnly.FromDateTime(p.Bitis.DateTime).CompareTo(sd) == 1)).FirstOrDefault();
+
+            if (price == null)
+            {
+                throw new Exception("Fiyat bilgisi bulunamadı!");
+            }
+
+            totalPrice = totalPrice + price.Fiyat;
+        }
+
+        PeriyodikFiyatAyarlari fa = _appDbContext.PeriyodikFiyatAyarlari.FirstOrDefault(f => f.VillaId == id);
+        if (fa == null)
+        {
+            throw new Exception("Fiyat bilgisi bulunamadı!");
+        }
+
+        VillaGorunum vg = _appDbContext.VillaGorunum.FirstOrDefault(f => f.VillaId == id);
+
+        ReservationCalculation calc = new ReservationCalculation();
+        calc.Currency = priceList[0].ParaBirimi.Ad;
+        calc.DateNight = startDate.ToString("dd.MM.yyyy") + " - " + endDate.ToString("dd.MM.yyyy") + " (" +
+                         (endDate.DayNumber - startDate.DayNumber).ToString() + " Gece)";
+        calc.TotalPrice = totalPrice;
+        calc.Deposit = fa.Depozito.Value;
+        calc.CleaningFee = fa.TemizlikUcreti.Value;
+        calc.DownPayment = totalPrice * fa.Kapora.Value / 100;
+        calc.IncluededInPrice = vg?.OneCikanOzellik;
+
+        return calc;
     }
 }

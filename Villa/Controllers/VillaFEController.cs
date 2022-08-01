@@ -302,19 +302,21 @@ namespace Villa.Controllers
         }
 
         [HttpGet(nameof(CostCalculate))]
-        public IActionResult CostCalculate(int id, string startDate, string endDate, int guestCount)
+        public IActionResult CostCalculate(int id, string startDate, string endDate)
         {
-            /**
-             * 14/08/2022 - 18/08/2022
-                Toplam Tutar
-                Ön ödeme
-                Depozito
-             */
             DateOnly filterStartDate = DateOnly.Parse(startDate);
             DateOnly filterEndDate = DateOnly.Parse(endDate);
+            ReservationCalculation calc = null;
+            try
+            {
+                calc = _villaFEService.CostCalculate(id, filterStartDate,filterEndDate);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
 
-            
-            return Ok();
+            return Ok(calc);
         }
     }
 }
