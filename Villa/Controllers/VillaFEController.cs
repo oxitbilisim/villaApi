@@ -318,5 +318,12 @@ namespace Villa.Controllers
 
             return Ok(calc);
         }
+        
+        [HttpGet(nameof(UpdateExchangeRates))]
+        public IActionResult UpdateExchangeRates()
+        {
+            _villaFEService.UpdateExchangeRates();
+            return Ok();
+        }
     }
 }
