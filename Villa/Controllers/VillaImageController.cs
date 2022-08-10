@@ -45,7 +45,7 @@ namespace Villa.Controllers
         {
             VillaImageDtoQ villaImage = new();
             villaImage = _villaImageService.GetPI<VillaImageDtoQ>(x=> x.VillaId == id).FirstOrDefault();
-            villaImage.ImageList = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == id).ToList();
+            villaImage.ImageList = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == id).OrderBy(x=> x.Id).ToList();
          
             if (villaImage is not null)
             {

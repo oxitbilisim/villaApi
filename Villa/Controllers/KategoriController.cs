@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
@@ -26,7 +27,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public  IActionResult GetAll()
         {
-            var result = _kategoriService.GetAllPI<KategoriDtoQ>(x => x.IsDeleted == false);
+            var result = _kategoriService.GetAllPI<KategoriDtoQ>(x => x.IsDeleted == false).OrderBy(x => x.Id);
             if (result is not null)
             {
                 return Ok(result);

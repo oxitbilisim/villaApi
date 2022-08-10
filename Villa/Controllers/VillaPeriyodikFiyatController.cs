@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
@@ -37,7 +38,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetPFAVillaById))]
         public ResponseModel GetPFAVillaById(int id)
         {
-            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false);
+            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false).OrderBy(x=> x.Id);
             
             if (result is not null)
             {

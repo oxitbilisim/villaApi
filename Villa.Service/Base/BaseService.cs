@@ -54,7 +54,8 @@ namespace Villa.Service.Base
                                                          Func<IQueryable<T>,IIncludableQueryable<T, object>> include = null) 
         {
             IQueryable<T> query = _appDbContext.Set<T>();
-
+   
+            
             if (include != null)
             {
                 query = include(query);
@@ -82,12 +83,14 @@ namespace Villa.Service.Base
                                               Func<IQueryable<T>,IIncludableQueryable<T, object>> include = null) 
         {
             IQueryable<T> query = _appDbContext.Set<T>();
+            IOrderedQueryable<T> orderBy = null;
 
             if (include != null)
             {
                 query = include(query);
             }
-
+            
+            
             if (predicate != null)
             {
                 query = query.Where(predicate);
@@ -95,7 +98,7 @@ namespace Villa.Service.Base
             // PropertyInfo propertyInfo = query.GetType().GetProperty("IsDeleted");
             // propertyInfo.SetValue(query, Convert.ChangeType(true, propertyInfo.PropertyType), null);
 
-            return query.ProjectTo<M>(_mapper.ConfigurationProvider);;
+            return query.ProjectTo<M>(_mapper.ConfigurationProvider);
         }
         
         public virtual int Add<M>(M model)

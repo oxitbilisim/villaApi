@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
@@ -28,7 +29,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public IActionResult GetAll()
         {
-            var result =  _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x=> x.IsDeleted == false);
+            var result =  _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x=> x.IsDeleted == false).OrderByDescending(x=> x.Id);
             if (result is not null)
             {
                 return Ok(result);

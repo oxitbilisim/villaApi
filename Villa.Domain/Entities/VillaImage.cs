@@ -18,7 +18,7 @@ namespace Villa.Domain.Entities
         public string VideoUrl { get; set; }
         public int? SiraNo { get; set; }
         public string Url { get; set; }
-        public bool? KapakResmi { get; set; } 
+     
         
     }
 }

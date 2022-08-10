@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
@@ -36,7 +37,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetKategoriVillaById))]
         public ResponseModel GetKategoriVillaById(int id)
         {
-            var result =  _villaKategoriService.GetPI<VillaKategoriDtoQ>(x=> x.VillaId == id);
+            var result =  _villaKategoriService.GetPI<VillaKategoriDtoQ>(x=> x.VillaId == id).OrderBy(x=> x.KategoriAd);
             if (result is not null)
             {
                 return new ResponseModel(result);

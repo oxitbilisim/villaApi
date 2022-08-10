@@ -29,7 +29,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public IActionResult GetAll()
         {
-            var result =  _rezervasyonService.GetAllPI<KapamaDtoQ>(x=> x.IsDeleted == false && x.RezervasyonDurum == RezervasyonDurum.Kapama);
+            var result =  _rezervasyonService.GetAllPI<KapamaDtoQ>(x=> x.IsDeleted == false && x.RezervasyonDurum == RezervasyonDurum.Kapama).OrderByDescending(x=>x.Id);;
             if (result is not null)
             {
                 return Ok(result);
