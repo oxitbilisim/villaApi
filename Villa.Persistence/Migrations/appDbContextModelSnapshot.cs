@@ -43,15 +43,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "59a77b2c-f88e-4ca4-ab13-67079b681bb2",
-                            ConcurrencyStamp = "ed8aa70c-5721-430d-866b-83ac35447ce0",
+                            Id = "0c52049a-87aa-419d-9d6a-01eaad421ac0",
+                            ConcurrencyStamp = "3035a2ec-6a38-4341-b5ff-c2e6511938f0",
                             Name = "sistemadmin",
                             NormalizedName = "SİSTEMADMİN"
                         },
                         new
                         {
-                            Id = "c6fd87da-eec8-43b4-98af-6ce22a0bfa45",
-                            ConcurrencyStamp = "861e2b97-3ac0-43b9-a99a-20634cabbe87",
+                            Id = "ceda8628-c1ca-43d8-8d12-fa5d9b73f73f",
+                            ConcurrencyStamp = "18e3b132-296d-4b50-be72-1dcf662d7b31",
                             Name = "admin",
                             NormalizedName = "ADMİN"
                         });
@@ -257,10 +257,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cbe72b4b-009b-48c3-9eb4-3dadcd9566a6",
+                            Id = "cc62ca50-08f0-4601-966a-34291b45350c",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "990b2b43-9410-4b81-ac09-e054871b0666",
+                            ConcurrencyStamp = "7de5aa39-2d59-499d-8a55-93784ddf4d6d",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +268,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "82f341cc-bfcd-45b6-b138-46ef58d3c4ab",
+                            SecurityStamp = "e7cc811e-3284-496b-ae96-2dee7e269657",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "c5f7c4d9-fb37-4175-9e47-637e2955be13",
+                            Id = "403983a9-551c-42e1-8be6-e765b73e5c1f",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "78a6c322-c76b-47b8-9247-9343c0799b16",
+                            ConcurrencyStamp = "880fd9b7-a9b3-4f7d-b558-df6ff6dd1828",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +286,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c1985767-7d8c-43e7-8083-66a5bbbef46b",
+                            SecurityStamp = "9ef17417-04ba-4660-a239-dce2e886e63e",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"

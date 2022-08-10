@@ -5,5 +5,7 @@ namespace Villa.Domain.Dtos
         public int? Id { get; set; }
         public int IlId { get; set; }
         public string Ad { get; set; }
+        public double? Enlem { get; set; }
+        public double? Boylam { get; set; }
     }
 }

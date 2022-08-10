@@ -16,6 +16,8 @@ namespace Villa.Domain.Entities
       
         public string Ad { get; set; }
         public int IlId { get; set; }
+        public double? Enlem { get; set; }
+        public double? Boylam { get; set; }
         public virtual Il Il { get; set; }
         public virtual HashSet<Villa> Villa { get; set; } 
     }
