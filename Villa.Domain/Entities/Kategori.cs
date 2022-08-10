@@ -20,6 +20,8 @@ namespace Villa.Domain.Entities
         public string Baslik { get; set; }
  
         public string? Etiket { get; set; }
+        
+        public string? IconName { get; set; }
       
         public string Url { get; set; }
 

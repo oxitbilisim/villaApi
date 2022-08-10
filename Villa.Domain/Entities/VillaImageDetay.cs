@@ -16,5 +16,7 @@ namespace Villa.Domain.Entities
         public int VillaId { get; set; }
         public virtual Villa Villa { get; set; }
         public byte[] Image { get; set; }
+        
+        public bool? KapakResmi { get; set; } 
     }
 }
