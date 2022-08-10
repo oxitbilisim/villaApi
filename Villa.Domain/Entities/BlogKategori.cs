@@ -15,6 +15,7 @@ namespace Villa.Domain.Entities
         }
         public string Ad { get; set; }
         public string Url { get; set; }
+        public virtual HashSet<BlogIcerik> BlogIcerik { get; set; } 
 
     }
 }

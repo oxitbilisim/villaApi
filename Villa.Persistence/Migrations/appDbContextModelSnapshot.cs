@@ -43,15 +43,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ded1131d-6e4a-4e7f-a370-9df9536386c5",
-                            ConcurrencyStamp = "2546a6cd-1590-4573-bae7-e286634fdf64",
+                            Id = "9bc4727b-7c69-42bd-bdac-4fe7b8a2502a",
+                            ConcurrencyStamp = "35afc142-110d-44d4-9015-73e4504fbbb4",
                             Name = "sistemadmin",
                             NormalizedName = "SİSTEMADMİN"
                         },
                         new
                         {
-                            Id = "ca161381-9e85-4e99-ac13-6cd607e6cbea",
-                            ConcurrencyStamp = "8d2847c6-d147-43d8-aa7d-5d4da3b6c3d2",
+                            Id = "0ee0aac1-f93e-4837-af57-12eb696a91fa",
+                            ConcurrencyStamp = "a97b5860-b1f1-45cd-92a0-b6ccc43c8d44",
                             Name = "admin",
                             NormalizedName = "ADMİN"
                         });
@@ -257,10 +257,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6c7a111b-2f70-4043-96b7-d540cfdcc364",
+                            Id = "c0488dba-0ae5-454c-bdd0-1d31fd489138",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "e707fb96-14aa-4948-898d-976b6e192ae7",
+                            ConcurrencyStamp = "85b3c392-f8e8-4ab5-903c-d0d31bf70bba",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +268,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "36cbbdd6-0a48-44b7-84a2-104eb718607d",
+                            SecurityStamp = "633fe4f2-6a7d-4439-8a30-7a300a44a25b",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "7608571d-1536-48d8-a19e-520e43b19052",
+                            Id = "7f6b0f00-a204-48b7-8596-43a67de9e65f",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "25ab32e6-1dfe-40a7-8cb4-ea8fcc0a550f",
+                            ConcurrencyStamp = "18e23218-3000-4201-ab45-aac519a2fde7",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +286,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6798748c-d954-4141-a9c1-f50950fe0a53",
+                            SecurityStamp = "54a1d6bb-5e64-4ea8-8c53-3881b7810eef",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
@@ -352,6 +352,9 @@ namespace Villa.Persistence.Migrations
                     b.Property<int>("BlogId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("BlogKategoriId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTimeOffset?>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -373,6 +376,8 @@ namespace Villa.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BlogId");
+
+                    b.HasIndex("BlogKategoriId");
 
                     b.ToTable("BlogIcerik");
                 });
@@ -1974,9 +1979,6 @@ namespace Villa.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("KapakResmi")
-                        .HasColumnType("boolean");
-
                     b.Property<int?>("SiraNo")
                         .HasColumnType("integer");
 
@@ -2277,7 +2279,13 @@ namespace Villa.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Villa.Domain.Entities.BlogKategori", "BlogKategori")
+                        .WithMany()
+                        .HasForeignKey("BlogKategoriId");
+
                     b.Navigation("Blog");
+
+                    b.Navigation("BlogKategori");
                 });
 
             modelBuilder.Entity("Villa.Domain.Entities.BlogSeo", b =>
