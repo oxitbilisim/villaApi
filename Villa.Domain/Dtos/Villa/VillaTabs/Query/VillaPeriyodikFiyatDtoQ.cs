@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Villa.Domain.Common;
 using Villa.Domain.Enum;
 
 namespace Villa.Domain.Dtos
@@ -20,5 +22,11 @@ namespace Villa.Domain.Dtos
         public int Indirim { get; set; }
       
         public int EnAzKiralama { get; set; }
+        
+        public VillaPeriyodikFiyatDtoQ clone()
+        {
+            var result = JsonConvert.SerializeObject(this);
+            return JsonConvert.DeserializeObject<VillaPeriyodikFiyatDtoQ>(result);
+        }
     }
 }

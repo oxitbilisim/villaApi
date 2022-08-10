@@ -65,6 +65,7 @@ namespace Villa.Persistence
         public DbSet<Sayfa> Sayfa { get; set; }
         public DbSet<SayfaIcerik> SayfaIcerik { get; set; }
         public DbSet<SayfaSeo> SayfaSeo { get; set; }
+        public DbSet<ExchangeRates> ExchangeRates { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

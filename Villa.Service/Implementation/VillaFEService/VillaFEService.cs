@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
@@ -66,7 +67,8 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted ).Count()
+            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted)
+                .Count()
         }).ToList();
         return bolge;
     }
@@ -81,11 +83,12 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
-                Bolge = x.Villa.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted).FirstOrDefault().Bolge.Ad,
+                Bolge = x.Villa.VillaLokasyon.Where(y => !y.IsDeleted).FirstOrDefault().Bolge.Ad,
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
+                    .Where(pf =>
+                        DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
                 Mevki = x.Mevki,
@@ -108,7 +111,8 @@ public class VillaFEService
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted ).Count()
+            Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted)
+                .Count()
         }).ToList();
 
         return kategori;
@@ -125,14 +129,15 @@ public class VillaFEService
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
                 ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
-                Bolge = x.Villa.VillaLokasyon.FirstOrDefault().Bolge.Ad,
-                Il = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Il.Ad,
-                Ilce = x.Villa.VillaLokasyon.FirstOrDefault().Ilce.Ad,
+                Bolge = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Bolge.Ad,
+                Il = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Il.Ad,
+                Ilce = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Ad,
                 Fiyat = x.Villa.PeriyodikFiyat
-                    .Where(pf => DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
+                    .Where(pf =>
+                        DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
                     .FirstOrDefault().Fiyat,
                 Kapasite = x.Villa.Kapasite,
-                Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
+                Mevki = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Mevki,
                 BanyoSayisi = x.Villa.BanyoSayisi,
                 FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
                 ParaBirimi = x.Villa.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
@@ -156,8 +161,9 @@ public class VillaFEService
                 .FirstOrDefault().Fiyat,
             Kapasite = x.Kapasite,
             BanyoSayisi = x.BanyoSayisi,
-            FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
-            ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+            FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault()
+                .FiyatTuru),
+            ParaBirimi = x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault().ParaBirimi.Ad,
             OdaSayisi = x.OdaSayisi,
             YatakOdaSayisi = x.YatakOdaSayisi
         }).FirstOrDefault();
@@ -178,13 +184,88 @@ public class VillaFEService
             .ToList();
         villa.Gorunum = _villaGorunumService.GetPI<VillaGorunumDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted)
             .FirstOrDefault();
-        villa.PeriyodikFiyat = _villaPeriyodikFiyatService
-            .GetPI<VillaPeriyodikFiyatDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).OrderBy(x => x.Baslangic)
-            .ToList();
+
+        villa.PeriyodikFiyat = generatePrices(villa.Villa.Id.Value);
+        
         villa.PeriyodikFiyatAyarlari = _villaPeriyodikFiyatAyarlariService
             .GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).ToList();
 
         return villa;
+    }
+
+    private List<VillaPeriyodikFiyatDtoQ> generatePrices(int villaId)
+    {
+        var baseList =_villaPeriyodikFiyatService
+            .GetPI<VillaPeriyodikFiyatDtoQ>(x => x.VillaId == villaId && x.Bitis.CompareTo(DateTimeOffset.Now)>=0 && !x.IsDeleted).OrderBy(x => x.Baslangic)
+            .ToList();
+        if (baseList.Count == 0)
+        {
+            return new List<VillaPeriyodikFiyatDtoQ>();
+        }
+
+        List<VillaPeriyodikFiyatDtoQ> result = new List<VillaPeriyodikFiyatDtoQ>(baseList);
+
+        List<ParaBirimi> currencyList = _appDbContext.ParaBirimi.Where(p => !p.IsDeleted).ToList();
+        List<ExchangeRates> exchangeRates = _appDbContext.ExchangeRates.Where(p => !p.IsDeleted).ToList();
+        
+        foreach (VillaPeriyodikFiyatDtoQ item in baseList)
+        {
+            int existCurrencyId = item.ParaBirimiId;
+            ParaBirimi existCurrency = currencyList.Find(p => p.Id == existCurrencyId);
+            List<ParaBirimi> nonExistCurrency = currencyList.Where(p => p.Id != existCurrencyId).ToList();
+
+            foreach (ParaBirimi currency in nonExistCurrency)
+            {
+                var isExit = result.Where(c =>
+                    c.Baslangic == item.Baslangic && c.Bitis == item.Bitis && c.ParaBirimiAd == currency.Ad).Any();
+                if (isExit)
+                {
+                    break;
+                }
+
+                VillaPeriyodikFiyatDtoQ newObj = item.clone();
+                newObj.ParaBirimiId = currency.Id;
+                newObj.ParaBirimiAd = currency.Ad;
+                
+                if (existCurrency.Ad=="TRY")
+                {
+                    var rate = exchangeRates.Find(e => !e.IsDeleted && e.to == currency.Ad);
+                    if (rate==null)
+                    {
+                        break;
+                    }
+                    newObj.Fiyat = newObj.Fiyat / (decimal) rate.rate;
+                }else if(currency.Ad=="TRY")
+                {
+                    var rate = exchangeRates.Find(e => !e.IsDeleted && e.to == existCurrency.Ad);
+                    if (rate==null)
+                    {
+                        break;
+                    }
+                    newObj.Fiyat = newObj.Fiyat * (decimal) rate.rate;
+                }
+                else
+                {
+                    var rateTRY = exchangeRates.Find(e => !e.IsDeleted && e.to == existCurrency.Ad);
+                    if (rateTRY==null)
+                    {
+                        break;
+                    }
+                    var rate = exchangeRates.Find(e => !e.IsDeleted && e.to == currency.Ad);
+                    if (rateTRY==null)
+                    {
+                        break;
+                    }
+                    newObj.Fiyat = newObj.Fiyat * (decimal) rateTRY.rate / (decimal) rate.rate;
+                }
+                
+                result.Add(newObj);
+            }
+            
+            
+        }
+
+        return result;
     }
 
     public List<VillaDtoFQ> GetPopularVillas(int limit)
@@ -310,34 +391,49 @@ public class VillaFEService
 
         if (filterStartPrice > -1 || filterEndPrice > -1)
         {
+            if (filterStartDate == DateOnly.MinValue)
+            {
+                filterStartDate = DateOnly.FromDateTime(DateTime.Now);
+            }
+
+            if (filterEndDate == DateOnly.MaxValue)
+            {
+                filterEndDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+            }
+
             villaQuery = villaQuery.Where(i => i.PeriyodikFiyat.AsEnumerable().Where(pf => !pf.IsDeleted &&
-                                                                            (((DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                   .CompareTo(filterStartDate) == 0 ||
-                                                                               DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                   .CompareTo(filterStartDate) == 1) &&
-                                                                              DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                  .CompareTo(filterEndDate) == -1) ||
-                                                                             (DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                  .CompareTo(filterStartDate) == 1 &&
-                                                                              (DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                   .CompareTo(filterEndDate) == -1 ||
-                                                                               DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                   .CompareTo(filterEndDate) == 0)) ||
-                                                                             (DateOnly.FromDateTime(pf.Baslangic.Date)
-                                                                                  .CompareTo(filterStartDate) == -1 &&
-                                                                              DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                                  .CompareTo(filterEndDate) == 1)))
+                    (((DateOnly.FromDateTime(pf.Baslangic.Date)
+                           .CompareTo(filterStartDate) == 0 ||
+                       DateOnly.FromDateTime(pf.Baslangic.Date)
+                           .CompareTo(filterStartDate) == 1) &&
+                      DateOnly.FromDateTime(pf.Baslangic.Date)
+                          .CompareTo(filterEndDate) == -1) ||
+                     ((DateOnly.FromDateTime(pf.Bitis.Date)
+                           .CompareTo(filterStartDate) == 1 ||
+                       DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(filterStartDate) == 0) &&
+                      (DateOnly.FromDateTime(pf.Bitis.Date)
+                           .CompareTo(filterEndDate) == -1 ||
+                       DateOnly.FromDateTime(pf.Bitis.Date)
+                           .CompareTo(filterEndDate) == 0)) ||
+                     (DateOnly.FromDateTime(pf.Baslangic.Date)
+                          .CompareTo(filterStartDate) == -1 &&
+                      DateOnly.FromDateTime(pf.Bitis.Date)
+                          .CompareTo(filterEndDate) == 1)))
                 .Count() == i.PeriyodikFiyat.AsEnumerable().Where(pf => !pf.IsDeleted &&
-                                                                        (pf.Fiyat >= filterStartPrice || filterStartPrice == -1) &&
-                                                                        (pf.Fiyat <= filterEndPrice || filterEndPrice == -1) &&
+                                                                        (pf.Fiyat >= filterStartPrice ||
+                                                                         filterStartPrice == -1) &&
+                                                                        (pf.Fiyat <= filterEndPrice ||
+                                                                         filterEndPrice == -1) &&
                                                                         (((DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                                .CompareTo(filterStartDate) == 0 ||
                                                                            DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                                .CompareTo(filterStartDate) == 1) &&
                                                                           DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                               .CompareTo(filterEndDate) == -1) ||
-                                                                         (DateOnly.FromDateTime(pf.Bitis.Date)
-                                                                              .CompareTo(filterStartDate) == 1 &&
+                                                                         ((DateOnly.FromDateTime(pf.Bitis.Date)
+                                                                               .CompareTo(filterStartDate) == 1 ||
+                                                                           DateOnly.FromDateTime(pf.Bitis.Date)
+                                                                               .CompareTo(filterStartDate) == 0) &&
                                                                           (DateOnly.FromDateTime(pf.Bitis.Date)
                                                                                .CompareTo(filterEndDate) ==
                                                                            -1 ||
@@ -507,5 +603,123 @@ public class VillaFEService
                 RezervasyonDurum = r.RezervasyonDurum
             }).ToList();
         return reservationList;
+    }
+
+    public ReservationCalculation CostCalculate(int id, DateOnly startDate, DateOnly endDate)
+    {
+        List<PeriyodikFiyat> priceList = _appDbContext.PeriyodikFiyat.Include(p => p.ParaBirimi).AsEnumerable().Where(
+            pf => pf.VillaId == id && !pf.IsDeleted &&
+                  (((DateOnly.FromDateTime(pf.Baslangic.Date)
+                         .CompareTo(startDate) == 0 ||
+                     DateOnly.FromDateTime(pf.Baslangic.Date)
+                         .CompareTo(startDate) == 1) &&
+                    DateOnly.FromDateTime(pf.Baslangic.Date)
+                        .CompareTo(endDate) == -1) ||
+                   ((DateOnly.FromDateTime(pf.Bitis.Date)
+                        .CompareTo(startDate) == 1 || DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(startDate) == 0) &&
+                    (DateOnly.FromDateTime(pf.Bitis.Date)
+                         .CompareTo(endDate) == -1 ||
+                     DateOnly.FromDateTime(pf.Bitis.Date)
+                         .CompareTo(endDate) == 0)) ||
+                   (DateOnly.FromDateTime(pf.Baslangic.Date)
+                        .CompareTo(startDate) == -1 &&
+                    DateOnly.FromDateTime(pf.Bitis.Date)
+                        .CompareTo(endDate) == 1))).OrderBy(i => i.Id).ToList();
+
+        decimal totalPrice = 0;
+        for (DateOnly sd = startDate; sd.CompareTo(endDate) == -1; sd = sd.AddDays(1))
+        {
+            PeriyodikFiyat price = priceList.Where(p =>
+                (DateOnly.FromDateTime(p.Baslangic.DateTime).CompareTo(sd) == 0 ||
+                 DateOnly.FromDateTime(p.Baslangic.DateTime).CompareTo(sd) == -1) &&
+                (DateOnly.FromDateTime(p.Bitis.DateTime).CompareTo(sd) == 0 ||
+                 DateOnly.FromDateTime(p.Bitis.DateTime).CompareTo(sd) == 1)).FirstOrDefault();
+
+            if (price == null)
+            {
+                throw new Exception("Fiyat bilgisi bulunamadı!");
+            }
+
+            totalPrice = totalPrice + price.Fiyat;
+        }
+
+        PeriyodikFiyatAyarlari fa = _appDbContext.PeriyodikFiyatAyarlari.FirstOrDefault(f => f.VillaId == id);
+        if (fa == null)
+        {
+            throw new Exception("Fiyat bilgisi bulunamadı!");
+        }
+
+        VillaGorunum vg = _appDbContext.VillaGorunum.FirstOrDefault(f => f.VillaId == id);
+
+        ReservationCalculation calc = new ReservationCalculation();
+        calc.Currency = priceList[0].ParaBirimi.Ad;
+        calc.DateNight = startDate.ToString("dd.MM.yyyy") + " - " + endDate.ToString("dd.MM.yyyy") + " (" +
+                         (endDate.DayNumber - startDate.DayNumber).ToString() + " Gece)";
+        calc.TotalPrice = totalPrice;
+        calc.Deposit = fa.Depozito.Value;
+        calc.CleaningFee = fa.TemizlikUcreti.Value;
+        calc.DownPayment = totalPrice * fa.Kapora.Value / 100;
+        calc.IncluededInPrice = vg?.OneCikanOzellik;
+
+        return calc;
+    }
+
+    public void UpdateExchangeRates()
+    {
+        string dateStr = null;
+        string bulletinNo = null;
+        string from = "TRY";
+        string to = null;
+        double rate = Double.MinValue;
+
+        List<ExchangeRates> erList = new List<ExchangeRates>();
+
+        List<string> currencyList = _appDbContext.ParaBirimi.Where(p => !p.IsDeleted).Select(p => p.Ad).ToList();
+
+        string url = "https://www.tcmb.gov.tr/kurlar/today.xml";
+        XmlTextReader reader = new XmlTextReader(url);
+        while (reader.Read())
+        {
+            if (reader.NodeType == XmlNodeType.Element && reader.Name == "Tarih_Date")
+            {
+                dateStr = reader.GetAttribute("Date");
+                bulletinNo = reader.GetAttribute("Bulten_No");
+            }
+
+            if (reader.NodeType == XmlNodeType.Element && reader.Name == "Currency")
+            {
+                var code = reader.GetAttribute("Kod");
+                if (currencyList.Contains(code))
+                {
+                    to = code;
+                    while (reader.Read())
+                    {
+                        if (reader.NodeType == XmlNodeType.Element && reader.Name == "BanknoteSelling")
+                        {
+                            rate = Double.Parse(reader.ReadInnerXml());
+                            break;
+                        }
+                    }
+
+                    erList.Add(new ExchangeRates()
+                    {
+                        from = from,
+                        to = to,
+                        rate = rate,
+                        BulletinNo = bulletinNo,
+                        CreateDate = DateTimeOffset.Now,
+                        IsDeleted = false
+                    });
+                }
+            }
+        }
+
+        if (erList.Count > 0)
+        {
+            var oldList = _appDbContext.ExchangeRates.ToList();
+            _appDbContext.ExchangeRates.RemoveRange(oldList);
+            _appDbContext.ExchangeRates.AddRange(erList);
+            _appDbContext.SaveChanges();
+        }
     }
 }
