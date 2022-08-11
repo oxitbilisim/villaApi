@@ -18,8 +18,7 @@ namespace Villa.Domain.Entities
         public string Icerik { get; set; }
         public string VideoUrl { get; set; }
         public byte[]? Image { get; set; } 
-        public int? BlogKategoriId { get; set; }
-        public virtual BlogKategori BlogKategori { get; set; }
+     
         
     }
 }

@@ -26,8 +26,13 @@ namespace Villa.Domain.Entities
         public string Url { get; set; }
         public string? Etiket  { get; set ; }
         public byte[]? Image { get; set; } 
+        
+        public int? BlogKategoriId { get; set; }
+        public virtual BlogKategori BlogKategori { get; set; }
         public virtual HashSet<BlogIcerik> BlogIcerik { get; set; } 
         public virtual HashSet<BlogSeo> BlogSeo { get; set; } 
+        
+        
 
         
     }

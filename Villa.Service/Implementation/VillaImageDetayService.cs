@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,5 +24,33 @@ namespace Villa.Service.Implementation;
             _mapper = mapper;
             _appDbContext = appDbContext;
         }
+
+        
+        public bool KapakResimUpdate(int? VillaId, int ResimId)
+        {
+            try
+            {
+                var imageDetay = _appDbContext.VillaImageDetay.Where(x => !x.IsDeleted && x.VillaId == VillaId && x.Id != ResimId).ToList();
+                foreach (var item in imageDetay)
+                {
+                    item.KapakResmi = false;
+                    _appDbContext.Entry<VillaImageDetay>(item).State = EntityState.Modified;
+                }
+                _appDbContext.SaveChanges();
+            
+                var imageDetayFirst = _appDbContext.VillaImageDetay.Where(x => !x.IsDeleted && x.Id == ResimId).FirstOrDefault();
+                _appDbContext.Entry<VillaImageDetay>(imageDetayFirst).State = EntityState.Modified;
+        
+                _appDbContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+          
+        }
+       
     }
   

@@ -68,6 +68,15 @@ namespace Villa.Controllers
             return  new ResponseModel(result);
         }
         
+        [HttpPost(nameof(KapakResimUpdate))]
+        public ResponseModel KapakResimUpdate(int? villaId, int resimId)
+        {
+            
+            var result = _villaImageDetayService.KapakResimUpdate(villaId,resimId);
+        
+            return  new ResponseModel(result);
+        }
+        
         [HttpPut(nameof(Update))]
         public ResponseModel Update(VillaImageDtoC dto)
         {

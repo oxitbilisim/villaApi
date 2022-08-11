@@ -8,7 +8,7 @@ namespace Villa.Domain.Dtos
         public int? Id { get; set; }
         public string Baslik { get; set; }
         public string? AltBaslik { get; set; }
-
+        public int? BlogKategoriId { get; set; }
         public string GirisYazisi { get; set; }
         public string Url { get; set; }
         public string? Etiket  { get; set ; }
