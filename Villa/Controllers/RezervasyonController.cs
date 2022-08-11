@@ -36,6 +36,17 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
+        
+        [HttpGet(nameof(GetBildirim))]
+        public IActionResult GetBildirim()
+        {
+            var result =  _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x=> x.IsDeleted == false).OrderByDescending(x=> x.Id).Take(15);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
 
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
