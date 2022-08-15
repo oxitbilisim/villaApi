@@ -30,7 +30,7 @@ namespace Villa.Service.Implementation;
         {
             try
             {
-                var imageDetay = _appDbContext.VillaImageDetay.Where(x => !x.IsDeleted && x.VillaId == VillaId && x.Id != ResimId).ToList();
+                var imageDetay = _appDbContext.VillaImageDetay.Where(x =>  x.VillaId == VillaId && x.Id != ResimId).ToList();
                 foreach (var item in imageDetay)
                 {
                     item.KapakResmi = false;
@@ -39,10 +39,11 @@ namespace Villa.Service.Implementation;
                 _appDbContext.SaveChanges();
             
                 var imageDetayFirst = _appDbContext.VillaImageDetay.Where(x => !x.IsDeleted && x.Id == ResimId).FirstOrDefault();
+                imageDetayFirst.KapakResmi = true; 
                 _appDbContext.Entry<VillaImageDetay>(imageDetayFirst).State = EntityState.Modified;
-        
+     
                 _appDbContext.SaveChanges();
-
+                
                 return true;
             }
             catch (Exception e)
