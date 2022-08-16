@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Villa.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Villa.Domain.Dtos;
 
 namespace Villa.Service.Implementation
 {
@@ -235,6 +236,26 @@ namespace Villa.Service.Implementation
                 Subject = "Reset Password",
             };
             await _emailService.SendEmailAsync(emailRequest);
+        }
+        
+        
+        public async Task<ResponseModel> GetAllAsync()
+        {
+            // var usersDto = _mapper.Map<List<UserInformationDto>>(_userManager.Users.Include(x=> x.UserRole).ToListAsync());
+            var usersDto = await _userManager.Users
+                //.Include(y => y.UserRole)
+                .Select( x => new UserInformationDto()
+                {
+                    Id = x.Id,
+                    Name = x.Ad,
+                    SurName = x.Soyad,
+                    Email = x.Email
+                    
+                    //Role = _appDbContext.Role.Where(b=> b.Id == x.UserRole.FirstOrDefault().RoleId).FirstOrDefault().NormalizedName
+                })
+                .ToListAsync();
+
+            return new ResponseModel(usersDto);
         }
 
         public async Task<Response<string>> ResetPassword(ResetPasswordRequest model)

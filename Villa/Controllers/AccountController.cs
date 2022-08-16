@@ -50,6 +50,17 @@ namespace Villa.Controllers
 
             return Ok(await _accountService.ResetPassword(model));
         }
+        
+        [HttpGet(nameof(GetAllAsync))]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var result = await _accountService.GetAllAsync();
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return BadRequest("No records found");
+        }
       
         private string GenerateIPAddress()
         {
