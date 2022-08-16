@@ -14,5 +14,7 @@ namespace Villa.Domain.Enum
         Iptal = 4,
         [Display(Name = "Kapama")]
         Kapama = 5,
+        [Display(Name = "Inceleme Bekliyor")]
+        IncelemeBekliyor = 6,
     }
 }

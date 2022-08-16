@@ -251,9 +251,10 @@ namespace Villa.Service.Implementation
                     Id = x.Id,
                     Name = x.Ad,
                     SurName = x.Soyad,
-                    Email = x.Email
-                    
-                    //Role = _appDbContext.Role.Where(b=> b.Id == x.UserRole.FirstOrDefault().RoleId).FirstOrDefault().NormalizedName
+                    Email = x.Email,
+                    Image = x.Image,
+                    Role = "SistemAmin",
+                    //Role = _roleManager. .Where(b=> b.Id == x. .UserRole.FirstOrDefault().RoleId).FirstOrDefault().NormalizedName
                 })
                 .ToListAsync();
 

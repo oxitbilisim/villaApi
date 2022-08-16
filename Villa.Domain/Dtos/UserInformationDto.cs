@@ -10,5 +10,6 @@ namespace Villa.Domain.Dtos
         public string Email { get; set; }
         public  string Status { get; set; }
         public string Role { get; set; }
+        public byte[] Image { get; set; }
     }
 }
