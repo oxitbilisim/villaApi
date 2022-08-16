@@ -78,6 +78,7 @@ namespace Villa.Service.Implementation
             response.Id = user.Id;
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             response.UserName = user.UserName;
+            response.Image = user.Image; 
 
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             response.Roles = rolesList.ToList();
@@ -102,6 +103,7 @@ namespace Villa.Service.Implementation
                 Ad = request.Ad,
                 Soyad = request.Soyad,
                 Email = request.Email,
+                Image = request.Image,
                 TelefonGSM = request.TelefonGSM
             };
 

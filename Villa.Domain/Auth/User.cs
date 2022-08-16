@@ -9,7 +9,7 @@ namespace Villa.Domain.Auth
         public string Ad { get; set; }
         public string Soyad { get; set; }
         public string Eposta { get; set; }
-
+        public byte[] Image { get; set; }
         public string TelefonGSM { get; set; }
         public List<RefreshToken> RefreshTokens { get; set; }
         public bool OwnsToken(string token)

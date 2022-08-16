@@ -43,15 +43,15 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "912a9452-ae96-4ffc-ac67-648130ec8d37",
-                            ConcurrencyStamp = "f3fc1899-67c8-4f07-b208-2f3e9610adea",
+                            Id = "c58851c4-7a07-4118-8f82-1ab4b79dfbea",
+                            ConcurrencyStamp = "77af566f-5524-4b01-b3e4-c29f647a1b69",
                             Name = "sistemadmin",
                             NormalizedName = "SİSTEMADMİN"
                         },
                         new
                         {
-                            Id = "5d1d80ea-8964-4fdf-baf8-e943d0285367",
-                            ConcurrencyStamp = "acb89d8d-f3bb-40bc-838a-c20b06188dcb",
+                            Id = "9b2565d0-76ce-49d4-9caf-d5b11671c173",
+                            ConcurrencyStamp = "826efc5c-b721-46d0-91c8-1217c6a1df02",
                             Name = "admin",
                             NormalizedName = "ADMİN"
                         });
@@ -214,6 +214,9 @@ namespace Villa.Persistence.Migrations
                     b.Property<string>("Eposta")
                         .HasColumnType("text");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("bytea");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -257,10 +260,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0a088e4f-c311-4ee0-8d6d-f3f2b6f22f63",
+                            Id = "aca5a425-e19d-41ef-9d18-bb016e120f0b",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "f57c30d1-0ea5-4cdd-bc9f-f92c46dd470b",
+                            ConcurrencyStamp = "0389b5ef-a3b9-4164-9784-54535d041754",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -268,17 +271,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "928eebc7-0fba-420d-8d15-101324cfa787",
+                            SecurityStamp = "039fc212-72c3-4b59-b2ec-a989ab80f77b",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "15b31bb4-0f10-48e0-85ae-ddb81392f56c",
+                            Id = "3535189e-835b-48be-8113-6ef2d540af02",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "f4121af0-4d86-4d6c-bda7-bdd3a36de4cd",
+                            ConcurrencyStamp = "5542355a-d697-4ab9-aa2c-5d514b72ea6e",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -286,7 +289,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "81344bed-8cdb-49d6-8838-24a4249d0941",
+                            SecurityStamp = "1b16d680-fef6-4af1-ac4e-5a209100907b",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
