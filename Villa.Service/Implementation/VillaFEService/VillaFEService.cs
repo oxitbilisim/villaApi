@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Domain.Dtos.VillaFE;
 using Villa.Domain.Entities;
 using Villa.Domain.Enum;
 using Villa.Domain.Interfaces;
@@ -73,16 +74,21 @@ public class VillaFEService
         return bolge;
     }
 
-    public List<VillaDtoFQ> GetBolgeVillas(int bolgeId)
+    public PaginationData GetBolgeVillas(int bolgeId,
+        int pageNumber,
+        int pageRowCount)
     {
-        var villaBolge = _appDbContext.VillaLokasyon
-            .Where(x => x.BolgeId == bolgeId && !x.Villa.IsDeleted)
-            .Select(x => new VillaDtoFQ
+        var villaQuery = _appDbContext.VillaLokasyon
+            .Where(x => x.BolgeId == bolgeId && !x.Villa.IsDeleted && x.Villa.Active);
+        var searchResult =
+            villaQuery.Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount).Select(x => new VillaDtoFQ
             {
                 Id = x.Villa.Id,
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
-                ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
+                ImageId = x.Villa.VillaImage != null
+                    ? x.Villa.VillaImageDetay.Where(i => i.KapakResmi.Value).FirstOrDefault().Id
+                    : null,
                 Bolge = x.Villa.VillaLokasyon.Where(y => !y.IsDeleted).FirstOrDefault().Bolge.Ad,
                 Il = x.Ilce.Il.Ad,
                 Ilce = x.Ilce.Ad,
@@ -100,7 +106,12 @@ public class VillaFEService
                 YatakOdaSayisi = x.Villa.YatakOdaSayisi
             }).ToList();
 
-        return villaBolge;
+        return new PaginationData()
+        {
+            data = searchResult,
+            CurrentPage = pageNumber,
+            TotalPage = (int) Math.Ceiling((decimal) villaQuery.Count() / pageRowCount)
+        };
     }
 
     public List<KategoriDtoFQ> GetKategori(int rules)
@@ -110,6 +121,7 @@ public class VillaFEService
             Id = x.Id,
             Ad = x.Ad,
             Url = x.Url,
+            IconName = x.IconName,
             Image = rules == 1 ? x.Image : null,
             Toplam = _appDbContext.VillaKategori.Where(y => y.KategoriId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted)
                 .Count()
@@ -118,17 +130,23 @@ public class VillaFEService
         return kategori;
     }
 
-    public List<VillaDtoFQ> GetKategoriVillas(int kategoriId)
+    public PaginationData GetKategoriVillas(int kategoriId,
+        int pageNumber,
+        int pageRowCount)
     {
-        var villaKategori = _appDbContext.VillaKategori
+        var villaQuery = _appDbContext.VillaKategori
             .Where(i => !i.Villa.IsDeleted)
-            .Where(x => x.KategoriId == kategoriId && !x.IsDeleted)
-            .Select(x => new VillaDtoFQ
+            .Where(x => x.KategoriId == kategoriId && !x.IsDeleted && x.Villa.Active);
+
+        var searchResult =
+            villaQuery.Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount).Select(x => new VillaDtoFQ
             {
                 Id = x.Id,
                 Ad = x.Villa.Ad,
                 Url = x.Villa.Url,
-                ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
+                ImageId = x.Villa.VillaImage != null
+                    ? x.Villa.VillaImageDetay.Where(i => i.KapakResmi.Value).FirstOrDefault().Id
+                    : null,
                 Bolge = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Bolge.Ad,
                 Il = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Il.Ad,
                 Ilce = x.Villa.VillaLokasyon.Where(vl => !vl.IsDeleted).FirstOrDefault().Ilce.Ad,
@@ -145,7 +163,22 @@ public class VillaFEService
                 YatakOdaSayisi = x.Villa.YatakOdaSayisi
             }).ToList();
 
-        return villaKategori;
+        return new PaginationData()
+        {
+            data = searchResult,
+            CurrentPage = pageNumber,
+            TotalPage = (int) Math.Ceiling((decimal) villaQuery.Count() / pageRowCount)
+        };
+    }
+
+    public Sayfa GetPageByURL(string url)
+    {
+        return _appDbContext.Sayfa.Include(s => s.SayfaIcerik).FirstOrDefault(s => s.Url == url);
+    }
+
+    public List<Sayfa> GetAllPages()
+    {
+        return _appDbContext.Sayfa.Where(p => !p.IsDeleted).ToList();
     }
 
     public VillaFullDtoFQ GetVillaByUrl(string url)
@@ -171,7 +204,8 @@ public class VillaFEService
             .GetPI<VillaImageDetayDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).Select(i =>
                 new VillaImageDetayDtoQ
                 {
-                    Id = i.Id
+                    Id = i.Id,
+                    KapakResmi = i.KapakResmi
                 }).ToList();
         villa.Lokasyon = _villaLokasyonService
             .GetPI<VillaLokasyonDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted)
@@ -186,7 +220,7 @@ public class VillaFEService
             .FirstOrDefault();
 
         villa.PeriyodikFiyat = generatePrices(villa.Villa.Id.Value);
-        
+
         villa.PeriyodikFiyatAyarlari = _villaPeriyodikFiyatAyarlariService
             .GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).ToList();
 
@@ -195,8 +229,10 @@ public class VillaFEService
 
     private List<VillaPeriyodikFiyatDtoQ> generatePrices(int villaId)
     {
-        var baseList =_villaPeriyodikFiyatService
-            .GetPI<VillaPeriyodikFiyatDtoQ>(x => x.VillaId == villaId && x.Bitis.CompareTo(DateTimeOffset.Now)>=0 && !x.IsDeleted).OrderBy(x => x.Baslangic)
+        var baseList = _villaPeriyodikFiyatService
+            .GetPI<VillaPeriyodikFiyatDtoQ>(x =>
+                x.VillaId == villaId && x.Bitis.CompareTo(DateTimeOffset.Now) >= 0 && !x.IsDeleted)
+            .OrderBy(x => x.Baslangic)
             .ToList();
         if (baseList.Count == 0)
         {
@@ -207,7 +243,7 @@ public class VillaFEService
 
         List<ParaBirimi> currencyList = _appDbContext.ParaBirimi.Where(p => !p.IsDeleted).ToList();
         List<ExchangeRates> exchangeRates = _appDbContext.ExchangeRates.Where(p => !p.IsDeleted).ToList();
-        
+
         foreach (VillaPeriyodikFiyatDtoQ item in baseList)
         {
             int existCurrencyId = item.ParaBirimiId;
@@ -226,43 +262,46 @@ public class VillaFEService
                 VillaPeriyodikFiyatDtoQ newObj = item.clone();
                 newObj.ParaBirimiId = currency.Id;
                 newObj.ParaBirimiAd = currency.Ad;
-                
-                if (existCurrency.Ad=="TRY")
+
+                if (existCurrency.Ad == "TRY")
                 {
                     var rate = exchangeRates.Find(e => !e.IsDeleted && e.to == currency.Ad);
-                    if (rate==null)
+                    if (rate == null)
                     {
                         break;
                     }
+
                     newObj.Fiyat = newObj.Fiyat / (decimal) rate.rate;
-                }else if(currency.Ad=="TRY")
+                }
+                else if (currency.Ad == "TRY")
                 {
                     var rate = exchangeRates.Find(e => !e.IsDeleted && e.to == existCurrency.Ad);
-                    if (rate==null)
+                    if (rate == null)
                     {
                         break;
                     }
+
                     newObj.Fiyat = newObj.Fiyat * (decimal) rate.rate;
                 }
                 else
                 {
                     var rateTRY = exchangeRates.Find(e => !e.IsDeleted && e.to == existCurrency.Ad);
-                    if (rateTRY==null)
+                    if (rateTRY == null)
                     {
                         break;
                     }
+
                     var rate = exchangeRates.Find(e => !e.IsDeleted && e.to == currency.Ad);
-                    if (rateTRY==null)
+                    if (rateTRY == null)
                     {
                         break;
                     }
+
                     newObj.Fiyat = newObj.Fiyat * (decimal) rateTRY.rate / (decimal) rate.rate;
                 }
-                
+
                 result.Add(newObj);
             }
-            
-            
         }
 
         return result;
@@ -331,7 +370,7 @@ public class VillaFEService
         return properties;
     }
 
-    public List<VillaDtoFQ> SearchVillas(List<int> filterRegion,
+    public PaginationData SearchVillas(List<int> filterRegion,
         List<int> filterCategory,
         List<int> filterType,
         List<int> filterProperty,
@@ -340,10 +379,12 @@ public class VillaFEService
         decimal filterEndPrice,
         DateOnly filterStartDate,
         DateOnly filterEndDate,
-        int filterGuestCount
+        int filterGuestCount,
+        int pageNumber,
+        int pageRowCount
     )
     {
-        var villaQuery = _appDbContext.Villa.Where(v => !v.IsDeleted).AsQueryable();
+        var villaQuery = _appDbContext.Villa.Where(v => !v.IsDeleted && v.Active).AsQueryable();
 
         if (filterName != null)
         {
@@ -420,9 +461,11 @@ public class VillaFEService
                       DateOnly.FromDateTime(pf.Bitis.Date)
                           .CompareTo(filterEndDate) == 1)))
                 .Count() == i.PeriyodikFiyat.AsEnumerable().Where(pf => !pf.IsDeleted &&
-                                                                        (pf.Fiyat >= filterStartPrice ||
+                                                                        ((pf.Fiyat * pf.ParaBirimi.TryOran) >=
+                                                                         filterStartPrice ||
                                                                          filterStartPrice == -1) &&
-                                                                        (pf.Fiyat <= filterEndPrice ||
+                                                                        ((pf.Fiyat * pf.ParaBirimi.TryOran) <=
+                                                                         filterEndPrice ||
                                                                          filterEndPrice == -1) &&
                                                                         (((DateOnly.FromDateTime(pf.Baslangic.Date)
                                                                                .CompareTo(filterStartDate) == 0 ||
@@ -464,29 +507,67 @@ public class VillaFEService
                     .Count() == 0);
         }
 
-        var searchResult = villaQuery.Select(x => new VillaDtoFQ
+        if (filterStartDate == DateOnly.MinValue)
         {
-            Id = x.Id,
-            Ad = x.Ad,
-            Url = x.Url,
-            ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault(x => !x.IsDeleted).Id : null,
-            Bolge = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Bolge.Ad,
-            Il = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Il.Ad,
-            Ilce = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Ad,
-            Fiyat = x.PeriyodikFiyat
-                .Where(pf => DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date)
-                .FirstOrDefault().Fiyat,
-            Kapasite = x.Kapasite,
-            Mevki = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Mevki,
-            BanyoSayisi = x.BanyoSayisi,
-            FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault(x => !x.IsDeleted)
-                .FiyatTuru),
-            ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
-            OdaSayisi = x.OdaSayisi,
-            YatakOdaSayisi = x.YatakOdaSayisi
-        }).ToList();
+            filterStartDate = DateOnly.FromDateTime(DateTime.Now);
+        }
 
-        return searchResult;
+        if (filterEndDate == DateOnly.MaxValue)
+        {
+            filterEndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
+        }
+
+        var searchResult = villaQuery.Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount).Select(x =>
+            new VillaDtoFQ
+            {
+                Id = x.Id,
+                Ad = x.Ad,
+                Url = x.Url,
+                ImageId = x.VillaImage != null
+                    ? x.VillaImageDetay.Where(i => i.KapakResmi.Value).FirstOrDefault(x => !x.IsDeleted).Id
+                    : null,
+                Bolge = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Bolge.Ad,
+                Il = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Il.Ad,
+                Ilce = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Ad,
+                Fiyat = x.PeriyodikFiyat
+                    .Where(pf => !pf.IsDeleted &&
+                                 (((DateOnly.FromDateTime(pf.Baslangic.Date)
+                                        .CompareTo(filterStartDate) == 0 ||
+                                    DateOnly.FromDateTime(pf.Baslangic.Date)
+                                        .CompareTo(filterStartDate) == 1) &&
+                                   DateOnly.FromDateTime(pf.Baslangic.Date)
+                                       .CompareTo(filterEndDate) == -1) ||
+                                  ((DateOnly.FromDateTime(pf.Bitis.Date)
+                                        .CompareTo(filterStartDate) == 1 ||
+                                    DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(filterStartDate) == 0) &&
+                                   (DateOnly.FromDateTime(pf.Bitis.Date)
+                                        .CompareTo(filterEndDate) == -1 ||
+                                    DateOnly.FromDateTime(pf.Bitis.Date)
+                                        .CompareTo(filterEndDate) == 0)) ||
+                                  (DateOnly.FromDateTime(pf.Baslangic.Date)
+                                       .CompareTo(filterStartDate) == -1 &&
+                                   DateOnly.FromDateTime(pf.Bitis.Date)
+                                       .CompareTo(filterEndDate) == 1)))
+                    .FirstOrDefault().Fiyat,
+                Kapasite = x.Kapasite,
+                Mevki = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Mevki,
+                BanyoSayisi = x.BanyoSayisi,
+                FiyatTuru = x.PeriyodikFiyat.FirstOrDefault(x => !x.IsDeleted)
+                    .FiyatTuru != null
+                    ? EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault(x => !x.IsDeleted)
+                        .FiyatTuru)
+                    : "",
+                ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+                OdaSayisi = x.OdaSayisi,
+                YatakOdaSayisi = x.YatakOdaSayisi
+            }).ToList();
+
+        return new PaginationData()
+        {
+            data = searchResult,
+            CurrentPage = pageNumber,
+            TotalPage = (int) Math.Ceiling((decimal) villaQuery.Count() / pageRowCount)
+        };
     }
 
     public List<VillaDtoFQ> GetVillasByIds(VillaIdsFQ rb)
@@ -719,7 +800,77 @@ public class VillaFEService
             var oldList = _appDbContext.ExchangeRates.ToList();
             _appDbContext.ExchangeRates.RemoveRange(oldList);
             _appDbContext.ExchangeRates.AddRange(erList);
+
+            var pbList = _appDbContext.ParaBirimi.ToList();
+            foreach (var item in pbList)
+            {
+                var rate_ = (decimal) (erList.FirstOrDefault(e => e.to == item.Ad) ?? new ExchangeRates()
+                {
+                    rate = 1
+                }).rate;
+                item.TryOran = rate_;
+                _appDbContext.ParaBirimi.Update(item);
+            }
+
             _appDbContext.SaveChanges();
         }
+    }
+
+    public List<EkstraHizmet> GetAllExtraServices()
+    {
+        return _appDbContext.EkstraHizmet
+            .Where(b => !b.IsDeleted)
+            .OrderBy(b => b.Ad).ToList();
+    }
+
+    public Rezervasyon saveReservation(ReservationSaveDto reservationSaveDto)
+    {
+        var startDate_ = DateTimeOffset.Parse(reservationSaveDto.StartDate);
+        var endDate_ = DateTimeOffset.Parse(reservationSaveDto.EndDate);
+
+        var validation = _appDbContext.Villa.Where(i => i.Id == reservationSaveDto.VillaId && i.Rezervasyon.Where(r =>
+                !r.IsDeleted && r.RezervasyonDurum != RezervasyonDurum.Iptal &&
+                (((DateOnly.FromDateTime(r.Baslangic.Date).CompareTo(DateOnly.FromDateTime(startDate_.DateTime)) == 0 ||
+                   DateOnly.FromDateTime(r.Baslangic.Date).CompareTo(DateOnly.FromDateTime(startDate_.DateTime)) ==
+                   1) &&
+                  DateOnly.FromDateTime(r.Baslangic.Date).CompareTo(DateOnly.FromDateTime(endDate_.DateTime)) == -1) ||
+                 (DateOnly.FromDateTime(r.Bitis.Date).CompareTo(DateOnly.FromDateTime(startDate_.DateTime)) == 1 &&
+                  (DateOnly.FromDateTime(r.Bitis.Date).CompareTo(DateOnly.FromDateTime(endDate_.DateTime)) == -1 ||
+                   DateOnly.FromDateTime(r.Bitis.Date).CompareTo(DateOnly.FromDateTime(endDate_.DateTime)) == 0)) ||
+                 (DateOnly.FromDateTime(r.Baslangic.Date).CompareTo(DateOnly.FromDateTime(startDate_.DateTime)) == -1 &&
+                  DateOnly.FromDateTime(r.Bitis.Date).CompareTo(DateOnly.FromDateTime(endDate_.DateTime)) == 1)))
+            .Count() == 0).ToList();
+        if (validation == null || validation.Count() == 0)
+        {
+            throw new Exception("Seçilen tarih aralığında başka bir rezervasyon mevcut!");
+        }
+
+        var reservation = new Rezervasyon()
+        {
+            VillaId = reservationSaveDto.VillaId,
+            Baslangic = startDate_,
+            Bitis = endDate_,
+            MusteriAdSoyad = reservationSaveDto.name,
+            MSYetiskin = reservationSaveDto.GuestCount,
+            TelefonNo = reservationSaveDto.Phone,
+            Email = reservationSaveDto.Email,
+            Not = reservationSaveDto.Note,
+            RezervasyonDurum = RezervasyonDurum.IncelemeBekliyor,
+        };
+
+        var reservation_ = _appDbContext.Rezervasyon.Add(reservation);
+
+        foreach (int serviceId in reservationSaveDto.ExtraServices)
+        {
+            _appDbContext.RezervasyonEkstraHizmet.Add(new RezervasyonEkstraHizmet()
+            {
+                Rezervasyon = reservation_.Entity,
+                EkstraHizmetId = serviceId
+            });
+        }
+
+        _appDbContext.SaveChanges();
+
+        return reservation_.Entity;
     }
 }
