@@ -13,6 +13,7 @@ namespace Villa.Domain.Entities
         public VillaImageDetay()
         {
         }
+        public int? Sirano { get; set; }
         public int VillaId { get; set; }
         public virtual Villa Villa { get; set; }
         public byte[] Image { get; set; }
