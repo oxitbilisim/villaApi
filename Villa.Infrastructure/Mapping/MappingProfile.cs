@@ -403,8 +403,17 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<SayfaIcerikDtoC, Domain.Entities.SayfaIcerik>()
                 .ReverseMap();
             #endregion
-            
-      
+
+            #region EkstraHizmet
+            CreateMap<Domain.Entities.EkstraHizmet, EkstraHizmetDtoQ>()
+                .ReverseMap();
+            CreateMap<EkstraHizmetDtoQ, Domain.Entities.EkstraHizmet>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.EkstraHizmet, EkstraHizmetDtoC>()
+                .ReverseMap();
+            CreateMap<EkstraHizmetDtoC, Domain.Entities.EkstraHizmet>()
+                .ReverseMap();
+            #endregion
 
         }
     }

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Utilities;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
+using Villa.Domain.Dtos.VillaFE;
 using Villa.Service.Implementation;
 
 namespace Villa.Controllers
@@ -45,9 +46,14 @@ namespace Villa.Controllers
         }
 
         [HttpGet(nameof(GetBolgeVillas))]
-        public IActionResult GetBolgeVillas(int bolgeId)
+        public IActionResult GetBolgeVillas(int bolgeId,string pn, string prc)
         {
-            var result = _villaFEService.GetBolgeVillas(bolgeId);
+            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1; 
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10; 
+            
+            var result = _villaFEService.GetBolgeVillas(bolgeId,
+                pageNumber,
+                pageRowCount);
 
             if (result is not null)
             {
@@ -72,9 +78,14 @@ namespace Villa.Controllers
         }
 
         [HttpGet(nameof(GetKategoriVillas))]
-        public IActionResult GetKategoriVillas(int kategoriId)
+        public IActionResult GetKategoriVillas(int kategoriId,string pn, string prc)
         {
-            var result = _villaFEService.GetKategoriVillas(kategoriId);
+            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1; 
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10; 
+            
+            var result = _villaFEService.GetKategoriVillas(kategoriId,
+                pageNumber,
+                pageRowCount);
 
             if (result is not null)
             {
@@ -88,6 +99,32 @@ namespace Villa.Controllers
         public IActionResult GetVillaByURL(string url)
         {
             var result = _villaFEService.GetVillaByUrl(url);
+
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+
+            return Ok(result);
+        }
+        
+        [HttpGet(nameof(GetPageByURL))]
+        public IActionResult GetPageByURL(string url)
+        {
+            var result = _villaFEService.GetPageByURL(url);
+
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+
+            return Ok(result);
+        }
+        
+        [HttpGet(nameof(GetAllPages))]
+        public IActionResult GetAllPages(string url)
+        {
+            var result = _villaFEService.GetAllPages();
 
             if (result is not null)
             {
@@ -160,7 +197,9 @@ namespace Villa.Controllers
             string name,
             string startDate,
             string endDate,
-            string guestCount
+            string guestCount,
+            string pn,
+            string prc
         )
         {
             List<int> filterRegion = new List<int>();
@@ -173,6 +212,9 @@ namespace Villa.Controllers
             DateOnly filterStartDate = DateOnly.MinValue;
             DateOnly filterEndDate = DateOnly.MaxValue;
             int filterGuestCount = 0;
+
+            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1; 
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10; 
 
             if (!String.IsNullOrEmpty(region))
             {
@@ -235,7 +277,10 @@ namespace Villa.Controllers
                 filterEndPrice,
                 filterStartDate,
                 filterEndDate,
-                filterGuestCount);
+                filterGuestCount,
+                pageNumber,
+                pageRowCount
+                );
 
             if (result is not null)
             {
@@ -324,6 +369,28 @@ namespace Villa.Controllers
         {
             _villaFEService.UpdateExchangeRates();
             return Ok();
+        }
+        
+        [HttpGet(nameof(GetAllExtraServices))]
+        public IActionResult GetAllExtraServices()
+        {
+            var list = _villaFEService.GetAllExtraServices();
+            return Ok(list);
+        }  
+        [HttpPost(nameof(SaveReservation))]
+        public IActionResult SaveReservation(ReservationSaveDto saveDto)
+        {
+            try
+            {
+                var result = _villaFEService.saveReservation(saveDto);
+                return Ok(result.Id);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+            
         }
     }
 }

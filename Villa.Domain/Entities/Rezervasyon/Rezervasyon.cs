@@ -30,11 +30,5 @@ namespace Villa.Domain.Entities
         public string Email { get; set; }
         public RezervasyonDurum RezervasyonDurum { get; set; }
         public string Not { get; set; }
-        
-     
-
-        
-        
-        
     }
 }

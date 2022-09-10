@@ -43,17 +43,17 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c1bdcd98-5487-41a8-b13a-0ab74d53f57b",
-                            ConcurrencyStamp = "8343a4e7-83d4-4443-96e2-15241a3c68a3",
+                            Id = "1e5531e7-d925-4b00-8510-bb45dc511757",
+                            ConcurrencyStamp = "0b3c62c0-496b-4f4b-b91b-6efea5afdd49",
                             Name = "sistemadmin",
-                            NormalizedName = "SİSTEMADMİN"
+                            NormalizedName = "SISTEMADMIN"
                         },
                         new
                         {
-                            Id = "b2ce721e-ff02-4dfc-b50a-152006961318",
-                            ConcurrencyStamp = "b3da7ede-81f3-4a4e-b69b-60a20a2d9248",
+                            Id = "c33e84ca-f6e5-4b6e-9ff7-f456a15a19c1",
+                            ConcurrencyStamp = "0f61fcb7-3167-4dd0-a505-f72f432e78b2",
                             Name = "admin",
-                            NormalizedName = "ADMİN"
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -260,10 +260,10 @@ namespace Villa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "60125a63-89bd-4e0b-891c-bd46b0987b05",
+                            Id = "4be67265-0f18-4f8b-b014-79077a0fe035",
                             AccessFailedCount = 0,
                             Ad = "Mehmet",
-                            ConcurrencyStamp = "53305e8d-13a8-42f4-9f2d-fd11b64a0312",
+                            ConcurrencyStamp = "32855df2-ae77-498a-ad0a-329169c3cd2a",
                             Email = "sistemAdmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -271,17 +271,17 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "SUPERADMIN",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "93447023-6721-4857-b07b-543b5b45d769",
+                            SecurityStamp = "3e66b8f8-728a-467f-afff-140314ebd5fd",
                             Soyad = "YILMAZ",
                             TwoFactorEnabled = false,
                             UserName = "sistemAdmin"
                         },
                         new
                         {
-                            Id = "6c560ede-63cb-4b1f-babf-43210e6358b2",
+                            Id = "20ebd8e6-9770-46fb-a51d-509bb9d65f16",
                             AccessFailedCount = 0,
                             Ad = "Ali",
-                            ConcurrencyStamp = "4544e97e-68fe-42ff-9c0d-e8d1f1f49432",
+                            ConcurrencyStamp = "f6287cfb-5447-4abe-baa7-fb8342677397",
                             Email = "iladmin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -289,7 +289,7 @@ namespace Villa.Persistence.Migrations
                             NormalizedUserName = "BASICUSER",
                             PasswordHash = "AQAAAAEAACcQAAAAEBLjouNqaeiVWbN0TbXUS3+ChW3d7aQIk/BQEkWBxlrdRRngp14b0BIH0Rp65qD6mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4077b02-face-4d9a-8663-2e071a91466d",
+                            SecurityStamp = "6a138b43-1986-491b-aef0-25d7635f5e2e",
                             Soyad = "DERİN",
                             TwoFactorEnabled = false,
                             UserName = "iladmin"
@@ -1171,6 +1171,9 @@ namespace Villa.Persistence.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<decimal?>("TryOran")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
