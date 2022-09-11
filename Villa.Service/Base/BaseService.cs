@@ -104,7 +104,7 @@ namespace Villa.Service.Base
         public virtual int Add<M>(M model)
         {
             var data = _mapper.Map<T>(model);
-            
+              
             _appDbContext
                 .Set<T>()
                 .Add(data);
