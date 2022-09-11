@@ -47,9 +47,6 @@ namespace Villa.Controllers
             }
             return Ok(dashboardDto);
         }
-       
-
-       
         
         public void Dispose()
         {

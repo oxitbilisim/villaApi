@@ -62,7 +62,7 @@ namespace Villa.Controllers
         public ResponseModel Add(VillaImageDtoC dto)
         {
             var result =  _villaImageService.Add(dto);
-            var siraNo = _appDbContext.VillaImageDetay.Where(x=> x.VillaId == dto.VillaId).Max(y=> y.Sirano) + 1;
+            var siraNo = _appDbContext.VillaImageDetay.Where(x=> x.VillaId == dto.VillaId).Max(x=> x.Sirano) + 1;
             foreach (var item in dto.ImageList)
             {
                 item.Sirano = siraNo;
