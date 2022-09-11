@@ -58,11 +58,13 @@ namespace Villa.Controllers
         public ResponseModel Add(VillaImageDtoC dto)
         {
             var result =  _villaImageService.Add(dto);
-            
+            int siraNo = 1;
             foreach (var item in dto.ImageList)
             {
+                item.Sirano = siraNo;
                 item.VillaId = dto.VillaId;
                 _villaImageDetayService.Add(item);
+                siraNo++;
             }
             
             return  new ResponseModel(result);
