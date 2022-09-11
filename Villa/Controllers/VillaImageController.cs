@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Villa.Service.Contract;
 using Villa.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Villa.Domain.Common;
@@ -78,6 +79,15 @@ namespace Villa.Controllers
         {
             
             var result = _villaImageDetayService.KapakResimUpdate(villaId,resimId);
+        
+            return  new ResponseModel(result);
+        }
+        
+        [HttpPost(nameof(VillaImageDetaySiraNoUpdate))]
+        public ResponseModel VillaImageDetaySiraNoUpdate(List<VillaImageDetaySiraNoUpdate> villaSiraNoUpdate)
+        {
+            
+            var result = _villaImageDetayService.ImageSiranoUpdate(villaSiraNoUpdate);
         
             return  new ResponseModel(result);
         }

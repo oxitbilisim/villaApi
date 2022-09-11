@@ -52,6 +52,28 @@ namespace Villa.Service.Implementation;
             }
           
         }
+        
+        public bool ImageSiranoUpdate(List<VillaImageDetaySiraNoUpdate> villaSiraNoUpdate)
+        {
+            try
+            { 
+                foreach (var item in villaSiraNoUpdate)
+                {
+                    var imageDetay = _appDbContext.VillaImageDetay.Where(x =>  x.Id == item.Id).FirstOrDefault();
+                    imageDetay.Sirano = item.Sirano;
+                    _appDbContext.Entry<VillaImageDetay>(imageDetay).State = EntityState.Modified;
+                }
+                _appDbContext.SaveChanges();
+            
+             
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+          
+        }
        
     }
   
