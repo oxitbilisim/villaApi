@@ -105,9 +105,6 @@ namespace Villa.Service.Base
         {
             var data = _mapper.Map<T>(model);
             
-            PropertyInfo propertyInfo = data.GetType().GetProperty("CreateDate");
-            propertyInfo.SetValue(data, Convert.ChangeType(DateTime.Today, propertyInfo.PropertyType), null);
-            
             _appDbContext
                 .Set<T>()
                 .Add(data);
