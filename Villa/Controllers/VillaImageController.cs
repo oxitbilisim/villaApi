@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Domain.Utilities;
+using Villa.Persistence;
 using Villa.Service.Implementation;
 
 namespace Villa.Controllers
@@ -18,14 +19,17 @@ namespace Villa.Controllers
     public class VillaImageController : ControllerBase, IDisposable
     {
         private readonly VillaImageService _villaImageService;
+        private readonly IAppDbContext _appDbContext;
         private readonly VillaImageDetayService _villaImageDetayService;
 
         public VillaImageController(VillaImageService villaImageService,
-            VillaImageDetayService villaImageDetayService
+            VillaImageDetayService villaImageDetayService,
+            IAppDbContext appDbContext
         )
         {
             _villaImageService = villaImageService;
             _villaImageDetayService = villaImageDetayService;
+            _appDbContext = appDbContext;
         }
 
         [HttpGet(nameof(GetById))]
@@ -58,13 +62,12 @@ namespace Villa.Controllers
         public ResponseModel Add(VillaImageDtoC dto)
         {
             var result =  _villaImageService.Add(dto);
-            int siraNo = 1;
+            var siraNo = _appDbContext.VillaImageDetay.Where(x=> x.VillaId == dto.VillaId).Max(y=> y.Sirano) + 1;
             foreach (var item in dto.ImageList)
             {
                 item.Sirano = siraNo;
                 item.VillaId = dto.VillaId;
                 _villaImageDetayService.Add(item);
-                siraNo++;
             }
             
             return  new ResponseModel(result);
