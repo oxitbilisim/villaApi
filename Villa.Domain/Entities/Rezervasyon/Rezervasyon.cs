@@ -29,6 +29,7 @@ namespace Villa.Domain.Entities
         public string TelefonNo { get; set; }
         public string Email { get; set; }
         public RezervasyonDurum RezervasyonDurum { get; set; }
+        public virtual ICollection<RezervasyonMaliBilgi> RezervasyonMaliBilgi { get; set; }
         public string Not { get; set; }
     }
 }

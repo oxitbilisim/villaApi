@@ -59,6 +59,14 @@ namespace Villa.Controllers
             return new ResponseModel();
         }
         
+        [HttpGet(nameof(MuhasebeCalculate))]
+        public ResponseModel MuhasebeCalculate()
+        {
+            var result =  _rezervasyonService.MuhasebeCalculate();
+            return new ResponseModel(result);
+ 
+        }
+        
         [HttpGet(nameof(GetAllCustomer))]
         public IActionResult GetAllCustomer()
         {
