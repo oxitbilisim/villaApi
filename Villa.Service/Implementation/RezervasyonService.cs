@@ -31,6 +31,7 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
                      RezervasyonId = x.RezervasyonId,
                      VillaId = x.Rezervasyon.VillaId,
                      VillaAd = x.Rezervasyon.Villa.Ad,
+                     RezarvasyonMusteriAdSoyad = x.Rezervasyon.MusteriAdSoyad,
                      RezervasyonTarihi = x.Rezervasyon.Baslangic 
                   }
              )
