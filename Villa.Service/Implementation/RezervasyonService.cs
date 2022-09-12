@@ -29,7 +29,8 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
                      KomisyonOran = x.Komisyon,
                      ToplamTutars = (x.ToplamTutar * x.Komisyon) / 100,
                      RezervasyonId = x.RezervasyonId,
-                     VillaId = x.Rezervasyon.VillaId
+                     VillaId = x.Rezervasyon.VillaId,
+                     RezervasyonTarihi = x.Rezervasyon.Baslangic 
                   }
              )
          .ToList();
