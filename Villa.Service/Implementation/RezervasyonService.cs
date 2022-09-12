@@ -37,4 +37,38 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
             
        return new ResponseModel(muhasebe);
     }
+    
+    public ResponseModel MuhasebeCalculateWeek()
+    {
+        var query = from t in _appDbContext.RezervasyonMaliBilgi
+            group t by new 
+            { 
+                Week = t.Rezervasyon.Baslangic.DayOfWeek,
+                Total = (t.ToplamTutar * t.Komisyon) / 100
+            } into g
+            select new
+            {
+                Month = g.Key.Week,
+                Total = g.Key.Total
+            };
+            
+        return new ResponseModel(query);
+    }
+    
+    public ResponseModel MuhasebeCalculateMonth()
+    {
+        var query = from t in _appDbContext.RezervasyonMaliBilgi
+            group t by new 
+            { 
+                Month = t.Rezervasyon.Baslangic.Month,
+                Total = (t.ToplamTutar * t.Komisyon) / 100
+            } into g
+            select new
+            {
+                Month = g.Key.Month,
+                Total = g.Key.Total
+            };
+            
+        return new ResponseModel(query);
+    }
 }

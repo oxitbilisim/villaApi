@@ -67,6 +67,22 @@ namespace Villa.Controllers
  
         }
         
+        [HttpGet(nameof(MuhasebeCalculateMonth))]
+        public ResponseModel MuhasebeCalculateMonth()
+        {
+            var result =  _rezervasyonService.MuhasebeCalculateMonth();
+            return new ResponseModel(result);
+ 
+        }
+        
+        [HttpGet(nameof(MuhasebeCalculateWeek))]
+        public ResponseModel MuhasebeCalculateWeek()
+        {
+            var result =  _rezervasyonService.MuhasebeCalculateWeek();
+            return new ResponseModel(result);
+ 
+        }
+        
         [HttpGet(nameof(GetAllCustomer))]
         public IActionResult GetAllCustomer()
         {
