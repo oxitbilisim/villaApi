@@ -30,6 +30,7 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
                      ToplamTutars = (x.ToplamTutar * x.Komisyon) / 100,
                      RezervasyonId = x.RezervasyonId,
                      VillaId = x.Rezervasyon.VillaId,
+                     VillaAd = x.Rezervasyon.Villa.Ad,
                      RezervasyonTarihi = x.Rezervasyon.Baslangic 
                   }
              )
@@ -48,7 +49,7 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
             } into g
             select new
             {
-                Month = g.Key.Week,
+                Week = g.Key.Week,
                 Total = g.Key.Total
             };
             
