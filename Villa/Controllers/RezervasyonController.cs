@@ -60,26 +60,26 @@ namespace Villa.Controllers
         }
         
         [HttpGet(nameof(MuhasebeCalculate))]
-        public ResponseModel MuhasebeCalculate()
+        public IActionResult MuhasebeCalculate()
         {
             var result =  _rezervasyonService.MuhasebeCalculate();
-            return new ResponseModel(result);
+            return Ok(result);
  
         }
         
         [HttpGet(nameof(MuhasebeCalculateMonth))]
-        public ResponseModel MuhasebeCalculateMonth()
+        public IActionResult MuhasebeCalculateMonth()
         {
             var result =  _rezervasyonService.MuhasebeCalculateMonth();
-            return new ResponseModel(result);
+            return Ok(result);
  
         }
         
         [HttpGet(nameof(MuhasebeCalculateWeek))]
-        public ResponseModel MuhasebeCalculateWeek()
+        public IActionResult MuhasebeCalculateWeek()
         {
             var result =  _rezervasyonService.MuhasebeCalculateWeek();
-            return new ResponseModel(result);
+            return Ok(result);
  
         }
         
