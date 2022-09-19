@@ -16,6 +16,7 @@ using Villa.Service;
 using Serilog;
 using System;
 using System.IO;
+using Villa.Service.BackgroundService;
 
 namespace Villa
 {
@@ -66,6 +67,7 @@ namespace Villa
             //services.AddHealthCheck(AppSettings, Configuration);
 
             services.AddFeatureManagement();
+            services.AddHostedService<TimedHostedService>();
         }
 
 

@@ -8,6 +8,7 @@ namespace Villa.Domain.Dtos
         public object? data { get; set; }
         public Int32? CurrentPage { get; set; }
         public Int32? TotalPage { get; set; }
+        public Int32? Count { get; set; }
 
     }
 }

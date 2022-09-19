@@ -18,6 +18,7 @@ namespace Villa.Domain.Dtos
         
         public int? ImageId { get; set; }
         public decimal? Fiyat { get; set; }
+        public decimal? ToplamFiyat { get; set; }
         public string? FiyatTuru { get; set; }
         public string? ParaBirimi { get; set; }
     }

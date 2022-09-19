@@ -23,8 +23,7 @@ namespace Villa.Controllers
     public class VillaFEController : ControllerBase
     {
         private readonly VillaFEService _villaFEService;
-
-
+        
         public VillaFEController(
             VillaFEService villaFEService
         )
@@ -292,16 +291,16 @@ namespace Villa.Controllers
 
 
         [HttpPost(nameof(GetVillaByIds))]
-        public IActionResult GetVillaByIds(VillaIdsFQ rb)
+        public IActionResult GetVillaByIds(List<VillaIdsFQ> rb)
         {
             var result = _villaFEService.GetVillasByIds(rb);
             return Ok(result);
         }
 
         [HttpPost(nameof(CreateCollection))]
-        public IActionResult CreateCollection(CollectionVillaFQ rb)
+        public IActionResult CreateCollection(List<VillaIdsFQ> rb)
         {
-            if (rb.Ids.Count == 0)
+            if (rb.Count == 0)
             {
                 return BadRequest();
             }
