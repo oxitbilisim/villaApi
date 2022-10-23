@@ -35,7 +35,17 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
-        
+        [HttpGet(nameof(GetAlls))]
+        public IActionResult GetAlls()
+        {
+            var result = _villaService.villaGelAll();
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
+
         [HttpGet(nameof(GetAllF))]
         public IActionResult GetAllF()
         {
@@ -61,8 +71,15 @@ namespace Villa.Controllers
 
         [HttpPost(nameof(Add))]
         public  ActionResult<ResponseModel> Add(VillaDtoC dto)
-        { 
+        {
+            var result = _villaService.GetPI<VillaDtoQ>(x => x.Ad.ToLower() == dto.Ad.ToLower() || x.Url.ToLower() == dto.Url.ToLower()).FirstOrDefault();
+           
+            if (result is not null)
+            {
+                return new ResponseModel(Success:false,Message:"Villa İsmi Mevcut");
+            }
             return new ResponseModel(_villaService.Add(dto));
+           
         }
         [HttpPut(nameof(Update))]
         public ActionResult<ResponseModel> Update(VillaDtoC dto)
@@ -73,6 +90,16 @@ namespace Villa.Controllers
         public ActionResult<ResponseModel> Delete(int Id)
         {
             return new ResponseModel( _villaService.Delete(Id));
+        }
+        [HttpDelete(nameof(Pasif))]
+        public ActionResult<ResponseModel> Pasif(int Id)
+        {
+            return new ResponseModel(_villaService.Pasif(Id));
+        }
+        [HttpDelete(nameof(Active))]
+        public ActionResult<ResponseModel> Active(int Id)
+        {
+            return new ResponseModel(_villaService.Active(Id));
         }
     }
 }

@@ -26,6 +26,18 @@ namespace Villa.Controllers
             _rezervasyonService = rezervasyonService;
         }
 
+
+        [HttpPost(nameof(UpdateBildirim))]
+        public async Task<IActionResult> UpdateBildirim(int Id)
+        {
+            var result = await _rezervasyonService.UpdateBildirim(Id);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return BadRequest("Error");
+        }
+
         [HttpGet(nameof(GetAll))]
         public IActionResult GetAll()
         {
@@ -40,7 +52,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetBildirim))]
         public IActionResult GetBildirim()
         {
-            var result =  _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x=> x.IsDeleted == false).OrderByDescending(x=> x.Id).Take(15);
+            var result =  _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x=> x.IsDeleted == false && x.RezervasyonDurum==RezervasyonDurum.Onayli&& x.OpenState==false).OrderByDescending(x=> x.Id);
             if (result is not null)
             {
                 return Ok(result);
@@ -97,7 +109,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAllEntry))]
         public IActionResult GetAllEntry()
         {
-            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false && x.Active   && (x.RezervasyonDurum == RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.Opsiyon  ));
+            var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false && x.Active   && (x.RezervasyonDurum == RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.Opsiyon  )).OrderBy(x=>x.Id);
             if (result is not null)
             {
                 return Ok(result);
@@ -130,7 +142,8 @@ namespace Villa.Controllers
         [HttpDelete(nameof(Delete))]
         public ActionResult<ResponseModel> Delete(int Id)
         {
-            return new ResponseModel( _rezervasyonService.Delete(Id));
+            
+            return new ResponseModel( _rezervasyonService.DeleteRezervation(Id));
         }
     }
 }

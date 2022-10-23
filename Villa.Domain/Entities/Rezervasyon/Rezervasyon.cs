@@ -28,6 +28,7 @@ namespace Villa.Domain.Entities
         public int? MSBebek { get; set; }
         public string TelefonNo { get; set; }
         public string Email { get; set; }
+        public bool? OpenState { get; set; } = false;
         public RezervasyonDurum RezervasyonDurum { get; set; }
         public virtual ICollection<RezervasyonMaliBilgi> RezervasyonMaliBilgi { get; set; }
         public string Not { get; set; }

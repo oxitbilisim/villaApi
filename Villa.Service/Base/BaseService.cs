@@ -149,7 +149,41 @@ namespace Villa.Service.Base
             //     .Remove(data);
             return _appDbContext.SaveChanges();
         }
-        
+
+        public virtual int Pasif(int Id)
+        {
+            var data = _appDbContext.Set<T>().Find(Id);
+
+            PropertyInfo propertyInfo = data.GetType().GetProperty("Active");
+            propertyInfo.SetValue(data, Convert.ChangeType(false, propertyInfo.PropertyType), null);
+
+            _appDbContext
+                .Entry<T>(data)
+                .State = EntityState.Modified;
+            _appDbContext.SaveChanges();
+            // _appDbContext
+            //     .Set<T>()
+            //     .Remove(data);
+            return _appDbContext.SaveChanges();
+        }
+
+        public virtual int Active(int Id)
+        {
+            var data = _appDbContext.Set<T>().Find(Id);
+
+            PropertyInfo propertyInfo = data.GetType().GetProperty("Active");
+            propertyInfo.SetValue(data, Convert.ChangeType(true, propertyInfo.PropertyType), null);
+
+            _appDbContext
+                .Entry<T>(data)
+                .State = EntityState.Modified;
+            _appDbContext.SaveChanges();
+            // _appDbContext
+            //     .Set<T>()
+            //     .Remove(data);
+            return _appDbContext.SaveChanges();
+        }
+
         public virtual int DeleteHard(int Id)
         {
             var data = _appDbContext.Set<T>().Find(Id); 

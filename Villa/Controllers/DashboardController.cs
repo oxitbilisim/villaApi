@@ -30,9 +30,9 @@ namespace Villa.Controllers
         [HttpGet(nameof(Toplam))]
         public IActionResult Toplam()
         {
-            var villaToplam = _appDbContext.Villa.Where(x => x.Active).Count();
-            var bolgeToplam = _appDbContext.Bolge.Where(x => x.Active).Count();
-            var kategoriToplam = _appDbContext.Kategori.Where(x => x.Active).Count();
+            var villaToplam = _appDbContext.Villa.Where(x => x.Active && !x.IsDeleted).Count();
+            var bolgeToplam = _appDbContext.Bolge.Where(x => x.Active && !x.IsDeleted).Count();
+            var kategoriToplam = _appDbContext.Kategori.Where(x => x.Active && !x.IsDeleted).Count();
             var rezervasyonToplam = _appDbContext.Rezervasyon.Where(x => x.Active && x.RezervasyonDurum == RezervasyonDurum.Onayli && x.CreateDate == DateTime.Today).Count();
 
             var dashboardDto = new DashboardToplams();
