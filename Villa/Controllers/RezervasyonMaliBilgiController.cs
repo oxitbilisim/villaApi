@@ -61,5 +61,11 @@ namespace Villa.Controllers
         {
             return new ResponseModel( _rezervasyonMaliBilgiService.Delete(Id));
         }
+
+        [HttpGet(nameof(VillaMaliBilgi))]
+        public ActionResult<ResponseModel> VillaMaliBilgi(int id)
+        {
+            return _rezervasyonMaliBilgiService.villaMaliBilgi(id);
+        }
     }
 }
