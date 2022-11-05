@@ -24,6 +24,8 @@ namespace Villa.Infrastructure.Mapping
                 .ReverseMap();
             CreateMap<BolgeDtoFQ, Bolge>()
                 .ReverseMap();
+            CreateMap<VillaSeo, VillaSeoDto>()
+                .ReverseMap();
             #endregion
             
             #region Kategori

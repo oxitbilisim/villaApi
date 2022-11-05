@@ -15,6 +15,7 @@ namespace Villa.Domain.Dtos
         public List<VillaImageDetayDtoQ> Images { get; set; }
         public VillaIcerikDtoQ Icerik { get; set; }
         public VillaLokasyonDtoQ Lokasyon { get; set; }
+        public VillaSeoDto Seo { get; set; }
         public List<VillaKategoriDtoQ> Kategori { get; set; }
         public List<VillaOzellikDtoQ> Ozellik { get; set; }
         public VillaGorunumDtoQ Gorunum { get; set; }

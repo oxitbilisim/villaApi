@@ -69,6 +69,7 @@ namespace Villa.Persistence
         public DbSet<SayfaIcerik> SayfaIcerik { get; set; }
         public DbSet<SayfaSeo> SayfaSeo { get; set; }
         public DbSet<ExchangeRates> ExchangeRates { get; set; }
+        public DbSet<Parameters> Parameters { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -125,7 +126,7 @@ namespace Villa.Persistence
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                .UseNpgsql("Host=185.122.203.197;Database=oxitvilla;Username=postgres;Password=oxit2016");
+                .UseNpgsql("Host=185.130.58.41;Database=villalarim;Username=postgres;Password=oxit2022");
             }
         }
 

@@ -19,6 +19,12 @@ FROM build AS publish
 RUN dotnet publish "Villa.csproj" -c Release -o /app/publish
 
 FROM base AS final
+
+RUN apt-get update && \
+    apt-get install -yq tzdata
+
+ENV TZ="Europe/Istanbul"
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Villa.dll"]

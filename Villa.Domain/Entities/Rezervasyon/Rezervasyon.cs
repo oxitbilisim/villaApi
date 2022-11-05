@@ -18,6 +18,7 @@ namespace Villa.Domain.Entities
         }
         public int VillaId  { get; set; }
         public virtual Villa Villa { get; set; }
+        
         public DateTimeOffset Baslangic { get; set; }
 
         public DateTimeOffset Bitis { get; set; }

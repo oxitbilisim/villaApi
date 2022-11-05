@@ -391,5 +391,34 @@ namespace Villa.Controllers
             
             
         }
+        
+        [HttpGet(nameof(GetReservationInfo))]
+        public IActionResult GetReservationInfo(string reservationNo)
+        {
+            try
+            {
+                return Ok(_villaFEService.GetReservationInfo(reservationNo));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+        
+        [HttpGet(nameof(MailTest))]
+        public IActionResult MailTest()
+        {
+            try
+            {
+                _villaFEService.TestMail();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
     }
 }
