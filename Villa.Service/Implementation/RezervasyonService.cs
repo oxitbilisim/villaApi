@@ -56,13 +56,14 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
                      ToplamTutar =  x.ToplamTutar, 
                      KomisyonOran = x.Komisyon,
                      ToplamTutars = (x.ToplamTutar * x.Komisyon) / 100,
+                     Temizlik=x.TahsilExtraTemizlik,
                      RezervasyonId = x.RezervasyonId,
                      VillaId = x.Rezervasyon.VillaId,
                      VillaAd = x.Rezervasyon.Villa.Ad,
                      RezarvasyonMusteriAdSoyad = x.Rezervasyon.MusteriAdSoyad,
                      RezervasyonTarihi = x.Rezervasyon.Baslangic 
                   }
-             )
+             ).OrderByDescending(x=>x.RezervasyonId)
          .ToList();
             
        return new ResponseModel(muhasebe);
