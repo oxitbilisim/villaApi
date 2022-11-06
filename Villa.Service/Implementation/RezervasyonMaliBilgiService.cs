@@ -3,6 +3,7 @@ using AutoMapper;
 using System;
 using System.Linq;
 using Villa.Domain.Common;
+using Villa.Domain.Entities;
 using Villa.Persistence;
 using Villa.Service.Base;
 namespace Villa.Service.Implementation;
@@ -37,7 +38,7 @@ public class RezervasyonMaliBilgiService : BaseService<Domain.Entities.Rezervasy
         }
         var villa = _appDbContext.PeriyodikFiyatAyarlari.Where(X => X.VillaId == rezervasyon.VillaId).Select(y => new
         {
-            kiralamaDepozitosu=kiralamaDepozitosu,
+            kiralamaDepozitosu =kiralamaDepozitosu,
             indirimsizTutar = indirimsizTutar,
             toplamTutar=toplamTutar,
             gun = ts.TotalDays,
