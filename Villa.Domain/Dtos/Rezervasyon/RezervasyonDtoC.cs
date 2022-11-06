@@ -13,6 +13,7 @@ namespace Villa.Domain.Dtos
         public DateTimeOffset Bitis { get; set; }
         public string MusteriAdSoyad { get; set; }
         public DateTimeOffset? CreateDate { get; set; } = DateTimeOffset.Now;
+
         public int? MSYetiskin { get; set; }
         public int? MSCocuk { get; set; }
         public int? MSBebek { get; set; }
