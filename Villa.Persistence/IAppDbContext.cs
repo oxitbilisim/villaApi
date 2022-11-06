@@ -49,6 +49,7 @@ namespace Villa.Persistence
         public DbSet<Sayfa> Sayfa { get; set; }
         public DbSet<SayfaIcerik> SayfaIcerik { get; set; }
         public DbSet<SayfaSeo> SayfaSeo { get; set; }
+        public DbSet<Parameters> Parameters { get; set; }
 
         Task<int> SaveChangesAsync();
     }

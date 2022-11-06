@@ -4,7 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using AutoMapper;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
+using MimeKit.Text;
+using Org.BouncyCastle.Utilities;
 using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Domain.Dtos.VillaFE;
@@ -30,6 +35,7 @@ public class VillaFEService
     private readonly VillaGorunumService _villaGorunumService;
     private readonly VillaPeriyodikFiyatService _villaPeriyodikFiyatService;
     private readonly VillaPeriyodikFiyatAyarlariService _villaPeriyodikFiyatAyarlariService;
+    private readonly VillaSeoService _villaSeoService;
 
     private readonly BlogService _blogService;
     private readonly BlogIcerikService _blogIcerikService;
@@ -44,6 +50,7 @@ public class VillaFEService
         VillaOzellikService villaOzellikService,
         VillaGorunumService villaGorunumService,
         VillaPeriyodikFiyatService villaPeriyodikFiyatService,
+        VillaSeoService villaSeoService,
         VillaPeriyodikFiyatAyarlariService villaPeriyodikFiyatAyarlariService,
         IMapper mapper)
     {
@@ -58,6 +65,7 @@ public class VillaFEService
         _villaPeriyodikFiyatService = villaPeriyodikFiyatService;
         _villaPeriyodikFiyatAyarlariService = villaPeriyodikFiyatAyarlariService;
         _appDbContext = appDbContext;
+        _villaSeoService = villaSeoService;
     }
 
     public List<BolgeDtoFQ> GetBolge(int rules)
@@ -218,13 +226,23 @@ public class VillaFEService
             OdaSayisi = x.OdaSayisi,
             YatakOdaSayisi = x.YatakOdaSayisi
         }).FirstOrDefault();
+        villa.Seo = _villaSeoService.GetPI<VillaSeoDto>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).Select(s => new VillaSeoDto()
+        {
+            Id = s.Id,
+            Baslik = s.Baslik,
+            Aciklama = s.Aciklama,
+            AnahtarKelime = s.AnahtarKelime,
+            VillaId = s.VillaId,
+            HtmlMetaEtiket = s.HtmlMetaEtiket
+        }).FirstOrDefault();
         villa.Images = _villaImageDetayService
             .GetPI<VillaImageDetayDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).Select(i =>
                 new VillaImageDetayDtoQ
                 {
                     Id = i.Id,
-                    KapakResmi = i.KapakResmi
-                }).OrderBy(i => i.Id).ToList();
+                    KapakResmi = i.KapakResmi,
+                    Sirano = i.Sirano
+                }).AsEnumerable().OrderBy(i => i.Sirano).ToList();
         villa.Lokasyon = _villaLokasyonService
             .GetPI<VillaLokasyonDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted)
             .FirstOrDefault();
@@ -322,7 +340,7 @@ public class VillaFEService
             }
         }
 
-        return result;
+        return result.OrderBy(s => s.Baslangic).ToList();
     }
 
     public List<VillaDtoFQ> GetPopularVillas(int limit)
@@ -741,7 +759,7 @@ public class VillaFEService
     {
         List<RezervasyonDto> reservationList = _appDbContext.Rezervasyon
             .Where(r => !r.IsDeleted && r.RezervasyonDurum != RezervasyonDurum.IncelemeBekliyor && r.VillaId == id &&
-                        r.Baslangic.Year == year).Select(r => new RezervasyonDto
+                        r.Baslangic >= DateTimeOffset.Now ).Select(r => new RezervasyonDto
             {
                 Id = r.Id,
                 VillaId = r.VillaId,
@@ -784,7 +802,8 @@ public class VillaFEService
 
             if (price == null)
             {
-                throw new Exception("Fiyat bilgisi bulunamadı!");
+                //throw new Exception("Fiyat bilgisi bulunamadı!");
+                return new ReservationCalculation();
             }
 
             totalPrice = totalPrice + price.Fiyat;
@@ -793,7 +812,8 @@ public class VillaFEService
         PeriyodikFiyatAyarlari fa = _appDbContext.PeriyodikFiyatAyarlari.FirstOrDefault(f => f.VillaId == id);
         if (fa == null)
         {
-            throw new Exception("Fiyat bilgisi bulunamadı!");
+            //throw new Exception("Fiyat bilgisi bulunamadı!");
+            return new ReservationCalculation();
         }
 
         VillaGorunum vg = _appDbContext.VillaGorunum.FirstOrDefault(f => f.VillaId == id);
@@ -923,6 +943,7 @@ public class VillaFEService
             Email = reservationSaveDto.Email,
             Not = reservationSaveDto.Note,
             RezervasyonDurum = RezervasyonDurum.IncelemeBekliyor,
+            CreateDate = DateTimeOffset.Now
         };
 
         var reservation_ = _appDbContext.Rezervasyon.Add(reservation);
@@ -937,7 +958,115 @@ public class VillaFEService
         }
 
         _appDbContext.SaveChanges();
-
+        SendReservationMail(reservation);
         return reservation_.Entity;
+    }
+
+    public void TestMail()
+    {
+        var rez = _appDbContext.Rezervasyon.Find(167);
+        SendReservationMail(rez);
+    }
+
+    private void SendReservationMail(Rezervasyon reservation)
+    {
+        var villa = _appDbContext.Villa.Find(reservation.VillaId);
+        
+        string to = reservation.Email;
+        List<Parameters> parameters = _appDbContext.Parameters.Where(p => !p.IsDeleted).ToList();
+        
+        string subject = parameters.First(p => p.Code == "MAIL_SUBJECT_RESERVATION_RECEIVED")?.Value;
+        string mailBody = parameters.First(p => p.Code == "MAIL_BODY_RESERVATION_RECEIVED")?.Value;
+        string siteLink = parameters.First(p => p.Code == "SITE_LINK")?.Value;
+        ReservationCalculation prices = CostCalculate(villa.Id,DateOnly.FromDateTime(reservation.Baslangic.DateTime), DateOnly.FromDateTime(reservation.Bitis.DateTime));
+        var lokasyon = _villaLokasyonService
+            .GetPI<VillaLokasyonDtoQ>(x => x.VillaId == villa.Id && !x.IsDeleted).FirstOrDefault();
+        string villaBolge = lokasyon.IlceIlAd+","+lokasyon.BolgeAd+", "+lokasyon.Mevki; 
+        
+        
+        mailBody = mailBody.Replace("{{VILLALARIM_LINK}}", siteLink);
+        mailBody = mailBody.Replace("{{NAME}}", reservation.MusteriAdSoyad);
+        mailBody = mailBody.Replace("{{RESERVATION_CODE}}", reservation.CreateDate?.ToString("yyyyMMddHHmmss"));
+        mailBody = mailBody.Replace("{{VILLA_NAME}}", villa.Ad);
+        mailBody = mailBody.Replace("{{VILLA_BOLGE}}", villaBolge);
+        mailBody = mailBody.Replace("{{VILLA_LINK}}", siteLink+"/villa/"+villa.Url);
+        mailBody = mailBody.Replace("{{ENTRY_DATE}}", reservation.Baslangic.ToString("dd.MM.yyyy"));
+        mailBody = mailBody.Replace("{{EXIT_DATE}}", reservation.Bitis.ToString("dd.MM.yyyy"));
+        mailBody = mailBody.Replace("{{ACCOMMADATION_NIGHT_COUNT}}", ( reservation.Bitis.DateTime - reservation.Baslangic.DateTime).Days+" Gece");
+        mailBody = mailBody.Replace("{{GUEST_COUNT}}", reservation.MSYetiskin.ToString());
+        mailBody = mailBody.Replace("{{TOTAL_PAYMENT}}", prices.TotalPrice.ToString()+prices.Currency);
+        mailBody = mailBody.Replace("{{ADVANE_PAYMENT}}", prices.DownPayment.ToString()+prices.Currency);
+        mailBody = mailBody.Replace("{{ENTRY_PAYMENT}}", (prices.TotalPrice-prices.DownPayment).ToString()+prices.Currency);
+
+        SendMail(to,subject,mailBody);
+    }
+    
+    private void SendMail(string to, string subject, string mailBody)
+    {
+        List<Parameters> parameters = _appDbContext.Parameters.Where(p => !p.IsDeleted).ToList();
+        string host = parameters.First(p => p.Code == "MAIL_HOST")?.Value;
+        string port = parameters.First(p => p.Code == "MAIL_PORT")?.Value;
+        string username = parameters.First(p => p.Code == "MAIL_USERNAME")?.Value;
+        string password = parameters.First(p => p.Code == "MAIL_PASSWORD")?.Value;
+        string security = parameters.First(p => p.Code == "MAIL_SECURITY")?.Value;
+
+        SecureSocketOptions secureSocketOptions = SecureSocketOptions.None;
+        if (security=="SSL")
+        {
+            secureSocketOptions = SecureSocketOptions.SslOnConnect;
+        }else if (security=="TLS")
+        {
+            secureSocketOptions = SecureSocketOptions.StartTls;
+        }
+
+        var sender = MailboxAddress.Parse(username);
+
+        var email = new MimeMessage();
+        email.From.Add(new MailboxAddress("Villalarım", username));
+        email.To.Add(MailboxAddress.Parse(to));
+        email.Subject = subject;
+        email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
+        
+        using var smtp = new SmtpClient();
+        smtp.Connect(host, Int32.Parse(port), secureSocketOptions);
+        smtp.Authenticate(username, password);
+        smtp.Send(email);
+        smtp.Disconnect(true);
+    }
+
+    public ReservationInfoDto GetReservationInfo(string reservationNo)
+    {
+        DateTime resCreateDate = DateTime.ParseExact(reservationNo, "yyyyMMddHHmmss",System.Globalization.CultureInfo.InvariantCulture);
+        
+        var reservation = _appDbContext.Rezervasyon.FirstOrDefault(r => r.CreateDate == resCreateDate);
+        var villa = _appDbContext.Villa.Include(v => v.VillaImageDetay).FirstOrDefault(v => v.Id == reservation.VillaId);
+        ReservationCalculation prices = CostCalculate(villa.Id,DateOnly.FromDateTime(reservation.Baslangic.DateTime), DateOnly.FromDateTime(reservation.Bitis.DateTime));
+        var lokasyon = _villaLokasyonService
+            .GetPI<VillaLokasyonDtoQ>(x => x.VillaId == villa.Id && !x.IsDeleted).FirstOrDefault();
+        string villaBolge = lokasyon.IlceIlAd+","+lokasyon.BolgeAd+", "+lokasyon.Mevki;
+
+        ReservationInfoDto info = new ReservationInfoDto();
+        info.VillaName = villa.Ad;
+        info.VillaRegionName = villaBolge;
+        info.VillaId = villa.Id;
+        info.VillaUrl = villa.Url;
+        info.VillaImageId = villa.VillaImage != null
+            ? villa.VillaImageDetay.Where(i => i.KapakResmi.Value).FirstOrDefault().Id
+            : null;
+        info.GuestName = reservation.MusteriAdSoyad;
+        info.GuestCount = reservation.MSYetiskin;
+        info.Phone = reservation.TelefonNo;
+        info.Email = reservation.Email;
+        info.EntryDate = reservation.Baslangic.DateTime;
+        info.ExitDate = reservation.Bitis.DateTime;
+        info.NightCount = ( reservation.Bitis.DateTime - reservation.Baslangic.DateTime).Days;
+        info.Currency = prices.Currency;
+        info.TotalPrice = prices.TotalPrice;
+        info.DownPayment = prices.DownPayment;
+        info.Deposit = prices.Deposit;
+        info.IncluededInPrice = prices.IncluededInPrice;
+        info.CleaningFee = prices.CleaningFee;
+
+        return info;
     }
 }
