@@ -16,6 +16,7 @@ using Villa.Domain.Dtos.VillaFE;
 using Villa.Domain.Entities;
 using Villa.Domain.Enum;
 using Villa.Domain.Interfaces;
+using Villa.Domain.Utilities;
 using Villa.Persistence;
 using Villa.Service.Base;
 using Villa.Service.Contract;
@@ -70,13 +71,13 @@ public class VillaFEService
 
     public List<BolgeDtoFQ> GetBolge(int rules)
     {
-        var bolge = _appDbContext.Bolge.Where(x => !x.IsDeleted).Select(x => new BolgeDtoFQ
+        var bolge = _appDbContext.Bolge.Where(x => !x.IsDeleted && x.Active).Select(x => new BolgeDtoFQ
         {
             Id = x.Id,
             Ad = x.Ad,
             Url = x.Url,
             Image = rules == 1 ? x.Image : null,
-            Toplam = _appDbContext.VillaLokasyon.Where(y => y.BolgeId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted)
+            Toplam = _appDbContext.VillaLokasyon.Where(y => y.Active ==true && y.Villa.Active ==true && y.BolgeId == x.Id && !y.IsDeleted && !y.Villa.IsDeleted)
                 .Count()
         }).ToList();
         return bolge;
@@ -759,7 +760,7 @@ public class VillaFEService
     {
         List<RezervasyonDto> reservationList = _appDbContext.Rezervasyon
             .Where(r => !r.IsDeleted && r.RezervasyonDurum != RezervasyonDurum.IncelemeBekliyor && r.VillaId == id &&
-                        r.Baslangic >= DateTimeOffset.Now ).Select(r => new RezervasyonDto
+                        r.Bitis >= DateTimeOffset.Now ).Select(r => new RezervasyonDto
             {
                 Id = r.Id,
                 VillaId = r.VillaId,
@@ -974,7 +975,7 @@ public class VillaFEService
         
         string to = reservation.Email;
         List<Parameters> parameters = _appDbContext.Parameters.Where(p => !p.IsDeleted).ToList();
-        
+        string username = parameters.First(p => p.Code == "MAIL_USERNAME")?.Value;
         string subject = parameters.First(p => p.Code == "MAIL_SUBJECT_RESERVATION_RECEIVED")?.Value;
         string mailBody = parameters.First(p => p.Code == "MAIL_BODY_RESERVATION_RECEIVED")?.Value;
         string siteLink = parameters.First(p => p.Code == "SITE_LINK")?.Value;
@@ -999,6 +1000,9 @@ public class VillaFEService
         mailBody = mailBody.Replace("{{ENTRY_PAYMENT}}", (prices.TotalPrice-prices.DownPayment).ToString()+prices.Currency);
 
         SendMail(to,subject,mailBody);
+        
+        string infoMail = parameters.First(p => p.Code == "MAIL_INFO")?.Value;
+        SendMail(infoMail,subject,mailBody);
     }
     
     private void SendMail(string to, string subject, string mailBody)
@@ -1034,11 +1038,9 @@ public class VillaFEService
         smtp.Disconnect(true);
     }
 
-    public ReservationInfoDto GetReservationInfo(string reservationNo)
+    public ReservationInfoDto GetReservationInfo(int reservationNo)
     {
-        DateTime resCreateDate = DateTime.ParseExact(reservationNo, "yyyyMMddHHmmss",System.Globalization.CultureInfo.InvariantCulture);
-        
-        var reservation = _appDbContext.Rezervasyon.FirstOrDefault(r => r.CreateDate == resCreateDate);
+        var reservation = _appDbContext.Rezervasyon.Find(reservationNo);
         var villa = _appDbContext.Villa.Include(v => v.VillaImageDetay).FirstOrDefault(v => v.Id == reservation.VillaId);
         ReservationCalculation prices = CostCalculate(villa.Id,DateOnly.FromDateTime(reservation.Baslangic.DateTime), DateOnly.FromDateTime(reservation.Bitis.DateTime));
         var lokasyon = _villaLokasyonService
@@ -1068,5 +1070,14 @@ public class VillaFEService
         info.CleaningFee = prices.CleaningFee;
 
         return info;
+    }
+
+    public List<Parameters> GetFilteredParameters()
+    {
+        List<string> excludeList = new List<string>();
+
+        return _appDbContext
+            .Parameters
+            .Where(p => !excludeList.Contains(p.Code)).ToList();
     }
 }

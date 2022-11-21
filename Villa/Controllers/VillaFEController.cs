@@ -1,16 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Villa.Service.Contract;
-using Villa.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Utilities;
-using Villa.Domain.Common;
 using Villa.Domain.Dtos;
 using Villa.Domain.Dtos.VillaFE;
 using Villa.Service.Implementation;
@@ -23,7 +17,7 @@ namespace Villa.Controllers
     public class VillaFEController : ControllerBase
     {
         private readonly VillaFEService _villaFEService;
-        
+
         public VillaFEController(
             VillaFEService villaFEService
         )
@@ -45,11 +39,11 @@ namespace Villa.Controllers
         }
 
         [HttpGet(nameof(GetBolgeVillas))]
-        public IActionResult GetBolgeVillas(int bolgeId,string pn, string prc)
+        public IActionResult GetBolgeVillas(int bolgeId, string pn, string prc)
         {
-            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1; 
-            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10; 
-            
+            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1;
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10;
+
             var result = _villaFEService.GetBolgeVillas(bolgeId,
                 pageNumber,
                 pageRowCount);
@@ -77,11 +71,11 @@ namespace Villa.Controllers
         }
 
         [HttpGet(nameof(GetKategoriVillas))]
-        public IActionResult GetKategoriVillas(int kategoriId,string pn, string prc)
+        public IActionResult GetKategoriVillas(int kategoriId, string pn, string prc)
         {
-            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1; 
-            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10; 
-            
+            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1;
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10;
+
             var result = _villaFEService.GetKategoriVillas(kategoriId,
                 pageNumber,
                 pageRowCount);
@@ -106,7 +100,7 @@ namespace Villa.Controllers
 
             return Ok(result);
         }
-        
+
         [HttpGet(nameof(GetPageByURL))]
         public IActionResult GetPageByURL(string url)
         {
@@ -119,7 +113,7 @@ namespace Villa.Controllers
 
             return Ok(result);
         }
-        
+
         [HttpGet(nameof(GetAllPages))]
         public IActionResult GetAllPages(string url)
         {
@@ -212,8 +206,8 @@ namespace Villa.Controllers
             DateOnly filterEndDate = DateOnly.MaxValue;
             int filterGuestCount = 0;
 
-            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1; 
-            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10; 
+            int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1;
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10;
 
             if (!String.IsNullOrEmpty(region))
             {
@@ -279,7 +273,7 @@ namespace Villa.Controllers
                 filterGuestCount,
                 pageNumber,
                 pageRowCount
-                );
+            );
 
             if (result is not null)
             {
@@ -353,7 +347,7 @@ namespace Villa.Controllers
             ReservationCalculation calc = null;
             try
             {
-                calc = _villaFEService.CostCalculate(id, filterStartDate,filterEndDate);
+                calc = _villaFEService.CostCalculate(id, filterStartDate, filterEndDate);
             }
             catch (Exception e)
             {
@@ -362,20 +356,21 @@ namespace Villa.Controllers
 
             return Ok(calc);
         }
-        
+
         [HttpGet(nameof(UpdateExchangeRates))]
         public IActionResult UpdateExchangeRates()
         {
             _villaFEService.UpdateExchangeRates();
             return Ok();
         }
-        
+
         [HttpGet(nameof(GetAllExtraServices))]
         public IActionResult GetAllExtraServices()
         {
             var list = _villaFEService.GetAllExtraServices();
             return Ok(list);
-        }  
+        }
+
         [HttpPost(nameof(SaveReservation))]
         public IActionResult SaveReservation(ReservationSaveDto saveDto)
         {
@@ -388,12 +383,10 @@ namespace Villa.Controllers
             {
                 return BadRequest(e.Message);
             }
-            
-            
         }
-        
+
         [HttpGet(nameof(GetReservationInfo))]
-        public IActionResult GetReservationInfo(string reservationNo)
+        public IActionResult GetReservationInfo(int reservationNo)
         {
             try
             {
@@ -403,9 +396,20 @@ namespace Villa.Controllers
             {
                 return BadRequest(e.Message);
             }
-
         }
-        
+        [HttpGet(nameof(GetParameters))]
+        public IActionResult GetParameters()
+        {
+            try
+            {
+                return Ok(_villaFEService.GetFilteredParameters());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet(nameof(MailTest))]
         public IActionResult MailTest()
         {
@@ -418,7 +422,6 @@ namespace Villa.Controllers
             {
                 return BadRequest(e.Message);
             }
-
         }
     }
 }
