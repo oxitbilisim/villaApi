@@ -50,7 +50,7 @@ namespace Villa.Controllers
         {
             VillaImageDtoQ villaImage = new();
             villaImage = _villaImageService.GetPI<VillaImageDtoQ>(x => x.VillaId == id).FirstOrDefault();
-            villaImage.ImageList = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == id).OrderBy(x => x.Id).ToList();
+            villaImage.ImageList = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == id).OrderBy(x => x.Sirano).ToList();
 
             if (villaImage is not null)
             {
@@ -58,6 +58,14 @@ namespace Villa.Controllers
             }
             return new ResponseModel();
         }
+
+        [HttpPost(nameof(DeleteImageAllVilla))]
+        public ResponseModel DeleteImageAllVilla(int id)
+        {
+            return _villaImageService.villaImageDeleteAll(id);
+
+        }
+
 
         [HttpPost(nameof(Add))]
         public ResponseModel Add(VillaImageDtoC dto)

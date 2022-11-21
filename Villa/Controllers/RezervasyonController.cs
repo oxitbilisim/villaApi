@@ -48,7 +48,18 @@ namespace Villa.Controllers
             }
             return Ok(result);
         }
-        
+
+        [HttpGet(nameof(GetRezervation))]
+        public IActionResult GetRezervation()
+        {
+            var result = _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x => x.IsDeleted == false && x.RezervasyonDurum ==RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.Opsiyon).OrderByDescending(x => x.Id);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
+
         [HttpGet(nameof(GetBildirim))]
         public IActionResult GetBildirim()
         {
