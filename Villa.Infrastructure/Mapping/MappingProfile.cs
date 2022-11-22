@@ -330,13 +330,13 @@ namespace Villa.Infrastructure.Mapping
             #endregion
             
             #region Blog
-            CreateMap<Domain.Entities.Blog, BlogDtoQ>()
+            CreateMap<Domain.Entities.Blog, ParameterssDtoQ>()
                 .ReverseMap();
-            CreateMap<BlogDtoQ, Domain.Entities.Blog>()
+            CreateMap<ParameterssDtoQ, Domain.Entities.Blog>()
                 .ReverseMap();
-            CreateMap<Domain.Entities.Blog, BlogDtoC>()
+            CreateMap<Domain.Entities.Blog, ParametersDtoC>()
                 .ReverseMap();
-            CreateMap<BlogDtoC, Domain.Entities.Blog>()
+            CreateMap<ParametersDtoC, Domain.Entities.Blog>()
                 .ReverseMap();
             #endregion
             
@@ -414,6 +414,17 @@ namespace Villa.Infrastructure.Mapping
             CreateMap<Domain.Entities.EkstraHizmet, EkstraHizmetDtoC>()
                 .ReverseMap();
             CreateMap<EkstraHizmetDtoC, Domain.Entities.EkstraHizmet>()
+                .ReverseMap();
+            #endregion
+
+            #region Blog
+            CreateMap<Domain.Entities.Parameters, ParameterssDtoQ>()
+                .ReverseMap();
+            CreateMap<ParameterssDtoQ, Domain.Entities.Parameters>()
+                .ReverseMap();
+            CreateMap<Domain.Entities.Parameters, ParametersDtoC>()
+                .ReverseMap();
+            CreateMap<ParametersDtoC, Domain.Entities.Parameters>()
                 .ReverseMap();
             #endregion
 

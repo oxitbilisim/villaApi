@@ -10,9 +10,7 @@ namespace Villa.Domain.Entities
 
     public class Parameters : BaseSimpleModel
     {
-        public Parameters()
-        {
-        }
+
 
         public string Code { get; set; }
         public string? Value { get; set; }

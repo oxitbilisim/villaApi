@@ -3,7 +3,7 @@ using Villa.Domain.Enum;
 
 namespace Villa.Domain.Dtos
 {
-    public class BlogDtoC 
+    public class ParametersDtoC 
     {
         public int? Id { get; set; }
         public string Baslik { get; set; }

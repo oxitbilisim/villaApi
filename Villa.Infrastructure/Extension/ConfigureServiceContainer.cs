@@ -79,6 +79,7 @@ namespace Villa.Infrastructure.Extension
             serviceCollection.AddTransient<VillaFEService>();
             serviceCollection.AddTransient<VillaSeoService>();
             serviceCollection.AddTransient<VillaOzellikService>();
+            serviceCollection.AddTransient<ParameterService>();
             serviceCollection.AddTransient<ParaBirimiService>();
             serviceCollection.AddTransient<OzellikService>();
             serviceCollection.AddTransient<VillaGorunumService>();

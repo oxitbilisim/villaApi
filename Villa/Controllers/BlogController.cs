@@ -28,7 +28,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public IActionResult GetAll()
         {
-            var result =  _blogService.GetAllPI<BlogDtoQ>(x=> x.IsDeleted == false).OrderBy(x=> x.Id);
+            var result =  _blogService.GetAllPI<ParameterssDtoQ>(x=> x.IsDeleted == false).OrderBy(x=> x.Id);
             if (result is not null)
             {
                 return Ok(result);
@@ -39,7 +39,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAllF))]
         public IActionResult GetAllF()
         {
-            var result =  _blogService.GetAllPI<BlogDtoQ>(x=> x.IsDeleted == false).OrderBy(x=> x.Id);
+            var result =  _blogService.GetAllPI<ParameterssDtoQ>(x=> x.IsDeleted == false).OrderBy(x=> x.Id);
             if (result is not null)
             {
                 return Ok(result);
@@ -50,7 +50,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
-            var result =  _blogService.GetPI<BlogDtoQ>(x=> x.Id == id);
+            var result =  _blogService.GetPI<ParameterssDtoQ>(x=> x.Id == id);
             if (result is not null)
             {
                 return new ResponseModel(result);
@@ -59,12 +59,12 @@ namespace Villa.Controllers
         }
 
         [HttpPost(nameof(Add))]
-        public  ActionResult<ResponseModel> Add(BlogDtoC dto)
+        public  ActionResult<ResponseModel> Add(ParametersDtoC dto)
         { 
             return new ResponseModel(_blogService.Add(dto));
         }
         [HttpPut(nameof(Update))]
-        public ActionResult<ResponseModel> Update(BlogDtoC dto)
+        public ActionResult<ResponseModel> Update(ParametersDtoC dto)
         {
             return new ResponseModel( _blogService.Update(dto));
         }
