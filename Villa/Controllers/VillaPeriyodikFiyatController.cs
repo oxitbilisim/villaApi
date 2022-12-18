@@ -38,8 +38,8 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetPFAVillaById))]
         public ResponseModel GetPFAVillaById(int id)
         {
-            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false).OrderBy(x=> x.Id);
-            
+            DateTime dateTime = DateTime.Today;   
+            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false && x.Baslangic>= dateTime).OrderBy(x=> x.Baslangic);       
             if (result is not null)
             {
                 return new ResponseModel(result);
@@ -55,6 +55,7 @@ namespace Villa.Controllers
         [HttpPut(nameof(Update))]
         public ActionResult<ResponseModel> Update(VillaPeriyodikFiyatDtoC dto)
         {
+
             return new ResponseModel(_villaPeriyodikFiyatService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]
