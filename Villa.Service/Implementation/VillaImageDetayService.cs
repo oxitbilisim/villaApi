@@ -56,17 +56,31 @@ namespace Villa.Service.Implementation;
         public bool ImageSiranoUpdate(List<VillaImageDetaySiraNoUpdate> villaSiraNoUpdate)
         {
             try
-            { 
-                foreach (var item in villaSiraNoUpdate)
+            {
+            var imageDetay = _appDbContext.VillaImageDetay.Where(x => x.VillaId == villaSiraNoUpdate[0].VillaId).OrderBy(x=>x.Sirano).ToList();
+            //VillaImageDetay image=imageDetay.Find(x => x.Id == villaSiraNoUpdate[0].Id);
+            //image.Sirano = villaSiraNoUpdate[0].SiraNo;
+            //_appDbContext.Entry<VillaImageDetay>(image).State = EntityState.Modified;
+   
+              var imageNew = imageDetay.Find(x => x.Id == villaSiraNoUpdate[0].Id );
+
+                imageNew.Sirano = villaSiraNoUpdate[0].SiraNo;
+                _appDbContext.Entry<VillaImageDetay>(imageNew).State = EntityState.Modified;
+
+                imageDetay.Remove(imageNew);
+                int? count = 0;
+                foreach (var item in imageDetay)
                 {
-                    var imageDetay = _appDbContext.VillaImageDetay.Where(x =>  x.Id == item.Id).FirstOrDefault();
-                    imageDetay.Sirano = item.Sirano;
-                    _appDbContext.Entry<VillaImageDetay>(imageDetay).State = EntityState.Modified;
+                    if(count!= villaSiraNoUpdate[0].SiraNo)
+                    {
+                        item.Sirano = count;
+                        _appDbContext.Entry<VillaImageDetay>(item).State = EntityState.Modified;                       
+                    }
+                    count++;
                 }
                 _appDbContext.SaveChanges();
-            
-             
-                return true;
+          
+            return true;
             }
             catch (Exception e)
             {
