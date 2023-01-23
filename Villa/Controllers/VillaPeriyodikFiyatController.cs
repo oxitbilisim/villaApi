@@ -39,7 +39,7 @@ namespace Villa.Controllers
         public ResponseModel GetPFAVillaById(int id)
         {
             DateTime dateTime = DateTime.Today;   
-            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false && x.Baslangic>= dateTime).OrderBy(x=> x.Baslangic);       
+            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false && (x.Baslangic>= dateTime || dateTime <= x.Bitis)).OrderBy(x=> x.Baslangic);       
             if (result is not null)
             {
                 return new ResponseModel(result);
