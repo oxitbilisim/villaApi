@@ -126,7 +126,9 @@ namespace Villa.Persistence
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                .UseNpgsql("Host=185.130.58.41;Database=villalarim;Username=postgres;Password=oxit2022");
+                .UseNpgsql("Host=185.130.58.41;Database=villalarim;Username=postgres;Password=oxit2022", option => {
+                    option.EnableRetryOnFailure();
+                });
             }
         }
 
