@@ -17,8 +17,11 @@ namespace Villa.Domain.Dtos
         public int? BanyoSayisi { get; set; }
         
         public int? ImageId { get; set; }
+        public int? discountRate { get; set; }
         public decimal? Fiyat { get; set; }
+        public decimal? IndirimliFiyat { get; set; }
         public decimal? ToplamFiyat { get; set; }
+        public decimal? IndirimliToplamFiyat { get; set; }
         public string? FiyatTuru { get; set; }
         public string? ParaBirimi { get; set; }
     }

@@ -216,9 +216,6 @@ public class VillaFEService
             Id = x.Id,
             Ad = x.Ad,
             Url = x.Url,
-            Fiyat = x.PeriyodikFiyat
-                .Where(pf => DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
-                .FirstOrDefault().Fiyat,
             Kapasite = x.Kapasite,
             BanyoSayisi = x.BanyoSayisi,
             FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault()
@@ -260,7 +257,14 @@ public class VillaFEService
 
         villa.PeriyodikFiyatAyarlari = _villaPeriyodikFiyatAyarlariService
             .GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).ToList();
+        
+        var periyodikFiyat = _appDbContext.PeriyodikFiyat
+            .Where(pf => pf.VillaId == villa.Villa.Id && DateTime.Today >= pf.Baslangic.Date && DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
+            .FirstOrDefault();
 
+        villa.Villa.discountRate = periyodikFiyat.Indirim;
+        villa.Villa.Fiyat = periyodikFiyat.Fiyat;
+        villa.Villa.IndirimliFiyat = periyodikFiyat.Indirim != null? periyodikFiyat.Fiyat * (100 - periyodikFiyat.Indirim) / 100 : periyodikFiyat.Fiyat;
         return villa;
     }
 
@@ -554,7 +558,7 @@ public class VillaFEService
             filterEndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
         }
 
-        var searchResult = villaQuery.Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount).Select(x =>
+        var searchResult = villaQuery.OrderBy(i => i.OdaSayisi).Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount).Select(x =>
             new VillaDtoFQ
             {
                 Id = x.Id,
@@ -566,26 +570,7 @@ public class VillaFEService
                 Bolge = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Bolge.Ad,
                 Il = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Il.Ad,
                 Ilce = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Ad,
-                Fiyat = x.PeriyodikFiyat
-                    .Where(pf => !pf.IsDeleted &&
-                                 (((DateOnly.FromDateTime(pf.Baslangic.Date)
-                                        .CompareTo(filterStartDate) == 0 ||
-                                    DateOnly.FromDateTime(pf.Baslangic.Date)
-                                        .CompareTo(filterStartDate) == 1) &&
-                                   DateOnly.FromDateTime(pf.Baslangic.Date)
-                                       .CompareTo(filterEndDate) == -1) ||
-                                  ((DateOnly.FromDateTime(pf.Bitis.Date)
-                                        .CompareTo(filterStartDate) == 1 ||
-                                    DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(filterStartDate) == 0) &&
-                                   (DateOnly.FromDateTime(pf.Bitis.Date)
-                                        .CompareTo(filterEndDate) == -1 ||
-                                    DateOnly.FromDateTime(pf.Bitis.Date)
-                                        .CompareTo(filterEndDate) == 0)) ||
-                                  (DateOnly.FromDateTime(pf.Baslangic.Date)
-                                       .CompareTo(filterStartDate) == -1 &&
-                                   DateOnly.FromDateTime(pf.Bitis.Date)
-                                       .CompareTo(filterEndDate) == 1)))
-                    .FirstOrDefault().Fiyat,
+                
                 Kapasite = x.Kapasite,
                 Mevki = x.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Mevki,
                 BanyoSayisi = x.BanyoSayisi,
@@ -601,7 +586,33 @@ public class VillaFEService
         
         foreach (var item in searchResult)
         {
-            item.ToplamFiyat = CostCalculate(item.Id.Value, filterStartDate, filterEndDate).TotalPrice;
+            var periyodikFiyat = _appDbContext.PeriyodikFiyat
+                .Where(pf => pf.VillaId == item.Id && !pf.IsDeleted &&
+                             (((DateOnly.FromDateTime(pf.Baslangic.Date)
+                                    .CompareTo(filterStartDate) == 0 ||
+                                DateOnly.FromDateTime(pf.Baslangic.Date)
+                                    .CompareTo(filterStartDate) == 1) &&
+                               DateOnly.FromDateTime(pf.Baslangic.Date)
+                                   .CompareTo(filterEndDate) == -1) ||
+                              ((DateOnly.FromDateTime(pf.Bitis.Date)
+                                    .CompareTo(filterStartDate) == 1 ||
+                                DateOnly.FromDateTime(pf.Bitis.Date).CompareTo(filterStartDate) == 0) &&
+                               (DateOnly.FromDateTime(pf.Bitis.Date)
+                                    .CompareTo(filterEndDate) == -1 ||
+                                DateOnly.FromDateTime(pf.Bitis.Date)
+                                    .CompareTo(filterEndDate) == 0)) ||
+                              (DateOnly.FromDateTime(pf.Baslangic.Date)
+                                   .CompareTo(filterStartDate) == -1 &&
+                               DateOnly.FromDateTime(pf.Bitis.Date)
+                                   .CompareTo(filterEndDate) == 1)))
+                .FirstOrDefault();
+            item.IndirimliFiyat = periyodikFiyat.Indirim != null ? periyodikFiyat.Fiyat * (100 - periyodikFiyat.Indirim) / 100 : periyodikFiyat.Fiyat;
+            item.Fiyat = periyodikFiyat.Fiyat;
+            item.discountRate = periyodikFiyat.Indirim;
+            
+            var calcPrice = CostCalculate(item.Id.Value, filterStartDate, filterEndDate);
+            item.ToplamFiyat = calcPrice.TotalPrice;
+            item.IndirimliToplamFiyat = calcPrice.DiscountTotalPrice;
         }
 
 
@@ -629,13 +640,9 @@ public class VillaFEService
                     Id = x.Id,
                     Ad = x.Ad,
                     Url = x.Url,
-                    ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
-
-                    Fiyat = x.PeriyodikFiyat
-                        .Where(pf => startDate >= pf.Baslangic.Date && startDate < pf.Bitis.Date
-                                                                    && endDate > pf.Baslangic.Date &&
-                                                                    endDate <= pf.Bitis.Date)
-                        .FirstOrDefault().Fiyat,
+                    ImageId = x.VillaImage != null
+                        ? x.VillaImageDetay.Where(i => i.KapakResmi.Value).FirstOrDefault(x => !x.IsDeleted).Id
+                        : null,
                     Kapasite = x.Kapasite,
                     BanyoSayisi = x.BanyoSayisi,
                     FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(f_ => !f_.IsDeleted)
@@ -644,10 +651,22 @@ public class VillaFEService
                     OdaSayisi = x.OdaSayisi,
                     YatakOdaSayisi = x.YatakOdaSayisi
                 }).FirstOrDefault();
-            villa.ToplamFiyat =
-                CostCalculate(villa.Id.Value, DateOnly.FromDateTime(startDate), DateOnly.FromDateTime(endDate))
-                    .TotalPrice;
 
+            var periyodikFiyat = _appDbContext.PeriyodikFiyat
+                .Where(pf => pf.VillaId == villa.Id && startDate >= pf.Baslangic.Date && startDate < pf.Bitis.Date
+                             && endDate > pf.Baslangic.Date &&
+                             endDate <= pf.Bitis.Date)
+                .FirstOrDefault();
+
+            villa.discountRate = periyodikFiyat.Indirim;
+            villa.Fiyat = periyodikFiyat.Fiyat;
+            villa.IndirimliFiyat = periyodikFiyat.Indirim != null
+                ? periyodikFiyat.Fiyat * (100 - periyodikFiyat.Indirim) / 100
+                : periyodikFiyat.Fiyat;
+            var calcPrice = 
+                CostCalculate(villa.Id.Value, DateOnly.FromDateTime(startDate), DateOnly.FromDateTime(endDate));
+            villa.ToplamFiyat = calcPrice.TotalPrice;
+            villa.IndirimliToplamFiyat = calcPrice.DiscountTotalPrice;
             responseList.Add(new CollectionResponseDto()
             {
                 villa = villa,
@@ -682,24 +701,27 @@ public class VillaFEService
                     Id = x.Id,
                     Ad = x.Ad,
                     Url = x.Url,
-                    ImageId = x.VillaImage != null ? x.VillaImageDetay.FirstOrDefault().Id : null,
-
-                    Fiyat = x.PeriyodikFiyat
-                        .Where(pf => startDate >= pf.Baslangic.Date && startDate < pf.Bitis.Date
-                                                                    && endDate > pf.Baslangic.Date &&
-                                                                    endDate <= pf.Bitis.Date)
-                        .FirstOrDefault().Fiyat,
+                    ImageId = x.VillaImage != null
+                        ? x.VillaImageDetay.Where(i => i.KapakResmi.Value).FirstOrDefault(x => !x.IsDeleted).Id
+                        : null,
                     Kapasite = x.Kapasite,
                     BanyoSayisi = x.BanyoSayisi,
                     FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(f_ => !f_.IsDeleted)
                         .FirstOrDefault().FiyatTuru),
-                    ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+                    ParaBirimi = x.PeriyodikFiyat.FirstOrDefault(pf => !pf.IsDeleted).ParaBirimi.Ad,
                     OdaSayisi = x.OdaSayisi,
                     YatakOdaSayisi = x.YatakOdaSayisi
                 }).FirstOrDefault();
-            villa.ToplamFiyat =
-                CostCalculate(villa.Id.Value, DateOnly.FromDateTime(startDate), DateOnly.FromDateTime(endDate))
-                    .TotalPrice;
+            var periyodikFiyat = _appDbContext.PeriyodikFiyat
+                .Where(pf => !pf.IsDeleted && startDate >= pf.Baslangic.Date && startDate < pf.Bitis.Date)
+                .FirstOrDefault();
+            villa.discountRate = periyodikFiyat.Indirim;
+            villa.Fiyat = periyodikFiyat.Fiyat;
+            villa.IndirimliFiyat = periyodikFiyat.Indirim!=null? periyodikFiyat.Fiyat * (100-periyodikFiyat.Indirim)/100:periyodikFiyat.Fiyat;
+            var calcPrice = CostCalculate(villa.Id.Value, DateOnly.FromDateTime(startDate),
+                DateOnly.FromDateTime(endDate));
+            villa.ToplamFiyat = calcPrice.TotalPrice;
+            villa.IndirimliToplamFiyat = calcPrice.DiscountTotalPrice;
 
             responseList.Add(new CollectionResponseDto()
             {
@@ -760,7 +782,7 @@ public class VillaFEService
     {
         List<RezervasyonDto> reservationList = _appDbContext.Rezervasyon
             .Where(r => !r.IsDeleted && r.RezervasyonDurum != RezervasyonDurum.IncelemeBekliyor && r.VillaId == id &&
-                        r.Bitis >= DateTimeOffset.Now ).Select(r => new RezervasyonDto
+                        r.Bitis >= DateTimeOffset.Now.AddMonths(-3)).Select(r => new RezervasyonDto
             {
                 Id = r.Id,
                 VillaId = r.VillaId,
@@ -793,6 +815,7 @@ public class VillaFEService
                         .CompareTo(endDate) == 1))).OrderBy(i => i.Id).ToList();
 
         decimal totalPrice = 0;
+        decimal discountTotalPrice = 0;
         for (DateOnly sd = startDate; sd.CompareTo(endDate) == -1; sd = sd.AddDays(1))
         {
             PeriyodikFiyat price = priceList.Where(p =>
@@ -807,10 +830,12 @@ public class VillaFEService
                 return new ReservationCalculation();
             }
 
+            var calculatedPrice = price.Indirim != null ? price.Fiyat * (100-price.Indirim) / 100 : price.Fiyat;
             totalPrice = totalPrice + price.Fiyat;
+            discountTotalPrice = discountTotalPrice + calculatedPrice;
         }
 
-        PeriyodikFiyatAyarlari fa = _appDbContext.PeriyodikFiyatAyarlari.FirstOrDefault(f => f.VillaId == id);
+        PeriyodikFiyatAyarlari fa = _appDbContext.PeriyodikFiyatAyarlari.FirstOrDefault(f => !f.IsDeleted && f.VillaId == id);
         if (fa == null)
         {
             //throw new Exception("Fiyat bilgisi bulunamadı!");
@@ -828,6 +853,7 @@ public class VillaFEService
         calc.CleaningFee = fa.TemizlikUcreti.Value;
         calc.DownPayment = totalPrice * fa.Kapora.Value / 100;
         calc.IncluededInPrice = vg?.OneCikanOzellik;
+        calc.DiscountTotalPrice = discountTotalPrice;
 
         return calc;
     }
@@ -987,6 +1013,8 @@ public class VillaFEService
         
         mailBody = mailBody.Replace("{{VILLALARIM_LINK}}", siteLink);
         mailBody = mailBody.Replace("{{NAME}}", reservation.MusteriAdSoyad);
+        mailBody = mailBody.Replace("{{CUSTOMER_PHONE}}", reservation.TelefonNo);
+        mailBody = mailBody.Replace("{{CUSTOMER_EMAIL}}", reservation.Email);
         mailBody = mailBody.Replace("{{RESERVATION_CODE}}", reservation.CreateDate?.ToString("yyyyMMddHHmmss"));
         mailBody = mailBody.Replace("{{VILLA_NAME}}", villa.Ad);
         mailBody = mailBody.Replace("{{VILLA_BOLGE}}", villaBolge);
