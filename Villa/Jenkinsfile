@@ -21,5 +21,31 @@ node {
     
         app = docker.build("villaadmin-be", "./Villa/")
     }
+    
+    stage('Deploy') {
+            sh('docker save villaadmin-be > villaadmin-be.tar')
+            sshPublisher(publishers: [sshPublisherDesc(
+            configName: 'Villa Prod Server', 
+            transfers: 
+                [
+                    sshTransfer(
+                        cleanRemote: false, 
+                        excludes: '', 
+                        execCommand: '''/root/deploy-commands/deploy-villaadmin-be.sh /tmp''', 
+                        execTimeout: 120000, 
+                        flatten: false, 
+                        makeEmptyDirs: false, 
+                        noDefaultExcludes: false, 
+                        patternSeparator: '[, ]+', 
+                        remoteDirectory: '//tmp//', 
+                        remoteDirectorySDF: false, 
+                        removePrefix: '', 
+                        sourceFiles: 'villaadmin-be.tar'
+                    )
+                ], 
+            usePromotionTimestamp: false, 
+            useWorkspaceInPromotion: false, 
+            verbose: false)])
+        }  
    
 }
