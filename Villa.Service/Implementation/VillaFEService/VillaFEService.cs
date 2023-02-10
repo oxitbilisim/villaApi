@@ -606,10 +606,13 @@ public class VillaFEService
                                DateOnly.FromDateTime(pf.Bitis.Date)
                                    .CompareTo(filterEndDate) == 1)))
                 .FirstOrDefault();
-            item.IndirimliFiyat = periyodikFiyat.Indirim != null ? periyodikFiyat.Fiyat * (100 - periyodikFiyat.Indirim) / 100 : periyodikFiyat.Fiyat;
-            item.Fiyat = periyodikFiyat.Fiyat;
-            item.discountRate = periyodikFiyat.Indirim;
-            
+            if (periyodikFiyat != null)
+            {
+                item.IndirimliFiyat = periyodikFiyat.Indirim != null ? periyodikFiyat.Fiyat * (100 - periyodikFiyat.Indirim) / 100 : periyodikFiyat.Fiyat;
+                item.Fiyat = periyodikFiyat.Fiyat;
+                item.discountRate = periyodikFiyat.Indirim;    
+            }
+
             var calcPrice = CostCalculate(item.Id.Value, filterStartDate, filterEndDate);
             item.ToplamFiyat = calcPrice.TotalPrice;
             item.IndirimliToplamFiyat = calcPrice.DiscountTotalPrice;
