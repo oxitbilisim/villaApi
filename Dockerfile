@@ -5,11 +5,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["./Villa.csproj", "Villa/"]
-COPY ["../Villa.Infrastructure/Villa.Infrastructure.csproj", "Villa.Infrastructure/"]
-COPY ["../Villa.Service/Villa.Service.csproj", "Villa.Service/"]
-COPY ["../Villa.Persistence/Villa.Persistence.csproj", "Villa.Persistence/"]
-COPY ["../Villa.Domain/Villa.Domain.csproj", "Villa.Domain/"]
+COPY ["/Villa/Villa.csproj", "Villa/"]
+COPY ["/Villa.Infrastructure/Villa.Infrastructure.csproj", "Villa.Infrastructure/"]
+COPY ["/Villa.Service/Villa.Service.csproj", "Villa.Service/"]
+COPY ["/Villa.Persistence/Villa.Persistence.csproj", "Villa.Persistence/"]
+COPY ["/Villa.Domain/Villa.Domain.csproj", "Villa.Domain/"]
 RUN dotnet restore "./Villa.csproj"
 COPY . .
 WORKDIR "/src/Villa"
