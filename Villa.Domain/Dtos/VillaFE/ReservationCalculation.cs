@@ -9,6 +9,7 @@ namespace Villa.Domain.Dtos
         public string Currency { get; set; }
         public string DateNight { get; set; }
         public decimal TotalPrice { get; set; }
+        public decimal DiscountTotalPrice { get; set; }
         public decimal DownPayment { get; set; }
         public decimal Deposit { get; set; }
         public string IncluededInPrice { get; set; }
