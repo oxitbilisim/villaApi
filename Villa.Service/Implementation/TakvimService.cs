@@ -26,7 +26,7 @@ public class TakvimService : BaseService<Domain.Entities.Rezervasyon>
     public HashSet<TakvimDtoQ>  GetVillaByIdCalendarData(int villaId)
     {
         var getRezervasyonList  = _rezervasyonService.GetAllPI<TakvimRezarvasyonDtoQ>(x=> x.VillaId == villaId 
-                                                                                  && x.IsDeleted == false).OrderBy(x=> x.Baslangic);
+                                                                                  && x.IsDeleted == false &&x.RezervasyonDurum!=RezervasyonDurum.IncelemeBekliyor).OrderBy(x=> x.Baslangic);
         
         var takvimLiaList = new HashSet<TakvimDtoQ>();
         foreach (var item in getRezervasyonList)
