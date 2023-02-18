@@ -12,6 +12,8 @@ namespace Villa.Domain.Dtos
         public DateTimeOffset Baslangic { get; set; }
         public DateTimeOffset Bitis { get; set; }
         public RezervasyonDurum RezervasyonDurum { get; set; }
+
+        public Boolean OpenState { get; set; }
         public string Not { get; set; }
     }
 }
