@@ -37,6 +37,19 @@ namespace Villa.Controllers
             return Ok(result);
         }
 
+        [HttpGet(nameof(GetAllOnay))]
+        public IActionResult GetAllOnay()
+        {
+            var result = _rezervasyonService.GetAllPI<KapamaDtoQ>(x => x.IsDeleted == false && x.RezervasyonDurum == RezervasyonDurum.IncelemeBekliyor).OrderByDescending(x => x.Id); 
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
+        }
+
+
+
         [HttpGet(nameof(GetById))]
         public ResponseModel GetById(int id)
         {
@@ -57,7 +70,7 @@ namespace Villa.Controllers
         [HttpPut(nameof(Update))]
         public ActionResult<ResponseModel> Update(KapamaDtoC dto)
         {
-            dto.RezervasyonDurum = RezervasyonDurum.Kapama;
+           
             return new ResponseModel( _rezervasyonService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]

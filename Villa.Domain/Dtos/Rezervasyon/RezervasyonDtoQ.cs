@@ -19,6 +19,7 @@ namespace Villa.Domain.Dtos
         public int? MSBebek { get; set; }
         public string TelefonNo { get; set; }
         public string Email { get; set; }
+        public Boolean OpenState { get; set; }
         public RezervasyonDurum RezervasyonDurum { get; set; }
         public string Not { get; set; }
     }

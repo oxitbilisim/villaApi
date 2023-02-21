@@ -63,7 +63,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetBildirim))]
         public IActionResult GetBildirim()
         {
-            var result =  _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x=> x.IsDeleted == false && x.RezervasyonDurum==RezervasyonDurum.Onayli&& x.OpenState==false).OrderByDescending(x=> x.Id);
+            var result =  _rezervasyonService.GetAllPI<RezervasyonDtoQ>(x=> x.IsDeleted == false && x.OpenState==false && (x.RezervasyonDurum == RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.IncelemeBekliyor)).OrderByDescending(x=> x.Id);
             if (result is not null)
             {
                 return Ok(result);
