@@ -923,7 +923,7 @@ public class VillaFEService
                     {
                         if (reader.NodeType == XmlNodeType.Element && reader.Name == "BanknoteSelling")
                         {
-                            rate = Double.Parse(reader.ReadInnerXml());
+                            rate = Double.Parse(reader.ReadInnerXml().Replace('.',','));
                             break;
                         }
                     }
