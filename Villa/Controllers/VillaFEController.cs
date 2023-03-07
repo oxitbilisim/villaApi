@@ -42,7 +42,7 @@ namespace Villa.Controllers
         public IActionResult GetBolgeVillas(int bolgeId, string pn, string prc)
         {
             int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1;
-            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10;
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 20;
 
             var result = _villaFEService.GetBolgeVillas(bolgeId,
                 pageNumber,
@@ -74,7 +74,7 @@ namespace Villa.Controllers
         public IActionResult GetKategoriVillas(int kategoriId, string pn, string prc)
         {
             int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1;
-            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10;
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 20;
 
             var result = _villaFEService.GetKategoriVillas(kategoriId,
                 pageNumber,
@@ -207,7 +207,7 @@ namespace Villa.Controllers
             int filterGuestCount = 0;
 
             int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1;
-            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 10;
+            int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 20;
 
             if (!String.IsNullOrEmpty(region))
             {

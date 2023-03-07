@@ -222,7 +222,7 @@ public class VillaFEService
             BanyoSayisi = x.BanyoSayisi,
             FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault()
                 .FiyatTuru),
-            ParaBirimi = x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault().ParaBirimi.Ad,
+            //ParaBirimi = x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault().ParaBirimi.Ad,
             OdaSayisi = x.OdaSayisi,
             YatakOdaSayisi = x.YatakOdaSayisi
         }).FirstOrDefault();
@@ -261,7 +261,7 @@ public class VillaFEService
         villa.PeriyodikFiyatAyarlari = _villaPeriyodikFiyatAyarlariService
             .GetPI<VillaPeriyodikFiyatAyarlariDtoQ>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).ToList();
 
-        var periyodikFiyat = _appDbContext.PeriyodikFiyat
+        var periyodikFiyat = _appDbContext.PeriyodikFiyat.Include(pf => pf.ParaBirimi)
             .Where(pf => pf.VillaId == villa.Villa.Id && DateTime.Today >= pf.Baslangic.Date &&
                          DateTime.Today <= pf.Bitis.Date && !pf.IsDeleted)
             .FirstOrDefault();
@@ -272,6 +272,7 @@ public class VillaFEService
             villa.Villa.IndirimliFiyat = periyodikFiyat.Indirim != null
                 ? periyodikFiyat.Fiyat * (100 - periyodikFiyat.Indirim) / 100
                 : periyodikFiyat.Fiyat;
+            villa.Villa.ParaBirimi = periyodikFiyat.ParaBirimi.Ad;
         }
 
         return villa;
@@ -589,7 +590,7 @@ public class VillaFEService
                         ? EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.FirstOrDefault(x => !x.IsDeleted)
                             .FiyatTuru)
                         : "",
-                    ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+                    //ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
                     OdaSayisi = x.OdaSayisi,
                     YatakOdaSayisi = x.YatakOdaSayisi
                 }).ToList();
@@ -628,6 +629,7 @@ public class VillaFEService
             var calcPrice = CostCalculate(item.Id.Value, filterStartDate, filterEndDate);
             item.ToplamFiyat = calcPrice.TotalPrice;
             item.IndirimliToplamFiyat = calcPrice.DiscountTotalPrice;
+            item.ParaBirimi = calcPrice.Currency;
         }
 
 

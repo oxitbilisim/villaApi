@@ -10,7 +10,7 @@ namespace Villa.Persistence.Seeds
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            CreateRoles(modelBuilder);
+            /*CreateRoles(modelBuilder);
 
             CreateBasicUsers(modelBuilder);
 
@@ -25,7 +25,7 @@ namespace Villa.Persistence.Seeds
             CreateParaBirimi(modelBuilder);
             CreateIl(modelBuilder);
 
-            CreateIlce(modelBuilder);
+            CreateIlce(modelBuilder);*/
         }
 
         private static void CreateRoles(ModelBuilder modelBuilder)
