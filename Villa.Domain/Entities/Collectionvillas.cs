@@ -12,7 +12,7 @@ namespace Villa.Domain.Entities
         public int VillaId { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
-        public int CollectionId { get; set; }
+        public int CollectionsId { get; set; }
         public virtual Villa Villa { get; set; }
         public virtual Collections Collections { get; set; }
     }

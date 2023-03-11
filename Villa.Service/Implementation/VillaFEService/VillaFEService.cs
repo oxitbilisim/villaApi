@@ -711,7 +711,7 @@ public class VillaFEService
             return new List<CollectionResponseDto>();
         }
 
-        var villaList = _appDbContext.CollectionVillas.Where(v => v.CollectionId == collection.Id)
+        var villaList = _appDbContext.CollectionVillas.Where(v => v.CollectionsId == collection.Id)
             .ToList();
         List<CollectionResponseDto> responseList = new List<CollectionResponseDto>();
 
@@ -779,7 +779,7 @@ public class VillaFEService
         rb.ForEach(i =>
         {
             CollectionVillas cv = new CollectionVillas();
-            cv.CollectionId = response.Id;
+            cv.CollectionsId = response.Id;
             cv.VillaId = i.VillaId;
             cv.StartDate = DateOnly.Parse(i.StartDate);
             cv.EndDate = DateOnly.Parse(i.EndDate);
