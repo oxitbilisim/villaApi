@@ -22,7 +22,7 @@ namespace Villa.Domain.Auth
         
         [Required]
         public string TelefonGSM { get; set; }
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
         [Required]
         public string UserName { get; set; }
 

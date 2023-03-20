@@ -94,7 +94,7 @@ namespace Villa.Service.Implementation
             var userWithSameUserName = await _userManager.FindByNameAsync(request.UserName);
             if (userWithSameUserName != null)
             {
-                throw new ApiException($"Username '{request.UserName}' is already taken.");
+                throw new ApiException($"Kullanıcı Adı '{request.UserName}' başka bir kullanıcı tarafından kaydediliyor.");
             }
 
             var user = new User

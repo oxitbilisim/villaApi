@@ -23,14 +23,14 @@ public class RezervasyonMaliBilgiService : BaseService<Domain.Entities.Rezervasy
     {
 
         var rezervasyon = _appDbContext.Rezervasyon.Where(x => x.Id == rezervasyonId).FirstOrDefault();
-        TimeSpan ts = (rezervasyon.Bitis - rezervasyon.Baslangic);
+        int totalDays = rezervasyon.EndDate.DayNumber - rezervasyon.StartDate.DayNumber;
         decimal indirimsizTutar = 0;
         decimal toplamTutar = 0;
         decimal kiralamaDepozitosu = 0;
-        var baslangicTarihi = rezervasyon.Baslangic;
-        for (int i = 0; i < ts.TotalDays; i++)
+        var baslangicTarihi = rezervasyon.StartDate;
+        for (int i = 0; i < totalDays; i++)
         {
-            var periyodikFiyat = _appDbContext.PeriyodikFiyat.Where(x => x.VillaId == rezervasyon.VillaId && baslangicTarihi >= x.Baslangic && baslangicTarihi <= x.Bitis).FirstOrDefault();
+            var periyodikFiyat = _appDbContext.PeriyodikFiyat.Where(x => x.VillaId == rezervasyon.VillaId && baslangicTarihi >= x.StartDate && baslangicTarihi <= x.EndDate).FirstOrDefault();
             indirimsizTutar += periyodikFiyat.Fiyat;
             toplamTutar += periyodikFiyat.Fiyat - ((periyodikFiyat.Fiyat * periyodikFiyat.Indirim) / 100);
             kiralamaDepozitosu += (periyodikFiyat.Fiyat*(decimal)(_appDbContext.PeriyodikFiyatAyarlari.Where(X => X.VillaId == rezervasyon.VillaId).FirstOrDefault().Kapora) / 100);
@@ -41,7 +41,7 @@ public class RezervasyonMaliBilgiService : BaseService<Domain.Entities.Rezervasy
             kiralamaDepozitosu =kiralamaDepozitosu,
             indirimsizTutar = indirimsizTutar,
             toplamTutar=toplamTutar,
-            gun = ts.TotalDays,
+            gun = totalDays,
             komisyon = y.Komisyon,
             kapora = y.Kapora,
             depozito = y.Depozito,

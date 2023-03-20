@@ -7,8 +7,8 @@ namespace Villa.Domain.Dtos
     {
         public int? Id { get; set; }
 
-        public DateTimeOffset Baslangic { get; set; }
-        public DateTimeOffset Bitis { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly EndDate { get; set; }
         public string MusteriAdSoyad { get; set; }
         public string TelefonNo { get; set; }
         public string Email { get; set; }

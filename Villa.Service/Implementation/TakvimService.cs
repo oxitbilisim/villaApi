@@ -26,26 +26,26 @@ public class TakvimService : BaseService<Domain.Entities.Rezervasyon>
     public HashSet<TakvimDtoQ>  GetVillaByIdCalendarData(int villaId)
     {
         var getRezervasyonList  = _rezervasyonService.GetAllPI<TakvimRezarvasyonDtoQ>(x=> x.VillaId == villaId 
-                                                                                  && x.IsDeleted == false &&x.RezervasyonDurum!=RezervasyonDurum.IncelemeBekliyor).OrderBy(x=> x.Baslangic);
+                                                                                  && x.IsDeleted == false &&x.RezervasyonDurum!=RezervasyonDurum.IncelemeBekliyor).OrderBy(x=> x.StartDate);
         
         var takvimLiaList = new HashSet<TakvimDtoQ>();
         foreach (var item in getRezervasyonList)
         {
-            for (var dt = item.Baslangic; dt <= item.Bitis; dt = dt.AddDays(1))
+            for (var dt = item.StartDate; dt <= item.EndDate; dt = dt.AddDays(1))
             {
                 TakvimYarimGun takvimYarim = TakvimYarimGun.Yok;
-                if (dt.Date == item.Baslangic.Date)
+                if (dt == item.StartDate)
                     takvimYarim = TakvimYarimGun.Basta;
-                if (dt.Date == item.Bitis.Date)
+                if (dt == item.EndDate)
                     takvimYarim = TakvimYarimGun.Sonda;
                         
                 TakvimDtoQ takvim = new() {
-                    Tarih = dt.Date,
+                    Tarih = dt,
                     TakvimYarimGun = takvimYarim,
                     RezervasyonDurum = item.RezervasyonDurum
                 };
                 
-                if (!takvimLiaList.Any(y=> y.Tarih == dt.Date && y.TakvimYarimGun == TakvimYarimGun.Yok))
+                if (!takvimLiaList.Any(y=> y.Tarih == dt && y.TakvimYarimGun == TakvimYarimGun.Yok))
                     takvimLiaList.Add(takvim);
             }
         }

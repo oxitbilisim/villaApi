@@ -18,6 +18,6 @@ namespace Villa.Domain.Dtos
         
         public string? IconName { get; set; }
         
-        public byte[] Image { get; set; }  
+        public byte[]? Image { get; set; }  
     }
 }

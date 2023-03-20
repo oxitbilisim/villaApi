@@ -3,17 +3,22 @@ using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Villa.Domain.Common;
 using Villa.Domain.Enum;
+using Villa.Domain.Utilities;
 
 namespace Villa.Domain.Dtos
 {
     public class VillaPeriyodikFiyatDtoQ 
     {
         public int? Id { get; set; }
-        public int VillaId { get; set; }
+        public int VillaId { get; set; }/*
         public DateTimeOffset Baslangic { get; set; }
+        public DateTimeOffset Bitis { get; set; }*/
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
+        public DateOnly StartDate { get; set; }
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
+        public DateOnly EndDate { get; set; }
         public int ParaBirimiId { get; set; }
         public string ParaBirimiAd  { get; set; }
-        public DateTimeOffset Bitis { get; set; }
 
         public decimal Fiyat { get; set; }
        

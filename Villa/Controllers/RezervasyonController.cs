@@ -129,10 +129,10 @@ namespace Villa.Controllers
         }
         
         [HttpGet(nameof(GetAllEntrywithDate))]
-        public IActionResult GetAllEntrywithDate(DateTimeOffset dt)
+        public IActionResult GetAllEntrywithDate(DateOnly dt)
         {
             var result =  _rezervasyonService.GetAllPI<RezervasyonEntryDtoQ>(x=> x.IsDeleted == false   && (x.RezervasyonDurum == RezervasyonDurum.Onayli || x.RezervasyonDurum == RezervasyonDurum.Opsiyon  ) &&
-                                                                                                                           x.Baslangic.Date == dt.Date && x.Active);
+                                                                                                                           x.StartDate == dt && x.Active);
             if (result is not null)
             {
                 return Ok(result);

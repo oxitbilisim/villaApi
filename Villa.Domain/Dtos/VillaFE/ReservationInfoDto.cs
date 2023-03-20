@@ -16,8 +16,8 @@ namespace Villa.Domain.Dtos
         public string? Email { get; set; }
         public Int64? VillaId { get; set; }
         public Int64? VillaImageId { get; set; }
-        public DateTime? EntryDate { get; set; }
-        public DateTime? ExitDate { get; set; }
+        public DateOnly? EntryDate { get; set; }
+        public DateOnly? ExitDate { get; set; }
         public int? GuestCount { get; set; }
         public int NightCount { get; set; }
         public string Currency { get; set; }

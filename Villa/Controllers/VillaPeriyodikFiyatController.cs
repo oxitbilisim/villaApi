@@ -38,8 +38,8 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetPFAVillaById))]
         public ResponseModel GetPFAVillaById(int id)
         {
-            DateTime dateTime = DateTime.Today;   
-            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false && (x.Baslangic>= dateTime || dateTime <= x.Bitis)).OrderBy(x=> x.Baslangic);       
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);   
+            var result =  _villaPeriyodikFiyatService.GetPI<VillaPeriyodikFiyatDtoQ>(x=> x.VillaId == id  && x.IsDeleted == false && (x.StartDate>= today || today <= x.EndDate)).OrderBy(x=> x.StartDate);       
             if (result is not null)
             {
                 return new ResponseModel(result);

@@ -1,5 +1,7 @@
 using System;
+using Newtonsoft.Json;
 using Villa.Domain.Enum;
+using Villa.Domain.Utilities;
 
 namespace Villa.Domain.Dtos
 {
@@ -9,8 +11,12 @@ namespace Villa.Domain.Dtos
         public int VillaId  { get; set; }
         public string VillaAd  { get; set; }
 
-        public DateTimeOffset Baslangic { get; set; }
-        public DateTimeOffset Bitis { get; set; }
+        /*public DateTimeOffset Baslangic { get; set; }
+        public DateTimeOffset Bitis { get; set; }*/
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
+        public DateOnly StartDate { get; set; }
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
+        public DateOnly EndDate { get; set; }
         public RezervasyonDurum RezervasyonDurum { get; set; }
 
         public Boolean OpenState { get; set; }

@@ -5,8 +5,8 @@ namespace Villa.Domain.Dtos
 {
     public class TakvimRezarvasyonDtoQ
     {
-        public DateTimeOffset Baslangic { get; set; }
-        public DateTimeOffset Bitis { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly EndDate { get; set; }
         public RezervasyonDurum RezervasyonDurum { get; set; }
     }
 }

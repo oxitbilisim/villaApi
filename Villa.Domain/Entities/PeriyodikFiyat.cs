@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 using Villa.Domain.Enum;
+using Villa.Domain.Utilities;
 
 namespace Villa.Domain.Entities
 {
@@ -18,9 +20,11 @@ namespace Villa.Domain.Entities
         public virtual Villa Villa { get; set; }
         public int ParaBirimiId { get; set; }
         public virtual ParaBirimi ParaBirimi { get; set; }
-        public DateTimeOffset Baslangic { get; set; }
         
-        public DateTimeOffset Bitis { get; set; }
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
+        public DateOnly StartDate { get; set; }
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
+        public DateOnly EndDate { get; set; }
 
         public decimal Fiyat { get; set; }
        

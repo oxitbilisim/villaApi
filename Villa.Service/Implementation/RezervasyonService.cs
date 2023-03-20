@@ -61,7 +61,7 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
                      VillaId = x.Rezervasyon.VillaId,
                      VillaAd = x.Rezervasyon.Villa.Ad,
                      RezarvasyonMusteriAdSoyad = x.Rezervasyon.MusteriAdSoyad,
-                     RezervasyonTarihi = x.Rezervasyon.Baslangic 
+                     RezervasyonTarihi = x.Rezervasyon.StartDate 
                   }
              ).OrderByDescending(x=>x.RezervasyonId)
          .ToList();
@@ -74,7 +74,7 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
         var query = from t in _appDbContext.RezervasyonMaliBilgi
             group t by new 
             { 
-                Week = t.Rezervasyon.Baslangic.DayOfWeek,
+                Week = t.Rezervasyon.StartDate.DayOfWeek,
                 Total = (t.ToplamTutar * t.Komisyon) / 100
             } into g
             select new
@@ -91,7 +91,7 @@ public class RezervasyonService : BaseService<Domain.Entities.Rezervasyon>
         var query = from t in _appDbContext.RezervasyonMaliBilgi
             group t by new 
             { 
-                Month = t.Rezervasyon.Baslangic.Month,
+                Month = t.Rezervasyon.StartDate.Month,
                 Total = (t.ToplamTutar * t.Komisyon) / 100
             } into g
             select new
