@@ -409,19 +409,5 @@ namespace Villa.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpGet(nameof(MailTest))]
-        public IActionResult MailTest()
-        {
-            try
-            {
-                _villaFEService.TestMail();
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
     }
 }

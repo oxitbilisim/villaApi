@@ -983,12 +983,6 @@ public class VillaFEService
         return reservation_.Entity;
     }
 
-    public void TestMail()
-    {
-        var rez = _appDbContext.Rezervasyon.Find(167);
-        SendReservationMail(rez);
-    }
-
     private void SendReservationMail(Rezervasyon reservation)
     {
         var villa = _appDbContext.Villa.Find(reservation.VillaId);
@@ -1016,7 +1010,7 @@ public class VillaFEService
         mailBody = mailBody.Replace("{{ENTRY_DATE}}", reservation.StartDate.ToString("dd.MM.yyyy"));
         mailBody = mailBody.Replace("{{EXIT_DATE}}", reservation.EndDate.ToString("dd.MM.yyyy"));
         mailBody = mailBody.Replace("{{ACCOMMADATION_NIGHT_COUNT}}",
-            (reservation.StartDate.DayNumber - reservation.StartDate.DayNumber) + " Gece");
+            (reservation.EndDate.DayNumber - reservation.StartDate.DayNumber) + " Gece");
         mailBody = mailBody.Replace("{{GUEST_COUNT}}", reservation.MSYetiskin.ToString());
         mailBody = mailBody.Replace("{{TOTAL_PAYMENT}}", prices.TotalPrice.ToString() + prices.Currency);
         mailBody = mailBody.Replace("{{ADVANE_PAYMENT}}", prices.DownPayment.ToString() + prices.Currency);
