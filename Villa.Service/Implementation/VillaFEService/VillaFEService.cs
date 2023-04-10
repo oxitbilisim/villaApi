@@ -372,17 +372,35 @@ public class VillaFEService
             Bolge = x.Villa.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Bolge.Ad,
             Il = x.Villa.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Il.Ad,
             Ilce = x.Villa.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Ad,
-            Fiyat = x.Villa.PeriyodikFiyat
-                .Where(pf => DateOnly.FromDateTime(DateTime.Now) >= pf.StartDate && DateOnly.FromDateTime(DateTime.Now) <= pf.EndDate)
-                .FirstOrDefault().Fiyat,
+            //Fiyat = x.Villa.PeriyodikFiyat
+            //    .Where(pf => DateOnly.FromDateTime(DateTime.Now) >= pf.StartDate && DateOnly.FromDateTime(DateTime.Now) <= pf.EndDate)
+            //    .FirstOrDefault().Fiyat,
             Kapasite = x.Villa.Kapasite,
             Mevki = x.Villa.VillaLokasyon.FirstOrDefault().Mevki,
             BanyoSayisi = x.Villa.BanyoSayisi,
-            FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
-            ParaBirimi = x.Villa.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+            //FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.Villa.PeriyodikFiyat.FirstOrDefault().FiyatTuru),
+            //ParaBirimi = x.Villa.PeriyodikFiyat.Where(pf => DateOnly.FromDateTime(DateTime.Now) >= pf.StartDate && DateOnly.FromDateTime(DateTime.Now) <= pf.EndDate).FirstOrDefault().ParaBirimi.Ad,
             OdaSayisi = x.Villa.OdaSayisi,
             YatakOdaSayisi = x.Villa.YatakOdaSayisi
         }).ToList();
+        
+        foreach (var item in result)
+        {
+            var periyodikFiyat = _appDbContext.PeriyodikFiyat.Include(p => p.ParaBirimi)
+                .Where(pf =>pf.VillaId == item.Id && !pf.IsDeleted && DateOnly.FromDateTime(DateTime.Now) >= pf.StartDate && DateOnly.FromDateTime(DateTime.Now) <= pf.EndDate)
+                .OrderBy(i => i.Id)
+                .FirstOrDefault();
+            if (periyodikFiyat != null)
+            {
+                item.IndirimliFiyat = periyodikFiyat.Indirim != null
+                    ? periyodikFiyat.Fiyat * (100 - periyodikFiyat.Indirim) / 100
+                    : periyodikFiyat.Fiyat;
+                item.Fiyat = periyodikFiyat.Fiyat;
+                item.discountRate = periyodikFiyat.Indirim;
+                item.ParaBirimi = periyodikFiyat.ParaBirimi.Ad;
+                item.FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(periyodikFiyat.FiyatTuru);
+            }
+        }
 
         return result;
     }
