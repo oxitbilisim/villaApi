@@ -72,6 +72,9 @@ namespace Villa.Controllers
         [HttpPost(nameof(Add))]
         public  ActionResult<ResponseModel> Add(VillaDtoC dto)
         {
+            dto.Ad = dto.Ad.Trim();
+            dto.Baslik = dto.Baslik.Trim();
+            
             var result = _villaService.GetPI<VillaDtoQ>(x => x.Ad.ToLower() == dto.Ad.ToLower() || x.Url.ToLower() == dto.Url.ToLower()).FirstOrDefault();
            
             if (result is not null)
@@ -84,6 +87,8 @@ namespace Villa.Controllers
         [HttpPut(nameof(Update))]
         public ActionResult<ResponseModel> Update(VillaDtoC dto)
         {
+            dto.Ad = dto.Ad.Trim();
+            dto.Baslik = dto.Baslik.Trim();
             return new ResponseModel( _villaService.Update(dto));
         }
         [HttpDelete(nameof(Delete))]

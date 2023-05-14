@@ -368,7 +368,9 @@ public class VillaFEService
             Id = x.Villa.Id,
             Ad = x.Villa.Ad,
             Url = x.Villa.Url,
-            ImageId = x.Villa.VillaImage != null ? x.Villa.VillaImageDetay.FirstOrDefault().Id : null,
+            ImageId = x.Villa.VillaImage != null
+                ? x.Villa.VillaImageDetay.Where(i => i.KapakResmi.Value).FirstOrDefault().Id
+                : null,
             Bolge = x.Villa.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Bolge.Ad,
             Il = x.Villa.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Il.Ad,
             Ilce = x.Villa.VillaLokasyon.FirstOrDefault(x => !x.IsDeleted).Ilce.Ad,
@@ -650,7 +652,7 @@ public class VillaFEService
                     BanyoSayisi = x.BanyoSayisi,
                     FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(f_ => !f_.IsDeleted)
                         .FirstOrDefault().FiyatTuru),
-                    ParaBirimi = x.PeriyodikFiyat.FirstOrDefault().ParaBirimi.Ad,
+                    ParaBirimi = x.PeriyodikFiyat.Where(i => !i.IsDeleted).FirstOrDefault().ParaBirimi.Ad,
                     OdaSayisi = x.OdaSayisi,
                     YatakOdaSayisi = x.YatakOdaSayisi
                 }).FirstOrDefault();
@@ -848,11 +850,6 @@ public class VillaFEService
 
         PeriyodikFiyatAyarlari fa =
             _appDbContext.PeriyodikFiyatAyarlari.FirstOrDefault(f => !f.IsDeleted && f.VillaId == id);
-        if (fa == null)
-        {
-            //throw new Exception("Fiyat bilgisi bulunamadı!");
-            return new ReservationCalculation();
-        }
 
         VillaGorunum vg = _appDbContext.VillaGorunum.FirstOrDefault(f => f.VillaId == id);
 
@@ -861,9 +858,9 @@ public class VillaFEService
         calc.DateNight = startDate.ToString("dd.MM.yyyy") + " - " + endDate.ToString("dd.MM.yyyy") + " (" +
                          (endDate.DayNumber - startDate.DayNumber).ToString() + " Gece)";
         calc.TotalPrice = totalPrice;
-        calc.Deposit = fa.Depozito.Value;
-        calc.CleaningFee = fa.TemizlikUcreti.Value;
-        calc.DownPayment = totalPrice * fa.Kapora.Value / 100;
+        calc.Deposit = fa!=null? fa.Depozito.Value:0;
+        calc.CleaningFee = fa!=null?fa.TemizlikUcreti.Value:0;
+        calc.DownPayment = fa!=null? totalPrice * fa.Kapora.Value / 100:0;
         calc.IncluededInPrice = vg?.OneCikanOzellik;
         calc.DiscountTotalPrice = discountTotalPrice;
 

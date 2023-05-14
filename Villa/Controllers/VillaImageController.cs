@@ -48,6 +48,10 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetImageVillaById))]
         public ResponseModel GetImageVillaById(int id)
         {
+            if (id == -1)
+            {
+                return new ResponseModel();
+            }
             VillaImageDtoQ villaImage = new();
             villaImage = _villaImageService.GetPI<VillaImageDtoQ>(x => x.VillaId == id).FirstOrDefault();
             villaImage.ImageList = _villaImageDetayService.GetPI<VillaImageDetayDtoQ>(x => x.VillaId == id).OrderBy(x => x.Sirano).ToList();
