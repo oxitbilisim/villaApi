@@ -18,8 +18,7 @@ node {
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-    
-        app = docker.build("villaadmin-be")
+        sh('docker build -t villaadmin-be .');
     }
     
     stage('Deploy') {
