@@ -541,7 +541,7 @@ public class VillaFEService
         {
             villaQuery = villaQuery
                 .Where(i => i.Rezervasyon.Where(r =>
-                        !r.IsDeleted &&
+                        !r.IsDeleted && r.RezervasyonDurum!=RezervasyonDurum.Iptal && r.RezervasyonDurum!=RezervasyonDurum.IncelemeBekliyor &&
                         (((r.StartDate.CompareTo(filterStartDate) == 0 ||
                            r.StartDate.CompareTo(filterStartDate) == 1) &&
                           r.StartDate.CompareTo(filterEndDate) == -1) ||
@@ -726,8 +726,9 @@ public class VillaFEService
                     YatakOdaSayisi = x.YatakOdaSayisi
                 }).FirstOrDefault();
             var periyodikFiyat = _appDbContext.PeriyodikFiyat
-                .Where(pf => pf.VillaId == item.VillaId && !pf.IsDeleted && startDate >= pf.StartDate && startDate < pf.EndDate)
+                .Where(pf => pf.VillaId == item.VillaId && !pf.IsDeleted && startDate >= pf.StartDate && startDate <= pf.EndDate)
                 .FirstOrDefault();
+            
             if (periyodikFiyat != null)
             {
                 villa.discountRate = periyodikFiyat.Indirim;
