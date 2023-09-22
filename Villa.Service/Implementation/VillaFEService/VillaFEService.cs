@@ -1111,6 +1111,14 @@ public class VillaFEService
     public List<Parameters> GetFilteredParameters()
     {
         List<string> excludeList = new List<string>();
+        excludeList.Add("MAIL_HOST");
+        excludeList.Add("MAIL_PORT");
+        excludeList.Add("MAIL_SECURITY");
+        excludeList.Add("MAIL_SUBJECT_RESERVATION_RECEIVED");
+        excludeList.Add("MAIL_USERNAME");
+        excludeList.Add("MAIL_INFO");
+        excludeList.Add("MAIL_PASSWORD");
+        excludeList.Add("MAIL_BODY_RESERVATION_RECEIVED");
 
         return _appDbContext
             .Parameters
