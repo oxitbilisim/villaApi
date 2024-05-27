@@ -450,7 +450,7 @@ public class VillaFEService
         int pageRowCount
     )
     {
-        var villaQuery = _appDbContext.Villa.Where(v => !v.IsDeleted && v.Active).AsQueryable();
+        var villaQuery = _appDbContext.Villa.Where(v => !v.IsDeleted && v.Active);
 
         if (filterName != null)
         {
@@ -564,7 +564,7 @@ public class VillaFEService
             filterEndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
         }
 
-        var searchResult = villaQuery.OrderBy(i => i.Kapasite).Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount)
+        var searchResult = villaQuery.OrderBy(i => i.Kapasite).ThenBy(i => i.Id).Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount)
             .Select(x =>
                 new VillaDtoFQ
                 {

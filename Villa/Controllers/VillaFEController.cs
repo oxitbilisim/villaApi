@@ -181,16 +181,16 @@ namespace Villa.Controllers
 
 
         [HttpGet(nameof(SearchVilla))]
-        public IActionResult SearchVilla(string region,
-            string category,
-            string type,
-            string property,
-            string startprice,
-            string endprice,
-            string name,
-            string startDate,
-            string endDate,
-            string guestCount,
+        public IActionResult SearchVilla(string r, // region
+            string c, // category
+            string t,// type
+            string p,// property
+            string sp,// startprice
+            string ep,// endprice
+            string n,// name
+            string sd,// startDate
+            string ed,// endDate
+            string gc,// guestCount
             string pn,
             string prc
         )
@@ -209,54 +209,54 @@ namespace Villa.Controllers
             int pageNumber = pn != null && !pn.Trim().Equals("") ? Int32.Parse(pn) : 1;
             int pageRowCount = prc != null && !prc.Trim().Equals("") ? Int32.Parse(prc) : 20;
 
-            if (!String.IsNullOrEmpty(region))
+            if (!String.IsNullOrEmpty(r))
             {
-                filterRegion = region.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
+                filterRegion = r.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
             }
 
-            if (!String.IsNullOrEmpty(category))
+            if (!String.IsNullOrEmpty(c))
             {
-                filterCategory = category.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
+                filterCategory = c.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
             }
 
-            if (!String.IsNullOrEmpty(property))
+            if (!String.IsNullOrEmpty(p))
             {
-                filterProperty = property.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
+                filterProperty = p.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
             }
 
-            if (!String.IsNullOrEmpty(type))
+            if (!String.IsNullOrEmpty(t))
             {
-                filterType = type?.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
+                filterType = t?.Replace(" ", "").Split(',').Select(Int32.Parse).ToList();
             }
 
-            if (!String.IsNullOrEmpty(name))
+            if (!String.IsNullOrEmpty(n))
             {
-                filterName = WebUtility.UrlDecode(name);
+                filterName = WebUtility.UrlDecode(n);
             }
 
-            if (!String.IsNullOrEmpty(startprice))
+            if (!String.IsNullOrEmpty(sp))
             {
-                filterStartPrice = Decimal.Parse(WebUtility.UrlDecode(startprice));
+                filterStartPrice = Decimal.Parse(WebUtility.UrlDecode(sp));
             }
 
-            if (!String.IsNullOrEmpty(endprice))
+            if (!String.IsNullOrEmpty(ep))
             {
-                filterEndPrice = Decimal.Parse(WebUtility.UrlDecode(endprice));
+                filterEndPrice = Decimal.Parse(WebUtility.UrlDecode(ep));
             }
 
-            if (!String.IsNullOrEmpty(startDate))
+            if (!String.IsNullOrEmpty(sd))
             {
-                filterStartDate = DateOnly.Parse(startDate);
+                filterStartDate = DateOnly.Parse(sd);
             }
 
-            if (!String.IsNullOrEmpty(endDate))
+            if (!String.IsNullOrEmpty(ed))
             {
-                filterEndDate = DateOnly.Parse(endDate);
+                filterEndDate = DateOnly.Parse(ed);
             }
 
-            if (!String.IsNullOrEmpty(guestCount))
+            if (!String.IsNullOrEmpty(gc))
             {
-                filterGuestCount = Int16.Parse(WebUtility.UrlDecode(guestCount));
+                filterGuestCount = Int16.Parse(WebUtility.UrlDecode(gc));
             }
 
 
