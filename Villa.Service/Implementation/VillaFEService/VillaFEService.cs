@@ -213,6 +213,7 @@ public class VillaFEService
             Id = x.Id,
             Ad = x.Ad,
             Url = x.Url,
+            KtbBelgeNo = x.KtbBelgeNo,
             Kapasite = x.Kapasite,
             BanyoSayisi = x.BanyoSayisi,
             FiyatTuru = EnumHelper<FiyatTuru>.GetDisplayValue(x.PeriyodikFiyat.Where(x => !x.IsDeleted).FirstOrDefault()
@@ -564,7 +565,16 @@ public class VillaFEService
             filterEndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
         }
 
-        var searchResult = villaQuery.OrderBy(i => i.Kapasite).ThenBy(i => i.Id).Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount)
+        var searchResult = villaQuery.Where(i => i.PeriyodikFiyat.Any(pf => !pf.IsDeleted &&
+                                                                               (((pf.StartDate.CompareTo(filterStartDate) == 0 ||
+                                                                                           pf.StartDate.CompareTo(filterStartDate) == 1) &&
+                                                                                       pf.StartDate.CompareTo(filterEndDate) == -1) ||
+                                                                                   ((pf.EndDate.CompareTo(filterStartDate) == 1 ||
+                                                                                           pf.EndDate.CompareTo(filterStartDate) == 0) &&
+                                                                                       (pf.EndDate.CompareTo(filterEndDate) == -1 ||
+                                                                                           pf.EndDate.CompareTo(filterEndDate) == 0)) ||
+                                                                                   (pf.StartDate.CompareTo(filterStartDate) == -1 &&
+                                                                                       pf.EndDate.CompareTo(filterEndDate) == 1)))).OrderBy(i => i.Kapasite).ThenBy(i => i.Id).Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount)
             .Select(x =>
                 new VillaDtoFQ
                 {

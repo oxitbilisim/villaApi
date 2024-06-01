@@ -35,6 +35,7 @@ namespace Villa.Domain.Entities
         public int? OdaSayisi { get; set; }
         public int? BanyoSayisi { get; set; }
         public int MulkId  { get; set; }
+        public string? KtbBelgeNo  { get; set; }
         public virtual Mulk Mulk { get; set; }
         public virtual HashSet<PeriyodikFiyat> PeriyodikFiyat { get; set; }
         public virtual HashSet<PeriyodikFiyatAyarlari> PeriyodikFiyatAyarlari { get; set; }
