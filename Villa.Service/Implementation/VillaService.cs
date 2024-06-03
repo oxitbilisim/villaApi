@@ -21,7 +21,7 @@ public class VillaService : BaseService<Domain.Entities.Villa>
 
     public ResponseModel villaGelAll()
     {
-        var villa = _appDbContext.Villa.Where(X=>X.IsDeleted==false).Select(y => new
+        var villa = _appDbContext.Villa.Where(X=>X.IsDeleted==false).OrderByDescending(v => v.Id).Select(y => new
         {
                 id=y.Id,
                 active=y.Active,
