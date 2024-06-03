@@ -28,7 +28,7 @@ namespace Villa.Controllers
         [HttpGet(nameof(GetAll))]
         public IActionResult GetAll()
         {
-            var result =  _villaService.GetAllPI<VillaDtoQ>(x=> x.IsDeleted == false).OrderBy(x=> x.Id);
+            var result =  _villaService.GetAllPI<VillaDtoQ>(x=> x.IsDeleted == false).OrderByDescending(x=> x.Id);
             if (result is not null)
             {
                 return Ok(result);
