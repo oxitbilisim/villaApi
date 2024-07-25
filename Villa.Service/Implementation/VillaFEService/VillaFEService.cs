@@ -208,7 +208,7 @@ public class VillaFEService
     public VillaFullDtoFQ GetVillaByUrl(string url)
     {
         VillaFullDtoFQ villa = new();
-        villa.Villa = _appDbContext.Villa.Where(x => !x.IsDeleted && x.Url == url).Select(x => new VillaDtoFQ
+        villa.Villa = _appDbContext.Villa.Where(x => x.Active && !x.IsDeleted && x.Url == url).Select(x => new VillaDtoFQ
         {
             Id = x.Id,
             Ad = x.Ad,
@@ -222,6 +222,10 @@ public class VillaFEService
             OdaSayisi = x.OdaSayisi,
             YatakOdaSayisi = x.YatakOdaSayisi
         }).FirstOrDefault();
+        if (villa.Villa == null)
+        {
+            return null;
+        }
         villa.Seo = _villaSeoService.GetPI<VillaSeoDto>(x => x.VillaId == villa.Villa.Id && !x.IsDeleted).Select(s =>
             new VillaSeoDto()
             {
@@ -357,7 +361,7 @@ public class VillaFEService
     public List<VillaDtoFQ> GetPopularVillas(int limit)
     {
         var VillaQuery = _appDbContext.VillaGosterim
-            .Where(i => i.Villa.IsDeleted == false && i.Gosterim == Gosterim.Onecikan)
+            .Where(i => i.Villa.Active && i.Villa.IsDeleted == false && i.Gosterim == Gosterim.Onecikan)
             .Include(i => i.Villa).AsQueryable();
         if (limit > 0)
         {

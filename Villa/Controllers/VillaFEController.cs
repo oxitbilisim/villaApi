@@ -98,7 +98,7 @@ namespace Villa.Controllers
                 return Ok(result);
             }
 
-            return Ok(result);
+            return NotFound(result);
         }
 
         [HttpGet(nameof(GetPageByURL))]
