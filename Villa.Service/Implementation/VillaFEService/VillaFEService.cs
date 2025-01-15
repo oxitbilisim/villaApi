@@ -641,8 +641,8 @@ public class VillaFEService
         {
             data = searchResult,
             CurrentPage = pageNumber,
-            TotalPage = (int)Math.Ceiling((decimal)searchResult.Count() / pageRowCount),
-            Count = searchResult.Count()
+            TotalPage = (int)Math.Ceiling((decimal)villaQuery.Count() / pageRowCount),
+            Count = villaQuery.Count()
         };
     }
 
