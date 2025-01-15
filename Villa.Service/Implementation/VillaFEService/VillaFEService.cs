@@ -569,7 +569,8 @@ public class VillaFEService
             filterEndDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1);
         }
 
-        var searchResult = villaQuery.Where(i => i.PeriyodikFiyat.Any(pf => !pf.IsDeleted &&
+        var searchResult = villaQuery
+            /*.Where(i => i.PeriyodikFiyat.Any(pf => !pf.IsDeleted &&
                                                                                (((pf.StartDate.CompareTo(filterStartDate) == 0 ||
                                                                                            pf.StartDate.CompareTo(filterStartDate) == 1) &&
                                                                                        pf.StartDate.CompareTo(filterEndDate) == -1) ||
@@ -578,7 +579,8 @@ public class VillaFEService
                                                                                        (pf.EndDate.CompareTo(filterEndDate) == -1 ||
                                                                                            pf.EndDate.CompareTo(filterEndDate) == 0)) ||
                                                                                    (pf.StartDate.CompareTo(filterStartDate) == -1 &&
-                                                                                       pf.EndDate.CompareTo(filterEndDate) == 1)))).OrderBy(i => i.Kapasite).ThenBy(i => i.Id).Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount)
+                                                                                       pf.EndDate.CompareTo(filterEndDate) == 1))))*/
+            .OrderBy(i => i.Kapasite).ThenBy(i => i.Id).Skip((pageNumber - 1) * pageRowCount).Take(pageRowCount)
             .Select(x =>
                 new VillaDtoFQ
                 {
