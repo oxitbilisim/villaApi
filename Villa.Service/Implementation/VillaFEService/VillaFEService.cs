@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
@@ -916,7 +917,8 @@ public class VillaFEService
                     {
                         if (reader.NodeType == XmlNodeType.Element && reader.Name == "BanknoteSelling")
                         {
-                            rate = Double.Parse(reader.ReadInnerXml().Replace('.',','));
+                            //rate = Double.Parse(reader.ReadInnerXml().Replace('.',','));
+                            rate = double.Parse(reader.ReadInnerXml(), CultureInfo.InvariantCulture);
                             break;
                         }
                     }
