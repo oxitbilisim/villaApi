@@ -34,7 +34,7 @@ public class TimedHostedService : IHostedService, IDisposable
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = httpClient.GetAsync("https://localhost:5001/api/VillaFE/UpdateExchangeRates"))
+                using (var response = httpClient.GetAsync("https://panel.villalarim.com/api/VillaFE/UpdateExchangeRates"))
                 {
                     Console.WriteLine("Exchange update status code: " + response.Result.StatusCode.ToString());
                 }
